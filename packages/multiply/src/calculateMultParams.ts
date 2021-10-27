@@ -160,7 +160,6 @@ function getMultiplyParams(
 
         [debtDelta, collateralDelta, oazoFee, loanFee] = params.params;
         skipFL = params.skipFL;
-
       }
     }
   }
