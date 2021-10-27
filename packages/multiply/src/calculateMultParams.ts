@@ -88,7 +88,6 @@ function calculateDecrease(
   const collateralLeft = vaultInfo.currentCollateral.minus(collateralDelta);
   const collateralLeftValue = collateralLeft.times(marketParams.oraclePrice);
   if (collateralLeftValue.dividedBy(vaultInfo.currentDebt).gt(vaultInfo.minCollRatio)) {
-    //aproximate, but more restrictive than needed
     skipFL = true;
     [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsDecreaseMP(
       marketParams.oraclePrice,
