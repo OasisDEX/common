@@ -242,10 +242,10 @@ function getCloseToCollateralParams(
   if (vaultInfo.currentCollateral.dividedBy(vaultInfo.minCollRatio).gt(maxCollNeeded)) {
     _skipFL = true;
   }
-  
+
   const oazoFee = _requiredAmount.multipliedBy(marketParams.OF);
   const loanFee = _requiredAmount.times(marketParams.FF);
-  
+
   return {
     fromTokenAmount: maxCollNeeded,
     toTokenAmount: _requiredAmount.dividedBy(one.minus(marketParams.slippage)),
