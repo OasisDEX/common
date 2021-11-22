@@ -176,22 +176,23 @@ export type CloseToParams = {
   minToTokenAmount: BigNumber
   oazoFee: BigNumber
   loanFee: BigNumber
+  skipFL: boolean
 }
 
 function getCloseToDaiParams(
   marketPrice: BigNumber,
-  OF: BigNumber,
-  FF: BigNumber,
+  OF: BigNumber, // Oazo fee
+  FF: BigNumber, // Flash loan fee
   currentCollateral: BigNumber,
   slippage: BigNumber,
   currentDebt: BigNumber,
 ): CloseToParams {
-  const fromTokenAmount = currentCollateral
-  const toTokenAmount = currentCollateral.times(marketPrice).times(one.minus(OF))
+  const fromTokenAmount = currentCollateral;
+  const toTokenAmount = currentCollateral.times(marketPrice).times(one.minus(OF));
   const minToTokenAmount = currentCollateral
     .times(marketPrice)
     .times(one.minus(OF))
-    .times(one.minus(slippage))
+    .times(one.minus(slippage));
 
   return {
     fromTokenAmount,
@@ -199,23 +200,40 @@ function getCloseToDaiParams(
     minToTokenAmount,
     oazoFee: currentCollateral.times(marketPrice).times(OF),
     loanFee: currentDebt.times(FF),
-  }
+    skipFL: false,
+  };
 }
 
 function getCloseToCollateralParams(
   marketPrice: BigNumber,
-  OF: BigNumber,
-  FF: BigNumber,
+  OF: BigNumber, // Oazo fee
+  FF: BigNumber, // Flash loan fee
   currentDebt: BigNumber,
   slippage: BigNumber,
+  currentCollateral: BigNumber,
+  minCollRatio: BigNumber,
 ): CloseToParams {
-  const expectedFinalDebt = currentDebt.times(one.plus(FF)).times(one.plus(OF))
+  const expectedFinalDebt = currentDebt.times(one.plus(FF)).times(one.plus(OF));
 
-  const fromTokenAmount = expectedFinalDebt.div(marketPrice.times(one.minus(slippage)))
+  const fromTokenAmount = expectedFinalDebt.div(marketPrice.times(one.minus(slippage)));
 
-  const toTokenAmount = expectedFinalDebt.times(one.plus(slippage))
+  const toTokenAmount = expectedFinalDebt.times(one.plus(slippage));
 
   const minToTokenAmount = expectedFinalDebt
+
+  const skipFL = (() => {
+    const requiredAmount = currentDebt
+      .times(1.00001 /* to account for not up to date value here */)
+      .times(one.plus(OF))
+      .times(one.plus(FF));
+    const maxCollNeeded = requiredAmount.dividedBy(
+      marketPrice.times(one.plus(slippage)),
+    );
+    if (currentCollateral.dividedBy(minCollRatio).gt(maxCollNeeded)) {
+      return true;
+    }
+    return false;
+  })()
 
   return {
     fromTokenAmount,
@@ -223,6 +241,7 @@ function getCloseToCollateralParams(
     minToTokenAmount,
     oazoFee: currentDebt.times(one.plus(FF)).times(OF),
     loanFee: currentDebt.times(FF),
+    skipFL
   }
 }
 

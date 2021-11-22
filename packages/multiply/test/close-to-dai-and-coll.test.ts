@@ -3,6 +3,7 @@ require('mocha');
 import BigNumber from 'bignumber.js'
 
 import { getCloseToDaiParams, getCloseToCollateralParams } from './../src/index';
+import { one } from '../src/internal/utils';
 
 describe('closeTo functions', () => {
   const OAZO_FEE = new BigNumber(0.002)
@@ -61,7 +62,15 @@ describe('closeTo functions', () => {
       minToTokenAmount,
       toTokenAmount,
       fromTokenAmount,
-    } = getCloseToCollateralParams(marketPrice, OAZO_FEE, LOAN_FEE, currentDebt, SLIPPAGE)
+    } = getCloseToCollateralParams(
+      marketPrice, 
+      OAZO_FEE, 
+      LOAN_FEE, 
+      currentDebt, 
+      SLIPPAGE,
+      one,
+      one
+    )
 
     expect(fromTokenAmount).to.be.deep.equal(expectedFromTokenAmount)
     expect(toTokenAmount).to.be.deep.equal(expectedToTokenAmount)
