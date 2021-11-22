@@ -180,6 +180,8 @@ function getCloseToDaiParams(
   borrowCollateral: BigNumber;
   requiredDebt: BigNumber;
   withdrawCollateral: BigNumber;
+  loanFee: BigNumber;
+  oazoFee: BigNumber;
   skipFL: boolean;
 } {
   const _skipFL = false;
@@ -197,6 +199,8 @@ function getCloseToDaiParams(
     .times(marketParams.marketPrice);
 
   const _requiredDebt = new BigNumber(0);
+  const oazoFee = vaultInfo.currentDebt.times(marketParams.marketPrice).minus(_toTokenAmount);
+  const loanFee = maxCollNeeded.times(marketParams.FF).dividedBy(one.plus(marketParams.FF));
 
   return {
     fromTokenAmount: vaultInfo.currentCollateral,
@@ -206,6 +210,8 @@ function getCloseToDaiParams(
     requiredDebt: _requiredDebt,
     withdrawCollateral: new BigNumber(0),
     skipFL: _skipFL,
+    loanFee: ensureBigNumber(loanFee),
+    oazoFee: ensureBigNumber(oazoFee),
   };
 }
 
@@ -220,11 +226,14 @@ function getCloseToCollateralParams(
   borrowCollateral: BigNumber;
   requiredDebt: BigNumber;
   withdrawCollateral: BigNumber;
+  loanFee: BigNumber;
+  oazoFee: BigNumber;
   skipFL: boolean;
 } {
   const _requiredAmount = vaultInfo.currentDebt
     .times(1.00001 /* to account for not up to date value here */)
-    .times(one.plus(marketParams.OF));
+    .times(one.plus(marketParams.OF))
+    .times(one.plus(marketParams.FF));
   let _skipFL = false;
   const maxCollNeeded = _requiredAmount.dividedBy(
     marketParams.marketPrice.times(one.plus(marketParams.slippage)),
@@ -233,6 +242,10 @@ function getCloseToCollateralParams(
   if (vaultInfo.currentCollateral.dividedBy(vaultInfo.minCollRatio).gt(maxCollNeeded)) {
     _skipFL = true;
   }
+
+  const oazoFee = _requiredAmount.multipliedBy(marketParams.OF);
+  const loanFee = _requiredAmount.times(marketParams.FF);
+
   return {
     fromTokenAmount: maxCollNeeded,
     toTokenAmount: _requiredAmount.dividedBy(one.minus(marketParams.slippage)),
@@ -241,6 +254,8 @@ function getCloseToCollateralParams(
     requiredDebt: _skipFL ? new BigNumber(0) : _requiredAmount,
     withdrawCollateral: vaultInfo.currentCollateral.minus(maxCollNeeded),
     skipFL: _skipFL,
+    loanFee: ensureBigNumber(loanFee),
+    oazoFee: ensureBigNumber(oazoFee),
   };
 }
 
