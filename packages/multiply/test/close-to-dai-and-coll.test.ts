@@ -28,14 +28,14 @@ describe('closeTo functions', () => {
       minToTokenAmount,
       toTokenAmount,
       fromTokenAmount,
-    } = getCloseToDaiParams(
+    } = getCloseToDaiParams({
       marketPrice,
-      OAZO_FEE,
-      LOAN_FEE,
+      OF: OAZO_FEE,
+      FF: LOAN_FEE,
       currentCollateral,
-      SLIPPAGE,
+      slippage: SLIPPAGE,
       currentDebt,
-    )
+    })
 
     expect(fromTokenAmount).to.be.deep.equal(expectedFromTokenAmount)
     expect(toTokenAmount).to.be.deep.equal(expectedToTokenAmount)
@@ -62,15 +62,15 @@ describe('closeTo functions', () => {
       minToTokenAmount,
       toTokenAmount,
       fromTokenAmount,
-    } = getCloseToCollateralParams(
+    } = getCloseToCollateralParams({
       marketPrice, 
-      OAZO_FEE, 
-      LOAN_FEE, 
+      OF: OAZO_FEE, 
+      FF: LOAN_FEE, 
       currentDebt, 
-      SLIPPAGE,
-      one,
-      one
-    )
+      slippage: SLIPPAGE,
+      currentCollateral: one,
+      minCollRatio: one
+    })
 
     expect(fromTokenAmount).to.be.deep.equal(expectedFromTokenAmount)
     expect(toTokenAmount).to.be.deep.equal(expectedToTokenAmount)

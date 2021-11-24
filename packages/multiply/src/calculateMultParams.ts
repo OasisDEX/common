@@ -179,14 +179,21 @@ export type CloseToParams = {
   skipFL: boolean
 }
 
-function getCloseToDaiParams(
+function getCloseToDaiParams({
+  marketPrice,
+  OF, // Oazo fee
+  FF, // Flash loan fee
+  currentDebt,
+  slippage,
+  currentCollateral,
+}: {
   marketPrice: BigNumber,
-  OF: BigNumber, // Oazo fee
-  FF: BigNumber, // Flash loan fee
-  currentCollateral: BigNumber,
-  slippage: BigNumber,
+  OF: BigNumber,
+  FF: BigNumber,
   currentDebt: BigNumber,
-): CloseToParams {
+  slippage: BigNumber,
+  currentCollateral: BigNumber,
+}): CloseToParams {
   const fromTokenAmount = currentCollateral;
   const toTokenAmount = currentCollateral.times(marketPrice).times(one.minus(OF));
   const minToTokenAmount = currentCollateral
@@ -204,15 +211,23 @@ function getCloseToDaiParams(
   };
 }
 
-function getCloseToCollateralParams(
+function getCloseToCollateralParams({
+  marketPrice,
+  OF, // Oazo fee
+  FF, // Flash loan fee
+  currentDebt,
+  slippage,
+  currentCollateral,
+  minCollRatio,
+}: {
   marketPrice: BigNumber,
-  OF: BigNumber, // Oazo fee
-  FF: BigNumber, // Flash loan fee
+  OF: BigNumber,
+  FF: BigNumber,
   currentDebt: BigNumber,
   slippage: BigNumber,
   currentCollateral: BigNumber,
   minCollRatio: BigNumber,
-): CloseToParams {
+}): CloseToParams {
   const expectedFinalDebt = currentDebt.times(one.plus(FF)).times(one.plus(OF));
 
   const fromTokenAmount = expectedFinalDebt.div(marketPrice.times(one.minus(slippage)));
