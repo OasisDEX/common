@@ -189,7 +189,8 @@ function getCloseToDaiParams(
   const _skipFL = false;
 
   const _toTokenAmount = vaultInfo.currentCollateral
-    .times(marketParams.marketPrice).times(one.minus(marketParams.OF));
+    .times(marketParams.marketPrice)
+    .times(one.minus(marketParams.OF));
 
   const _requiredDebt = vaultInfo.currentDebt.times(one.multipliedBy(OFFSET_MULTIPLAYER));
   const oazoFee = vaultInfo.currentCollateral.times(marketParams.marketPrice).minus(_toTokenAmount);
@@ -232,7 +233,9 @@ function getCloseToCollateralParams(
     marketParams.marketPrice.times(one.minus(marketParams.slippage)),
   );
 
-  const collateralLocked = vaultInfo.currentDebt.dividedBy(marketParams.oraclePrice).multipliedBy(vaultInfo.minCollRatio);
+  const collateralLocked = vaultInfo.currentDebt
+    .dividedBy(marketParams.oraclePrice)
+    .multipliedBy(vaultInfo.minCollRatio);
 
   if (vaultInfo.currentCollateral.minus(maxCollNeeded).gt(collateralLocked)) {
     _skipFL = true;
@@ -246,7 +249,9 @@ function getCloseToCollateralParams(
     toTokenAmount: _requiredAmount.dividedBy(one.minus(marketParams.slippage)),
     minToTokenAmount: _requiredAmount,
     borrowCollateral: new BigNumber(0),
-    requiredDebt: _skipFL ? new BigNumber(0) : vaultInfo.currentDebt.multipliedBy(OFFSET_MULTIPLAYER),
+    requiredDebt: _skipFL
+      ? new BigNumber(0)
+      : vaultInfo.currentDebt.multipliedBy(OFFSET_MULTIPLAYER),
     withdrawCollateral: new BigNumber(0),
     skipFL: _skipFL,
     loanFee: ensureBigNumber(loanFee),
