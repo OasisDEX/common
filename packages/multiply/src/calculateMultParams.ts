@@ -6,6 +6,8 @@ import {
   calculateParamsDecreaseMP,
 } from './internal/increaseDecreaseMP';
 
+export const OFFSET_MULTIPLAYER = new BigNumber(1.00001);
+
 function calculateIncrease(
   marketParams: MarketParams,
   vaultInfo: VaultInfo,
@@ -185,22 +187,13 @@ function getCloseToDaiParams(
   skipFL: boolean;
 } {
   const _skipFL = false;
-  const maxCollNeeded = vaultInfo.currentDebt
-    .times(1.00001 /* to account for not up to date value here */)
-    .dividedBy(
-      marketParams.marketPrice
-        .times(one.minus(marketParams.slippage))
-        .times(one.plus(marketParams.OF)),
-    )
-    .times(one.plus(marketParams.FF));
 
-  const _toTokenAmount = vaultInfo.currentDebt
-    .times(one.minus(marketParams.OF))
-    .times(marketParams.marketPrice);
+  const _toTokenAmount = vaultInfo.currentCollateral
+    .times(marketParams.marketPrice).times(one.minus(marketParams.OF));
 
-  const _requiredDebt = new BigNumber(0);
-  const oazoFee = vaultInfo.currentDebt.times(marketParams.marketPrice).minus(_toTokenAmount);
-  const loanFee = maxCollNeeded.times(marketParams.FF).dividedBy(one.plus(marketParams.FF));
+  const _requiredDebt = vaultInfo.currentDebt.times(one.multipliedBy(OFFSET_MULTIPLAYER));
+  const oazoFee = vaultInfo.currentCollateral.times(marketParams.marketPrice).minus(_toTokenAmount);
+  const loanFee = vaultInfo.currentDebt.times(marketParams.FF);
 
   return {
     fromTokenAmount: vaultInfo.currentCollateral,
@@ -236,10 +229,12 @@ function getCloseToCollateralParams(
     .times(one.plus(marketParams.FF));
   let _skipFL = false;
   const maxCollNeeded = _requiredAmount.dividedBy(
-    marketParams.marketPrice.times(one.plus(marketParams.slippage)),
+    marketParams.marketPrice.times(one.minus(marketParams.slippage)),
   );
 
-  if (vaultInfo.currentCollateral.dividedBy(vaultInfo.minCollRatio).gt(maxCollNeeded)) {
+  const collateralLocked = vaultInfo.currentDebt.dividedBy(marketParams.oraclePrice).multipliedBy(vaultInfo.minCollRatio);
+
+  if (vaultInfo.currentCollateral.minus(maxCollNeeded).gt(collateralLocked)) {
     _skipFL = true;
   }
 
@@ -251,8 +246,8 @@ function getCloseToCollateralParams(
     toTokenAmount: _requiredAmount.dividedBy(one.minus(marketParams.slippage)),
     minToTokenAmount: _requiredAmount,
     borrowCollateral: new BigNumber(0),
-    requiredDebt: _skipFL ? new BigNumber(0) : _requiredAmount,
-    withdrawCollateral: vaultInfo.currentCollateral.minus(maxCollNeeded),
+    requiredDebt: _skipFL ? new BigNumber(0) : vaultInfo.currentDebt.multipliedBy(OFFSET_MULTIPLAYER),
+    withdrawCollateral: new BigNumber(0),
     skipFL: _skipFL,
     loanFee: ensureBigNumber(loanFee),
     oazoFee: ensureBigNumber(oazoFee),
