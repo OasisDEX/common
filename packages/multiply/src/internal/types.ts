@@ -26,20 +26,34 @@ class MarketParams {
     this.slippage = ensureBigNumber(constr.slippage);
   }
 }
-class VaultInfo {
+
+class VaultInfoBase {
   public currentDebt: BigNumber;
   public currentCollateral: BigNumber;
+
+  constructor(_debt: ConvertableToBigNumber, _coll: ConvertableToBigNumber) {
+    this.currentDebt = ensureBigNumber(_debt);
+    this.currentCollateral = ensureBigNumber(_coll);
+  }
+}
+
+class VaultInfo extends VaultInfoBase {
   public minCollRatio: BigNumber; //minimum acceptable collateralisation ratio
+
   constructor(
     _debt: ConvertableToBigNumber,
     _coll: ConvertableToBigNumber,
     _minCollRatio: ConvertableToBigNumber,
   ) {
-    this.currentDebt = ensureBigNumber(_debt);
-    this.currentCollateral = ensureBigNumber(_coll);
+    super(_debt, _coll);
     this.minCollRatio = ensureBigNumber(_minCollRatio);
   }
 }
+
+type VaultInfoForClosing = VaultInfoBase & {
+  minCollRatio?: BigNumber;
+};
+
 class DesiredCDPState {
   public requiredCollRatio: BigNumber;
   public providedCollateral: BigNumber;
@@ -61,5 +75,5 @@ class DesiredCDPState {
     this.withdrawDai = ensureBigNumber(_withdrawDai);
   }
 }
-export type { ConvertableToBigNumber };
+export type { ConvertableToBigNumber, VaultInfoForClosing };
 export { VaultInfo, MarketParams, DesiredCDPState };

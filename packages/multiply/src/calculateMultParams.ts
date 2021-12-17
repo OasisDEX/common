@@ -1,5 +1,5 @@
 import { BigNumber } from 'bignumber.js';
-import { DesiredCDPState, MarketParams, VaultInfo } from './internal/types';
+import { DesiredCDPState, MarketParams, VaultInfo, VaultInfoForClosing } from './internal/types';
 import { ensureBigNumber, one } from './internal/utils';
 import {
   calculateParamsIncreaseMP,
@@ -174,7 +174,7 @@ function getMultiplyParams(
 
 function getCloseToDaiParams(
   marketParams: MarketParams,
-  vaultInfo: VaultInfo,
+  vaultInfo: VaultInfoForClosing,
 ): {
   fromTokenAmount: BigNumber;
   toTokenAmount: BigNumber;
@@ -211,7 +211,7 @@ function getCloseToDaiParams(
 
 function getCloseToCollateralParams(
   marketParams: MarketParams,
-  vaultInfo: VaultInfo,
+  vaultInfo: VaultInfoForClosing,
   debug = false,
 ): {
   fromTokenAmount: BigNumber;
@@ -233,12 +233,14 @@ function getCloseToCollateralParams(
     marketParams.marketPrice.times(one.minus(marketParams.slippage)),
   );
 
-  const collateralLocked = vaultInfo.currentDebt
-    .dividedBy(marketParams.oraclePrice)
-    .multipliedBy(vaultInfo.minCollRatio);
+  if (vaultInfo.minCollRatio !== undefined) {
+    const collateralLocked = vaultInfo.currentDebt
+      .dividedBy(marketParams.oraclePrice)
+      .multipliedBy(vaultInfo.minCollRatio);
 
-  if (vaultInfo.currentCollateral.minus(maxCollNeeded).gt(collateralLocked)) {
-    _skipFL = true;
+    if (vaultInfo.currentCollateral.minus(maxCollNeeded).gt(collateralLocked)) {
+      _skipFL = true;
+    }
   }
 
   const oazoFee = _requiredAmount.multipliedBy(marketParams.OF);
