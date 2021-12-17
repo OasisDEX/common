@@ -247,6 +247,8 @@ function getCloseToCollateralParams(
   };
 }
 
+export type { CloseToParams }
+
 export {
   getMultiplyParams,
   getCloseToDaiParams,
