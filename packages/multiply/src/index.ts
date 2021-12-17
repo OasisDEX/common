@@ -1,3 +1,5 @@
+export type { CloseToParams } from './calculateMultParams';
+
 export {
   getMultiplyParams,
   getCloseToDaiParams,
