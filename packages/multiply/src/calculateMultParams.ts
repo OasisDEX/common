@@ -1,5 +1,11 @@
 import { BigNumber } from 'bignumber.js';
-import { DesiredCDPState, MarketParams, VaultInfo, VaultInfoForClosing } from './internal/types';
+import {
+  DesiredCDPState,
+  MarketParams,
+  VaultInfo,
+  VaultInfoForClosing,
+  CloseToParams,
+} from './internal/types';
 import { ensureBigNumber, one } from './internal/utils';
 import {
   calculateParamsIncreaseMP,
@@ -175,17 +181,7 @@ function getMultiplyParams(
 function getCloseToDaiParams(
   marketParams: MarketParams,
   vaultInfo: VaultInfoForClosing,
-): {
-  fromTokenAmount: BigNumber;
-  toTokenAmount: BigNumber;
-  minToTokenAmount: BigNumber;
-  borrowCollateral: BigNumber;
-  requiredDebt: BigNumber;
-  withdrawCollateral: BigNumber;
-  loanFee: BigNumber;
-  oazoFee: BigNumber;
-  skipFL: boolean;
-} {
+): CloseToParams {
   const _skipFL = false;
 
   const _toTokenAmount = vaultInfo.currentCollateral
@@ -213,17 +209,7 @@ function getCloseToCollateralParams(
   marketParams: MarketParams,
   vaultInfo: VaultInfoForClosing,
   debug = false,
-): {
-  fromTokenAmount: BigNumber;
-  toTokenAmount: BigNumber;
-  minToTokenAmount: BigNumber;
-  borrowCollateral: BigNumber;
-  requiredDebt: BigNumber;
-  withdrawCollateral: BigNumber;
-  loanFee: BigNumber;
-  oazoFee: BigNumber;
-  skipFL: boolean;
-} {
+): CloseToParams {
   const _requiredAmount = vaultInfo.currentDebt
     .times(1.00001 /* to account for not up to date value here */)
     .times(one.plus(marketParams.OF))

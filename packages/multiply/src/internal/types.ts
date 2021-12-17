@@ -75,5 +75,18 @@ class DesiredCDPState {
     this.withdrawDai = ensureBigNumber(_withdrawDai);
   }
 }
-export type { ConvertableToBigNumber, VaultInfoForClosing };
+
+type CloseToParams = {
+  fromTokenAmount: BigNumber;
+  toTokenAmount: BigNumber;
+  minToTokenAmount: BigNumber;
+  borrowCollateral: BigNumber;
+  requiredDebt: BigNumber;
+  withdrawCollateral: BigNumber;
+  loanFee: BigNumber;
+  oazoFee: BigNumber;
+  skipFL: boolean;
+};
+
+export type { ConvertableToBigNumber, VaultInfoForClosing, CloseToParams };
 export { VaultInfo, MarketParams, DesiredCDPState };
