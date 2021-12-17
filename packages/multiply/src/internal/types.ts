@@ -30,11 +30,8 @@ class MarketParams {
 class VaultInfoBase {
   public currentDebt: BigNumber;
   public currentCollateral: BigNumber;
-  
-  constructor(
-    _debt: ConvertableToBigNumber,
-    _coll: ConvertableToBigNumber,
-  ) {
+
+  constructor(_debt: ConvertableToBigNumber, _coll: ConvertableToBigNumber) {
     this.currentDebt = ensureBigNumber(_debt);
     this.currentCollateral = ensureBigNumber(_coll);
   }
@@ -48,14 +45,14 @@ class VaultInfo extends VaultInfoBase {
     _coll: ConvertableToBigNumber,
     _minCollRatio: ConvertableToBigNumber,
   ) {
-    super(_debt, _coll)
+    super(_debt, _coll);
     this.minCollRatio = ensureBigNumber(_minCollRatio);
   }
 }
 
 type VaultInfoForClosing = VaultInfoBase & {
-  minCollRatio?: BigNumber
-}
+  minCollRatio?: BigNumber;
+};
 
 class DesiredCDPState {
   public requiredCollRatio: BigNumber;
