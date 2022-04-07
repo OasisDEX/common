@@ -1,23 +1,19 @@
-import ethers from 'ethers';
 import { CommandContractType, EthereumNetwork } from './types';
 
 // The addresses must be in lowercase
-const commandAddressMapping: Record<number, Record<string, CommandContractType>> = {
+export const commandAddressMapping: Record<number, Record<string, CommandContractType>> = {
   [EthereumNetwork.GOERLI]: {
     '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': CommandContractType.CloseCommand,
   },
 };
 
-const commandTypeMapping: Record<
-  CommandContractType,
-  ReadonlyArray<string | ethers.utils.ParamType>
-> = {
+export const commandTypeMapping = {
   [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
-};
+} as const;
 
-export function getDefinitionForCommand(
-  type: CommandContractType,
-): ReadonlyArray<string | ethers.utils.ParamType> {
+export function getDefinitionForCommand<T extends CommandContractType>(
+  type: T,
+): typeof commandTypeMapping[T] {
   if (!(type in commandTypeMapping)) {
     throw new Error(
       `Unknown command type ${type}. Supported types: ${Object.keys(commandTypeMapping).join(
