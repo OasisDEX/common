@@ -6,14 +6,14 @@ import {
   encodeTriggerData,
   encodeTriggerDataByType,
 } from '../src/abi-coding';
-import { commandAddressMapping, getDefinitionForCommand } from '../src/mapping';
+import { commandAddressMapping, getDefinitionForCommandType } from '../src/mapping';
 import { CommandContractType, EthereumNetwork } from '../src/types';
 
 describe('abi-coding', () => {
   const type = CommandContractType.CloseCommand;
   const network = EthereumNetwork.GOERLI;
   const [commandAddress] = Object.keys(commandAddressMapping[network]);
-  const paramTypes = getDefinitionForCommand(type);
+  const paramTypes = getDefinitionForCommandType(type);
 
   const validValues = [12, 1, 101];
   const data = utils.defaultAbiCoder.encode(paramTypes, validValues);

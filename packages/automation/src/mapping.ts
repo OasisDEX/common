@@ -1,31 +1,39 @@
-import { CommandContractType, EthereumNetwork } from './types';
+import {
+  CommandContractInfo,
+  CommandContractType,
+  EthereumNetwork,
+  ParamDefinition,
+} from './types';
 
 // The addresses must be in lowercase
-export const commandAddressMapping: Record<number, Record<string, CommandContractType>> = {
+export const commandAddressMapping: Record<number, Record<string, CommandContractInfo>> = {
   [EthereumNetwork.GOERLI]: {
-    '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': CommandContractType.CloseCommand,
+    '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': { type: CommandContractType.CloseCommand },
   },
 };
 
-export const commandTypeMapping = {
+export const defaultCommandTypeMapping = {
   [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
 } as const;
 
-export function getDefinitionForCommand<T extends CommandContractType>(
-  type: T,
-): typeof commandTypeMapping[T] {
-  if (!(type in commandTypeMapping)) {
+export function getDefinitionForCommandType(type: CommandContractType): ParamDefinition {
+  if (!(type in defaultCommandTypeMapping)) {
     throw new Error(
-      `Unknown command type ${type}. Supported types: ${Object.keys(commandTypeMapping).join(
+      `Unknown command type ${type}. Supported types: ${Object.keys(defaultCommandTypeMapping).join(
         ', ',
       )}.`,
     );
   }
 
-  return commandTypeMapping[type];
+  return defaultCommandTypeMapping[type];
 }
 
-export function commandAddressToType(address: string, network: number): CommandContractType {
+export function getDefinitionForCommandAddress(address: string, network: number): ParamDefinition {
+  const info = getCommandContractInfo(address, network);
+  return info.overwrite ?? getDefinitionForCommandType(info.type);
+}
+
+export function getCommandContractInfo(address: string, network: number): CommandContractInfo {
   if (!(network in commandAddressMapping)) {
     throw new Error(
       `Command addresses for network ${network} not found. Supported networks: ${Object.keys(

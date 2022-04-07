@@ -9,7 +9,11 @@ export enum CommandContractType {
   CloseCommand = 'CloseCommand',
 }
 
-export type CommandTypeMapping = Record<
-  CommandContractType,
-  ReadonlyArray<string | ethers.utils.ParamType>
->;
+export type ParamDefinition = ReadonlyArray<string | ethers.utils.ParamType>;
+
+export type CommandTypeMapping = Record<CommandContractType, ParamDefinition>;
+
+export interface CommandContractInfo {
+  type: CommandContractType;
+  overwrite?: ParamDefinition;
+}
