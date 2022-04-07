@@ -34,8 +34,7 @@ function calculateParamsIncreaseMP(
         .minus(oraclePrice.times(one.minus(OF))),
     );
 
-  const ourFee = oraclePrice
-    .times(depositDai)
+  const ourFee = depositDai
     .times(OF)
     .plus(debt.times(one.plus(FF)).times(OF));
   const flashLoanFee = debt.times(FF);
@@ -78,12 +77,9 @@ function calculateParamsDecreaseMP(
       oraclePrice
         .times(one.plus(FF).plus(OF).plus(OF.times(FF)))
         .minus(marketPriceSlippage.times(requiredCollRatio)),
-    );
+    ).plus(depositDai);
   const collateral = debt.times(one.plus(OF).plus(FF)).div(marketPriceSlippage);
-  const ourFee = oraclePrice
-    .times(depositDai)
-    .times(OF)
-    .plus(debt.times(one.plus(FF)).times(OF));
+  const ourFee = debt.times(one.plus(FF)).times(OF);
   const flashLoanFee = debt.times(FF);
   if (debug) {
     console.log('Computed: calculateParamsDecreaseMP.debt', debt.toFixed(4));
