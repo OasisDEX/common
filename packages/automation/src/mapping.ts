@@ -1,9 +1,10 @@
 import ethers from 'ethers';
-import { AutomationTriggerType, CommandContractType, EthereumNetwork } from './types';
+import { CommandContractType, EthereumNetwork } from './types';
 
+// The addresses must be in lowercase
 const commandAddressMapping: Record<number, Record<string, CommandContractType>> = {
   [EthereumNetwork.GOERLI]: {
-    '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': CommandContractType.CloseCommand, // TODO:
+    '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': CommandContractType.CloseCommand,
   },
 };
 
@@ -15,11 +16,8 @@ const commandTypeMapping: Record<
 };
 
 export function getDefinitionForCommand(
-  address: string,
-  network: number,
+  type: CommandContractType,
 ): ReadonlyArray<string | ethers.utils.ParamType> {
-  const type = commandAddressToType(address, network);
-
   if (!(type in commandTypeMapping)) {
     throw new Error(
       `Unknown command type ${type}. Supported types: ${Object.keys(commandTypeMapping).join(
@@ -31,7 +29,7 @@ export function getDefinitionForCommand(
   return commandTypeMapping[type];
 }
 
-function commandAddressToType(address: string, network: number): CommandContractType {
+export function commandAddressToType(address: string, network: number): CommandContractType {
   if (!(network in commandAddressMapping)) {
     throw new Error(
       `Command addresses for network ${network} not found. Supported networks: ${Object.keys(
@@ -47,14 +45,4 @@ function commandAddressToType(address: string, network: number): CommandContract
   }
 
   return mappingForNetwork[lowercaseAddress];
-}
-
-export function triggerTypeToCommand(type: AutomationTriggerType): CommandContractType {
-  switch (type) {
-    case AutomationTriggerType.StopLossToCollateral:
-    case AutomationTriggerType.StopLossToDai:
-      return CommandContractType.CloseCommand;
-    default:
-      throw new Error(`Unknown trigger type: ${type}`);
-  }
 }
