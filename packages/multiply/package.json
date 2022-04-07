@@ -1,6 +1,6 @@
 {
   "name": "@oasisdex/multiply",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "description": "Functions calculating multiply parameters",
   "homepage": "https://github.com/OasisDEX/common#readme",
   "main": "lib/src/index.js",
@@ -31,5 +31,5 @@
     "ts-mockito": "^2.6.1",
     "ts-node": "^10.2.0"
   },
-  "gitHead": "68da63ca5ed5b6d2d96cf9f908d7f68f318dbdac"
+  "gitHead": "4c0fe3919c127018d3785ce6cc323621cd565d4f"
 }
