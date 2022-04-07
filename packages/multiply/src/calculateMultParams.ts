@@ -247,7 +247,7 @@ function getCloseToCollateralParams(
   };
 }
 
-export type { CloseToParams }
+export type { CloseToParams };
 
 export {
   getMultiplyParams,
