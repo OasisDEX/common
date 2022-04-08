@@ -3,8 +3,7 @@
   "version": "1.0.1",
   "description": "The set of utilities for Oasis automation",
   "homepage": "https://github.com/OasisDEX/common#readme",
-  "license": "Apache-2.0",
-  "main": "lib/src/index.ts",
+  "main": "lib/src/index.js",
   "typings": "lib/src/index.d.ts",
   "repository": {
     "type": "git",
