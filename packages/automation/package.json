@@ -4,8 +4,8 @@
   "description": "The set of utilities for Oasis automation",
   "homepage": "https://github.com/OasisDEX/common#readme",
   "license": "Apache-2.0",
-  "main": "src/index.ts",
-  "typings": "src/index.d.ts",
+  "main": "lib/src/index.ts",
+  "typings": "lib/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OasisDEX/common.git"
