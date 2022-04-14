@@ -9,6 +9,7 @@ import {
 export const commandAddressMapping: Record<number, Record<string, CommandContractInfo>> = {
   [EthereumNetwork.GOERLI]: {
     '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': { type: CommandContractType.CloseCommand },
+    '0x31285A87fB70a62b5AaA43199e53221c197E1e3f': { type: CommandContractType.CloseCommand },
   },
 };
 
