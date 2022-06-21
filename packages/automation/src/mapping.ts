@@ -20,7 +20,15 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
 
 export const defaultCommandTypeMapping = {
   [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
-  [CommandContractType.BasicBuyCommand]: ['uint256', 'uint16', 'uint256', 'uint256', 'uint256', 'bool', 'uint16']
+  [CommandContractType.BasicBuyCommand]: [
+    'uint256',
+    'uint16',
+    'uint256',
+    'uint256',
+    'uint256',
+    'bool',
+    'uint16',
+  ],
 } as const;
 
 export function getDefinitionForCommandType(type: CommandContractType): ParamDefinition {
