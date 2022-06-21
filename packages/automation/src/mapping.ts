@@ -11,7 +11,7 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
     '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': { type: CommandContractType.CloseCommand },
     '0x31285a87fb70a62b5aaa43199e53221c197e1e3f': { type: CommandContractType.CloseCommand },
     // TODO ŁW - Dummy command address, change to correct one once deployed
-    '0x0000000000000000000000000000000000000000': { type: CommandContractType.BasicBuyCommand },
+    '0x000000000000000000000000000000000000dead': { type: CommandContractType.BasicBuyCommand },
   },
   [EthereumNetwork.MAINNET]: {
     '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
