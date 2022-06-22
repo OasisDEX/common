@@ -21,7 +21,7 @@ export const defaultCommandTypeMapping = {
   [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
   [CommandContractType.BasicBuyCommand]: [
     'uint256',
-    'uint16', 
+    'uint16',
     'uint256',
     'uint256',
     'uint256',
