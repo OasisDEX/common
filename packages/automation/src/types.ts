@@ -7,6 +7,7 @@ export enum EthereumNetwork {
 
 export enum CommandContractType {
   CloseCommand = 'CloseCommand',
+  BasicBuyCommand = 'BasicBuyCommand',
 }
 
 export type ParamDefinition = ReadonlyArray<string | ethers.utils.ParamType>;

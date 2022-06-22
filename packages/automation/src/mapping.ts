@@ -10,6 +10,7 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
   [EthereumNetwork.GOERLI]: {
     '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': { type: CommandContractType.CloseCommand },
     '0x31285a87fb70a62b5aaa43199e53221c197e1e3f': { type: CommandContractType.CloseCommand },
+    '0x7c86781A95b7E55E6C2F7297Ae6773e1dbcEAb13': { type: CommandContractType.BasicBuyCommand },
   },
   [EthereumNetwork.MAINNET]: {
     '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
@@ -18,6 +19,15 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
 
 export const defaultCommandTypeMapping = {
   [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
+  [CommandContractType.BasicBuyCommand]: [
+    'uint256',
+    'uint16',
+    'uint256',
+    'uint256',
+    'uint256',
+    'bool',
+    'uint64',
+  ],
 } as const;
 
 export function getDefinitionForCommandType(type: CommandContractType): ParamDefinition {
