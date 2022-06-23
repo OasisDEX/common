@@ -10,7 +10,7 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
   [EthereumNetwork.GOERLI]: {
     '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': { type: CommandContractType.CloseCommand },
     '0x31285a87fb70a62b5aaa43199e53221c197e1e3f': { type: CommandContractType.CloseCommand },
-    '0x7c86781A95b7E55E6C2F7297Ae6773e1dbcEAb13': { type: CommandContractType.BasicBuyCommand },
+    '0x7c86781a95b7e55e6c2f7297ae6773e1dbceab13': { type: CommandContractType.BasicBuyCommand },
     '0x000000000000000000000000000000000000dead': { type: CommandContractType.BasicSellCommand },
   },
   [EthereumNetwork.MAINNET]: {
