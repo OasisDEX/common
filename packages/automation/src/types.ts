@@ -11,6 +11,13 @@ export enum CommandContractType {
   BasicSellCommand = 'BasicSellCommand',
 }
 
+export enum TriggerType {
+  StopLossToCollateral = 1,
+  StopLossToDai = 2,
+  BasicBuy = 3,
+  BasicSell = 4,
+}
+
 export type ParamDefinition = ReadonlyArray<string | ethers.utils.ParamType>;
 
 export type CommandTypeMapping = Record<CommandContractType, ParamDefinition>;
