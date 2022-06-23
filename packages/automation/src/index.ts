@@ -5,4 +5,4 @@ export {
   encodeTriggerDataByType,
 } from './abi-coding';
 
-export { CommandContractType } from './types';
+export { CommandContractType, TriggerType } from './types';
