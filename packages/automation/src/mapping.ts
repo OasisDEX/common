@@ -70,8 +70,11 @@ export function getCommandContractInfo(address: string, network: number): Comman
   const lowercaseAddress = address.toLowerCase();
   const mappingForNetwork = commandAddressMapping[network as EthereumNetwork];
   if (!(lowercaseAddress in mappingForNetwork)) {
-    console.log('mappingForNetwork', mappingForNetwork, lowercaseAddress);
-    throw new Error(`Command address ${lowercaseAddress} for network ${network} not found.`);
+    throw new Error(
+      `Command address ${lowercaseAddress} for network ${network} not found. Supported Addresses: ${JSON.stringify(
+        mappingForNetwork,
+      )}`,
+    );
   }
 
   return mappingForNetwork[lowercaseAddress];
