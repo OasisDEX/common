@@ -27,6 +27,14 @@ export enum TxStatus {
   Failure = 'Failure',
 }
 
+export const progressStatuses = [
+  TxStatus.WaitingForConfirmation,
+  TxStatus.WaitingForApproval,
+  TxStatus.Propagating,
+]
+
+export const failedStatuses = [TxStatus.Failure, TxStatus.CancelledByTheUser, TxStatus.Error]
+
 export enum TxRebroadcastStatus {
   speedup = 'speedup',
   cancel = 'cancel',
