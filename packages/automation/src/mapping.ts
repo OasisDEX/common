@@ -12,7 +12,6 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
     '0x31285a87fb70a62b5aaa43199e53221c197e1e3f': { type: CommandContractType.CloseCommand },
     '0x7c86781a95b7e55e6c2f7297ae6773e1dbceab13': { type: CommandContractType.BasicBuyCommand },
     '0xe3ae7218d8e4a482e212ef1cbf2fcd0fb9882cc7': { type: CommandContractType.BasicBuyCommand },
-    '0x000000000000000000000000000000000000dead': { type: CommandContractType.BasicSellCommand },
     '0xd4f94e013c7f47b989ea79c6527e065c027794c7': { type: CommandContractType.BasicSellCommand },
     '0x6f878d8eb84e48da49900a6392b8f9ed262a50d7': { type: CommandContractType.BasicSellCommand },
   },
@@ -72,8 +71,11 @@ export function getCommandContractInfo(address: string, network: number): Comman
   const lowercaseAddress = address.toLowerCase();
   const mappingForNetwork = commandAddressMapping[network as EthereumNetwork];
   if (!(lowercaseAddress in mappingForNetwork)) {
-    console.log('mappingForNetwork', mappingForNetwork, lowercaseAddress);
-    throw new Error(`Command address ${lowercaseAddress} for network ${network} not found.`);
+    throw new Error(
+      `Command address ${lowercaseAddress} for network ${network} not found. Supported Addresses: ${JSON.stringify(
+        mappingForNetwork,
+      )}`,
+    );
   }
 
   return mappingForNetwork[lowercaseAddress];
