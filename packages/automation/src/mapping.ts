@@ -30,6 +30,7 @@ export const defaultCommandTypeMapping = {
     'uint256',
     'bool',
     'uint64',
+    'uint32',
   ],
   [CommandContractType.BasicSellCommand]: [
     'uint256',
@@ -39,6 +40,7 @@ export const defaultCommandTypeMapping = {
     'uint256',
     'bool',
     'uint64',
+    'uint32',
   ],
 } as const;
 
