@@ -10,9 +10,15 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
   [EthereumNetwork.GOERLI]: {
     '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': { type: CommandContractType.CloseCommand },
     '0x31285a87fb70a62b5aaa43199e53221c197e1e3f': { type: CommandContractType.CloseCommand },
-    '0x7c86781a95b7e55e6c2f7297ae6773e1dbceab13': { type: CommandContractType.BasicBuyCommand },
+    '0x7c86781a95b7e55e6c2f7297ae6773e1dbceab13': {
+      type: CommandContractType.BasicBuyCommand,
+      overwrite: ['uint256', 'uint16', 'uint256', 'uint256', 'uint256', 'bool', 'uint64'],
+    },
     '0xe3ae7218d8e4a482e212ef1cbf2fcd0fb9882cc7': { type: CommandContractType.BasicBuyCommand },
-    '0xd4f94e013c7f47b989ea79c6527e065c027794c7': { type: CommandContractType.BasicSellCommand },
+    '0xd4f94e013c7f47b989ea79c6527e065c027794c7': {
+      type: CommandContractType.BasicSellCommand,
+      overwrite: ['uint256', 'uint16', 'uint256', 'uint256', 'uint256', 'bool', 'uint64'],
+    },
     '0x6f878d8eb84e48da49900a6392b8f9ed262a50d7': { type: CommandContractType.BasicSellCommand },
   },
   [EthereumNetwork.MAINNET]: {
@@ -44,6 +50,22 @@ export const defaultCommandTypeMapping = {
   ],
 } as const;
 
+export function getCommandAddresses(network: number): Record<CommandContractType, string[]> {
+  if (!(network in commandAddressMapping)) {
+    throw new Error(
+      `Command addresses for network ${network} not found. Supported networks: ${Object.keys(
+        commandAddressMapping,
+      ).join(', ')}.`,
+    );
+  }
+
+  const mappingForNetwork = commandAddressMapping[network as EthereumNetwork];
+  return Object.entries(mappingForNetwork).reduce(
+    (agg, [address, { type }]) => ({ ...agg, [type]: (agg[type] || []).concat([address]) }),
+    {} as Record<CommandContractType, string[]>,
+  );
+}
+
 export function getDefinitionForCommandType(type: CommandContractType): ParamDefinition {
   if (!(type in defaultCommandTypeMapping)) {
     throw new Error(
@@ -66,12 +88,12 @@ export function getCommandContractInfo(address: string, network: number): Comman
     throw new Error(
       `Command addresses for network ${network} not found. Supported networks: ${Object.keys(
         commandAddressMapping,
-      ).join('; ')}.`,
+      ).join(', ')}.`,
     );
   }
 
-  const lowercaseAddress = address.toLowerCase();
   const mappingForNetwork = commandAddressMapping[network as EthereumNetwork];
+  const lowercaseAddress = address.toLowerCase();
   if (!(lowercaseAddress in mappingForNetwork)) {
     throw new Error(
       `Command address ${lowercaseAddress} for network ${network} not found. Supported Addresses: ${JSON.stringify(
