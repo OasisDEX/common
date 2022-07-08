@@ -15,11 +15,13 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
       overwrite: ['uint256', 'uint16', 'uint256', 'uint256', 'uint256', 'bool', 'uint64'],
     },
     '0xe3ae7218d8e4a482e212ef1cbf2fcd0fb9882cc7': { type: CommandContractType.BasicBuyCommand },
+    '0x4bf8529d19e1f1e714aa078f2118160115258f69': { type: CommandContractType.BasicBuyCommand },
     '0xd4f94e013c7f47b989ea79c6527e065c027794c7': {
       type: CommandContractType.BasicSellCommand,
       overwrite: ['uint256', 'uint16', 'uint256', 'uint256', 'uint256', 'bool', 'uint64'],
     },
     '0x6f878d8eb84e48da49900a6392b8f9ed262a50d7': { type: CommandContractType.BasicSellCommand },
+    '0xf56cce713c3f02ff8f68c60908c11f7729044c0c': { type: CommandContractType.BasicSellCommand },
   },
   [EthereumNetwork.MAINNET]: {
     '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
