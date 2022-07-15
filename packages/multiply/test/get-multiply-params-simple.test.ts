@@ -7,35 +7,26 @@ import { DesiredCDPState, MarketParams, VaultInfo } from '../src/internal/types'
 _chai.should();
 const one = new BigNumber(1);
 describe('getMultiplyParams no fees, slippage, zero price divergence/', async () => {
-  let marketParams: MarketParams;
-  let vaultInfo: VaultInfo;
-
-  before(async () => {
-    marketParams = new MarketParams({
-      marketPrice: 3000,
-      oraclePrice: 3000,
-      FF: 0,
-      OF: 0,
-      slippage: 0,
-    });
-    vaultInfo = new VaultInfo(10000, 10, 1.5);
-  });
-
-  it('should be exported from package', async () => {
-    getMultiplyParams.should.be.not.undefined;
-  });
+  const marketParams: MarketParams = {
+    marketPrice: 3000,
+    oraclePrice: 3000,
+    FF: 0,
+    OF: 0,
+    slippage: 0,
+  };
+  const vaultInfo: VaultInfo = { currentDebt: 10000, currentCollateral: 10, minCollRatio: 1.5 };
 
   it('should return object', async () => {
     const val = getMultiplyParams(
-      new MarketParams({
+      {
         marketPrice: 100,
         oraclePrice: 100,
         FF: 0,
         OF: 0,
         slippage: 0,
-      }),
-      new VaultInfo(100, 100, 1.5),
-      new DesiredCDPState(2, 0, 0, 0, 0),
+      },
+      { currentDebt: 100, currentCollateral: 100, minCollRatio: 1.5 },
+      { requiredCollRatio: 2 },
     );
     expect(val).to.not.be.undefined;
   });
@@ -47,15 +38,15 @@ describe('getMultiplyParams no fees, slippage, zero price divergence/', async ()
       callCount = callCount + 1;
     };
     const val = getMultiplyParams(
-      new MarketParams({
+      {
         marketPrice: 100,
         oraclePrice: 100,
         FF: 0,
         OF: 0,
         slippage: 0,
-      }),
-      new VaultInfo(100, 100, 1.5),
-      new DesiredCDPState(2, 0, 0, 0, 0),
+      },
+      { currentDebt: 100, currentCollateral: 100, minCollRatio: 1.5 },
+      { requiredCollRatio: 2 },
       true,
     );
     console.log = backup;
@@ -70,24 +61,25 @@ describe('getMultiplyParams no fees, slippage, zero price divergence/', async ()
       callCount = callCount + 1;
     };
     const val = getMultiplyParams(
-      new MarketParams({
+      {
         marketPrice: 200,
         oraclePrice: 200,
         FF: 0,
         OF: 0,
         slippage: 0,
-      }),
-      new VaultInfo(10000, 100, 1.5),
-      new DesiredCDPState(7, 0, 0, 0, 0),
+      },
+      { currentDebt: 10000, currentCollateral: 10, minCollRatio: 1.5 },
+      { requiredCollRatio: 7 },
       true,
     );
     console.log = backup;
     expect(val).to.not.be.undefined;
     expect(callCount).to.be.greaterThan(5);
   });
+
   describe(`multiply increase inital debt=10000 collRatio 3`, async () => {
     it('should draw additional 10000 debt when changing collateralisation ratio from 3 to 2', async () => {
-      const desiredCdpState = new DesiredCDPState(new BigNumber(2), 0, 0, 0, 0);
+      const desiredCdpState: DesiredCDPState = { requiredCollRatio: 2 };
       const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
       const finalDebt = retVal.debtDelta.plus(vaultInfo.currentDebt);
       const finalCollVal = retVal.collateralDelta
@@ -99,9 +91,10 @@ describe('getMultiplyParams no fees, slippage, zero price divergence/', async ()
       expect(finalCollVal.dividedBy(finalDebt).toNumber()).to.be.greaterThan(1.9999);
       expect(finalCollVal.dividedBy(finalDebt).toNumber()).to.be.lessThan(2.0001);
     });
-    it.skip('should end with correct collateralisation ratio when changing collateralisation ratio from 3 to 2 and providing 10000 dai', async () => {
-      const desiredCdpState = new DesiredCDPState(2, 0, 10000, 0, 0);
-      const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
+
+    it.only('should end with correct collateralisation ratio when changing collateralisation ratio from 3 to 2 and providing 10000 dai', async () => {
+      const desiredCdpState: DesiredCDPState = { requiredCollRatio: 2, providedDai: 10000 };
+      const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, true);
       const finalDebt = retVal.debtDelta.plus(vaultInfo.currentDebt);
       const finalCollVal = retVal.collateralDelta
         .plus(vaultInfo.currentCollateral)
@@ -111,31 +104,30 @@ describe('getMultiplyParams no fees, slippage, zero price divergence/', async ()
       expect(finalCollVal.dividedBy(finalDebt).toNumber()).to.be.lessThan(2.0001);
     });
   });
+
   describe(`multiply decrease inital debt=10000 collRatio 3`, async () => {
     it('should have collateral delta worth of 20000 DAI when withdrawing 5000 DAI and changing collateralisation ratio to 4', async () => {
-      const desiredCdpState = new DesiredCDPState(4, 0, 0, 5000, 0);
+      const desiredCdpState: DesiredCDPState = { requiredCollRatio: 4, withdrawDai: 5000 };
       const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
       const finalCollVal = retVal.collateralDelta
         .plus(vaultInfo.currentCollateral)
         .times(marketParams.oraclePrice);
       expect(finalCollVal.toNumber()).to.be.equal(20000);
     });
+
     it('should have debt delta equal 7500 DAI when withdrawing 10000 DAI worth of collateral and changing collateralisation ratio to 5', async () => {
-      const desiredCdpState = new DesiredCDPState(
-        5,
-        0,
-        0,
-        0,
-        one.times(10000).dividedBy(marketParams.marketPrice),
-      );
+      const desiredCdpState: DesiredCDPState = {
+        requiredCollRatio: 4,
+        withdrawColl: one.times(10000).dividedBy(marketParams.marketPrice),
+      };
       const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
-      const finalDebtVal = vaultInfo.currentDebt.plus(retVal.debtDelta);
+      const finalDebtVal = new BigNumber(vaultInfo.currentDebt).plus(retVal.debtDelta);
       expect(finalDebtVal.toNumber()).to.be.equal(2500);
     });
+
     it('should have debt delta equal 5000 DAI when changing collateralisation ratio to 5', async () => {
-      const desiredCdpState = new DesiredCDPState(5, 0, 0, 0, 0);
-      const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
-      const finalDebtVal = vaultInfo.currentDebt.plus(retVal.debtDelta);
+      const retVal = getMultiplyParams(marketParams, vaultInfo, { requiredCollRatio: 5 }, false);
+      const finalDebtVal = new BigNumber(vaultInfo.currentDebt).plus(retVal.debtDelta);
       expect(finalDebtVal.toNumber()).to.be.equal(5000);
     });
   });

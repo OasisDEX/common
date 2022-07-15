@@ -7,34 +7,34 @@ import { DesiredCDPState, MarketParams, VaultInfo } from '../src/internal/types'
 _chai.should();
 
 function vaultCollRatio(vaultInfo: VaultInfo, marketParams: MarketParams) {
-  return vaultInfo.currentCollateral
-    .multipliedBy(marketParams.oraclePrice)
+  return new BigNumber(vaultInfo.currentCollateral)
+    .times(marketParams.oraclePrice)
     .dividedBy(vaultInfo.currentDebt);
 }
 
-const marketParams = new MarketParams({
-  marketPrice: 2000,
-  oraclePrice: 2200,
+const marketParams: MarketParams = {
+  marketPrice: 1000,
+  oraclePrice: 1020,
   FF: 0.0,
   OF: 0.002,
-  slippage: 0.02,
-});
-const vaultInfo = new VaultInfo(100000, 100, 1.5);
-const desiredCollRatio = 5;
+  slippage: 0.005,
+};
+const vaultInfo: VaultInfo = { currentDebt: 10000, currentCollateral: 20, minCollRatio: 1.5 };
+const currentCollRatio = vaultCollRatio(vaultInfo, marketParams).toNumber();
+const requiredCollRatio = 2.2;
 
-describe.only(`decrease multiple, from ${vaultCollRatio(
-  vaultInfo,
-  marketParams,
-).toNumber()} to ${desiredCollRatio}`, () => {
-  it(`should calculate amounts that leads to ${desiredCollRatio} coll ratio`, async () => {
-    const desiredCdpState = new DesiredCDPState(new BigNumber(desiredCollRatio), 0, 0, 0, 0);
-    const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
+describe(`decrease multiple, from ${currentCollRatio} to ${requiredCollRatio}`, () => {
+  it(`should calculate amounts that leads to ${requiredCollRatio} coll ratio`, async () => {
+    const desiredCdpState: DesiredCDPState = { requiredCollRatio };
+    const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, true);
     const oracleValueOfNewVaultCollateral = retVal.collateralDelta
       .plus(vaultInfo.currentCollateral)
-      .multipliedBy(marketParams.oraclePrice);
+      .times(marketParams.oraclePrice);
+
     const newVaultDebtAmount = retVal.debtDelta.plus(vaultInfo.currentDebt);
-    const newVaultCollRatio = oracleValueOfNewVaultCollateral.dividedBy(newVaultDebtAmount);
-    expect(newVaultCollRatio.toNumber()).to.be.greaterThan(desiredCollRatio * 0.9999);
-    expect(newVaultCollRatio.toNumber()).to.be.lessThan(desiredCollRatio * 1.0001);
+    const newVaultCollRatio = oracleValueOfNewVaultCollateral.div(newVaultDebtAmount);
+
+    expect(newVaultCollRatio.toNumber()).to.be.greaterThan(requiredCollRatio * 0.9999);
+    expect(newVaultCollRatio.toNumber()).to.be.lessThan(requiredCollRatio * 1.0001);
   });
 });

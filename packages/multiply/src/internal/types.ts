@@ -1,82 +1,35 @@
 import { BigNumber } from 'bignumber.js';
-import { ensureBigNumber } from './utils';
 
-// eslint-disable-next-line
-type ConvertableToBigNumber = number | string | BigNumber | Object;
-
-type ParamsConstr = {
-  oraclePrice: ConvertableToBigNumber;
-  marketPrice: ConvertableToBigNumber;
-  FF: ConvertableToBigNumber;
-  OF: ConvertableToBigNumber;
-  slippage: ConvertableToBigNumber;
-};
-
-class MarketParams {
-  public oraclePrice: BigNumber;
-  public marketPrice: BigNumber;
-  public FF: BigNumber;
-  public OF: BigNumber;
-  public slippage: BigNumber;
-  constructor(constr: ParamsConstr) {
-    this.oraclePrice = ensureBigNumber(constr.oraclePrice);
-    this.marketPrice = ensureBigNumber(constr.marketPrice);
-    this.FF = ensureBigNumber(constr.FF);
-    this.OF = ensureBigNumber(constr.OF);
-    this.slippage = ensureBigNumber(constr.slippage);
-  }
+export interface MarketParams {
+  oraclePrice: BigNumber.Value;
+  marketPrice: BigNumber.Value;
+  FF: BigNumber.Value;
+  OF: BigNumber.Value;
+  slippage: BigNumber.Value;
 }
 
-class VaultInfoBase {
-  public currentDebt: BigNumber;
-  public currentCollateral: BigNumber;
-
-  constructor(_debt: ConvertableToBigNumber, _coll: ConvertableToBigNumber) {
-    this.currentDebt = ensureBigNumber(_debt);
-    this.currentCollateral = ensureBigNumber(_coll);
-  }
+interface VaultInfoBase {
+  currentDebt: BigNumber.Value;
+  currentCollateral: BigNumber.Value;
 }
 
-class VaultInfo extends VaultInfoBase {
-  public minCollRatio: BigNumber; //minimum acceptable collateralisation ratio
-
-  constructor(
-    _debt: ConvertableToBigNumber,
-    _coll: ConvertableToBigNumber,
-    _minCollRatio: ConvertableToBigNumber,
-  ) {
-    super(_debt, _coll);
-    this.minCollRatio = ensureBigNumber(_minCollRatio);
-  }
+export interface VaultInfo extends VaultInfoBase {
+  minCollRatio: BigNumber.Value; // minimum acceptable collateralisation ratio
 }
 
-type VaultInfoForClosing = VaultInfoBase & {
-  minCollRatio?: BigNumber;
-};
-
-class DesiredCDPState {
-  public requiredCollRatio: BigNumber;
-  public providedCollateral: BigNumber;
-  public providedDai: BigNumber;
-  public withdrawDai: BigNumber;
-  public withdrawColl: BigNumber;
-
-  constructor(
-    _reqRatio: ConvertableToBigNumber,
-    _providedColl: ConvertableToBigNumber,
-    _providedDai: ConvertableToBigNumber,
-    _withdrawDai: ConvertableToBigNumber,
-    _withdrawColl: ConvertableToBigNumber,
-  ) {
-    this.providedCollateral = ensureBigNumber(_providedColl);
-    this.requiredCollRatio = ensureBigNumber(_reqRatio);
-    this.providedDai = ensureBigNumber(_providedDai);
-    this.withdrawColl = ensureBigNumber(_withdrawColl);
-    this.withdrawDai = ensureBigNumber(_withdrawDai);
-  }
+export interface VaultInfoForClosing extends VaultInfoBase {
+  minCollRatio?: BigNumber.Value;
 }
 
-type CloseToParams = {
+export interface DesiredCDPState {
+  requiredCollRatio: BigNumber.Value;
+  providedCollateral?: BigNumber.Value;
+  providedDai?: BigNumber.Value;
+  withdrawDai?: BigNumber.Value;
+  withdrawColl?: BigNumber.Value;
+}
+
+export interface CloseToParams {
   fromTokenAmount: BigNumber;
   toTokenAmount: BigNumber;
   minToTokenAmount: BigNumber;
@@ -86,7 +39,4 @@ type CloseToParams = {
   loanFee: BigNumber;
   oazoFee: BigNumber;
   skipFL: boolean;
-};
-
-export type { ConvertableToBigNumber, VaultInfoForClosing, CloseToParams };
-export { VaultInfo, MarketParams, DesiredCDPState };
+}

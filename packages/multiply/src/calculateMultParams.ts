@@ -6,13 +6,11 @@ import {
   VaultInfoForClosing,
   CloseToParams,
 } from './internal/types';
-import { ensureBigNumber, one } from './internal/utils';
-import {
-  calculateParamsIncreaseMP,
-  calculateParamsDecreaseMP,
-} from './internal/increaseDecreaseMP';
+import { one } from './internal/utils';
+import { calculateMultipleIncrease, calculateMultipleDecrease } from './internal/multiple';
 
-export const OFFSET_MULTIPLAYER = new BigNumber(1.00001);
+// to account for outdated debt value
+export const DEBT_OFFSET_MULTIPLIER = new BigNumber(1.00001);
 
 function calculateIncrease(
   marketParams: MarketParams,
@@ -29,32 +27,31 @@ function calculateIncrease(
   let oazoFee: BigNumber;
   let skipFL: boolean;
   skipFL = false;
-  [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsIncreaseMP(
-    marketParams.oraclePrice,
-    marketParams.marketPrice,
-    marketParams.OF,
-    marketParams.FF,
-    vaultInfo.currentCollateral.plus(desiredCdp.providedCollateral),
-    vaultInfo.currentDebt.minus(desiredCdp.providedDai),
-    desiredCdp.requiredCollRatio,
-    marketParams.slippage,
-    desiredCdp.providedDai,
+  [debtDelta, collateralDelta, oazoFee, loanFee] = calculateMultipleIncrease(
+    marketParams,
+    vaultInfo,
+    desiredCdp,
+    // vaultInfo.currentCollateral.plus(desiredCdp.providedCollateral),
+    // vaultInfo.currentDebt.minus(desiredCdp.providedDai),
+    // desiredCdp.requiredCollRatio,
+    // desiredCdp.providedDai,
     debug,
   );
-  const newDebt = vaultInfo.currentDebt.plus(debtDelta);
-  const currentCollateralValue = vaultInfo.currentCollateral.times(marketParams.oraclePrice);
+
+  const newDebt = new BigNumber(vaultInfo.currentDebt).plus(debtDelta);
+  const currentCollateralValue = new BigNumber(vaultInfo.currentCollateral).times(
+    marketParams.oraclePrice,
+  );
   if (currentCollateralValue.dividedBy(newDebt).gt(vaultInfo.minCollRatio)) {
     skipFL = true;
-    [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsIncreaseMP(
-      marketParams.oraclePrice,
-      marketParams.marketPrice,
-      marketParams.OF,
-      new BigNumber(0), //no FL Fee
-      vaultInfo.currentCollateral.plus(desiredCdp.providedCollateral),
-      vaultInfo.currentDebt.minus(desiredCdp.providedDai),
-      desiredCdp.requiredCollRatio,
-      marketParams.slippage,
-      desiredCdp.providedDai,
+    [debtDelta, collateralDelta, oazoFee, loanFee] = calculateMultipleIncrease(
+      { ...marketParams, FF: new BigNumber(0) },
+      vaultInfo,
+      desiredCdp,
+      // vaultInfo.currentCollateral.plus(desiredCdp.providedCollateral),
+      // vaultInfo.currentDebt.minus(desiredCdp.providedDai),
+      // desiredCdp.requiredCollRatio,
+      // desiredCdp.providedDai,
       debug,
     );
   }
@@ -80,33 +77,29 @@ function calculateDecrease(
   let skipFL: boolean;
   skipFL = false;
   //decrease multiply
-  [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsDecreaseMP(
-    marketParams.oraclePrice,
-    marketParams.marketPrice,
-    marketParams.OF,
-    marketParams.FF,
-    vaultInfo.currentCollateral.minus(desiredCdp.withdrawColl),
-    vaultInfo.currentDebt.plus(desiredCdp.withdrawDai),
-    desiredCdp.requiredCollRatio,
-    marketParams.slippage,
-    desiredCdp.providedDai,
+  [debtDelta, collateralDelta, oazoFee, loanFee] = calculateMultipleDecrease(
+    marketParams,
+    vaultInfo,
+    desiredCdp,
+    // vaultInfo.currentCollateral.minus(desiredCdp.withdrawColl),
+    // vaultInfo.currentDebt.plus(desiredCdp.withdrawDai),
+    // desiredCdp.requiredCollRatio,
+    // desiredCdp.providedDai,
     debug,
   );
 
-  const collateralLeft = vaultInfo.currentCollateral.minus(collateralDelta);
+  const collateralLeft = new BigNumber(vaultInfo.currentCollateral).minus(collateralDelta);
   const collateralLeftValue = collateralLeft.times(marketParams.oraclePrice);
-  if (collateralLeftValue.dividedBy(vaultInfo.currentDebt).gt(vaultInfo.minCollRatio)) {
+  if (collateralLeftValue.div(vaultInfo.currentDebt).gt(vaultInfo.minCollRatio)) {
     skipFL = true;
-    [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsDecreaseMP(
-      marketParams.oraclePrice,
-      marketParams.marketPrice,
-      marketParams.OF,
-      new BigNumber(0), //no FL Fee
-      vaultInfo.currentCollateral.minus(desiredCdp.withdrawColl),
-      vaultInfo.currentDebt.plus(desiredCdp.withdrawDai),
-      desiredCdp.requiredCollRatio,
-      marketParams.slippage,
-      desiredCdp.providedDai,
+    [debtDelta, collateralDelta, oazoFee, loanFee] = calculateMultipleDecrease(
+      { ...marketParams, FF: new BigNumber(0) },
+      vaultInfo,
+      desiredCdp,
+      // vaultInfo.currentCollateral.minus(desiredCdp.withdrawColl),
+      // vaultInfo.currentDebt.plus(desiredCdp.withdrawDai),
+      // desiredCdp.requiredCollRatio,
+      // desiredCdp.providedDai,
       debug,
     );
   }
@@ -116,7 +109,7 @@ function calculateDecrease(
   };
 }
 
-function getMultiplyParams(
+export function getMultiplyParams(
   marketParams: MarketParams,
   vaultInfo: VaultInfo,
   desiredCdp: DesiredCDPState,
@@ -132,128 +125,105 @@ function getMultiplyParams(
   let collateralDelta = new BigNumber(0);
   let loanFee = new BigNumber(0);
   let oazoFee = new BigNumber(0);
-  let skipFL = false;
 
-  if (desiredCdp.withdrawColl.gt(0) || desiredCdp.withdrawDai.gt(0)) {
-    const params = calculateDecrease(marketParams, vaultInfo, desiredCdp, debug);
+  const { withdrawColl, withdrawDai, providedDai, providedCollateral } = desiredCdp;
 
-    [debtDelta, collateralDelta, oazoFee, loanFee] = params.params;
-    skipFL = params.skipFL;
+  if ([withdrawColl, withdrawDai].some((x) => new BigNumber(x || 0).gt(0))) {
+    const { params, skipFL } = calculateDecrease(marketParams, vaultInfo, desiredCdp, debug);
+    [debtDelta, collateralDelta, oazoFee, loanFee] = params;
     debtDelta = debtDelta.times(-1);
     collateralDelta = collateralDelta.times(-1);
-  } else {
-    if (desiredCdp.providedDai.gt(0) || desiredCdp.providedCollateral.gt(0)) {
-      //increase multiply
-
-      const params = calculateIncrease(marketParams, vaultInfo, desiredCdp, debug);
-
-      [debtDelta, collateralDelta, oazoFee, loanFee] = params.params;
-      skipFL = params.skipFL;
-    } else {
-      const currentCollRat = vaultInfo.currentCollateral
-        .times(marketParams.oraclePrice)
-        .dividedBy(vaultInfo.currentDebt);
-      if (currentCollRat.lt(desiredCdp.requiredCollRatio)) {
-        const params = calculateDecrease(marketParams, vaultInfo, desiredCdp, debug);
-
-        [debtDelta, collateralDelta, oazoFee, loanFee] = params.params;
-        skipFL = params.skipFL;
-
-        debtDelta = debtDelta.times(-1);
-        collateralDelta = collateralDelta.times(-1);
-      } else {
-        const params = calculateIncrease(marketParams, vaultInfo, desiredCdp, debug);
-
-        [debtDelta, collateralDelta, oazoFee, loanFee] = params.params;
-        skipFL = params.skipFL;
-      }
-    }
+    return { debtDelta, collateralDelta, loanFee, oazoFee, skipFL };
   }
-  return {
-    debtDelta: ensureBigNumber(debtDelta),
-    collateralDelta: ensureBigNumber(collateralDelta),
-    loanFee: ensureBigNumber(loanFee),
-    oazoFee: ensureBigNumber(oazoFee),
-    skipFL: skipFL,
-  };
+
+  if ([providedDai, providedCollateral].some((x) => new BigNumber(x || 0).gt(0))) {
+    // increase multiply
+    const { params, skipFL } = calculateIncrease(marketParams, vaultInfo, desiredCdp, debug);
+    [debtDelta, collateralDelta, oazoFee, loanFee] = params;
+    return { debtDelta, collateralDelta, loanFee, oazoFee, skipFL };
+  }
+
+  const collRatio = new BigNumber(vaultInfo.currentCollateral)
+    .times(marketParams.oraclePrice)
+    .div(vaultInfo.currentDebt);
+  if (collRatio.lt(desiredCdp.requiredCollRatio)) {
+    const { params, skipFL } = calculateDecrease(marketParams, vaultInfo, desiredCdp, debug);
+
+    [debtDelta, collateralDelta, oazoFee, loanFee] = params;
+    debtDelta = debtDelta.times(-1);
+    collateralDelta = collateralDelta.times(-1);
+    return { debtDelta, collateralDelta, loanFee, oazoFee, skipFL };
+  }
+
+  const { params, skipFL } = calculateIncrease(marketParams, vaultInfo, desiredCdp, debug);
+  [debtDelta, collateralDelta, oazoFee, loanFee] = params;
+  return { debtDelta, collateralDelta, loanFee, oazoFee, skipFL };
 }
 
-function getCloseToDaiParams(
+export function getCloseToDaiParams(
   marketParams: MarketParams,
   vaultInfo: VaultInfoForClosing,
 ): CloseToParams {
-  const _skipFL = false;
+  const [collateral, debt] = [
+    new BigNumber(vaultInfo.currentCollateral),
+    new BigNumber(vaultInfo.currentDebt),
+  ];
 
-  const _toTokenAmount = vaultInfo.currentCollateral
+  const toTokenAmount = collateral
     .times(marketParams.marketPrice)
     .times(one.minus(marketParams.OF));
-
-  const _requiredDebt = vaultInfo.currentDebt.times(one.multipliedBy(OFFSET_MULTIPLAYER));
-  const oazoFee = vaultInfo.currentCollateral.times(marketParams.marketPrice).minus(_toTokenAmount);
-  const loanFee = vaultInfo.currentDebt.times(marketParams.FF);
+  const requiredDebt = debt.times(one.multipliedBy(DEBT_OFFSET_MULTIPLIER));
+  const oazoFee = collateral.times(marketParams.marketPrice).minus(toTokenAmount);
+  const loanFee = debt.times(marketParams.FF);
 
   return {
-    fromTokenAmount: vaultInfo.currentCollateral,
-    toTokenAmount: _toTokenAmount,
-    minToTokenAmount: _toTokenAmount.times(one.minus(marketParams.slippage)),
-    borrowCollateral: vaultInfo.currentCollateral,
-    requiredDebt: _requiredDebt,
+    fromTokenAmount: collateral,
+    toTokenAmount,
+    minToTokenAmount: toTokenAmount.times(one.minus(marketParams.slippage)),
+    borrowCollateral: debt,
+    requiredDebt,
     withdrawCollateral: new BigNumber(0),
-    skipFL: _skipFL,
-    loanFee: ensureBigNumber(loanFee),
-    oazoFee: ensureBigNumber(oazoFee),
+    skipFL: false,
+    loanFee,
+    oazoFee,
   };
 }
 
-function getCloseToCollateralParams(
+export function getCloseToCollateralParams(
   marketParams: MarketParams,
   vaultInfo: VaultInfoForClosing,
-  debug = false,
 ): CloseToParams {
-  const _requiredAmount = vaultInfo.currentDebt
-    .times(1.00001 /* to account for not up to date value here */)
+  const [collateral, debt] = [
+    new BigNumber(vaultInfo.currentCollateral),
+    new BigNumber(vaultInfo.currentDebt),
+  ];
+
+  const minToTokenAmount = debt
+    .times(DEBT_OFFSET_MULTIPLIER)
     .times(one.plus(marketParams.OF))
     .times(one.plus(marketParams.FF));
-  let _skipFL = false;
-  const maxCollNeeded = _requiredAmount.dividedBy(
-    marketParams.marketPrice.times(one.minus(marketParams.slippage)),
+  const maxCollNeeded = minToTokenAmount.div(
+    new BigNumber(marketParams.marketPrice).times(one.minus(marketParams.slippage)),
   );
 
+  let skipFL = false;
   if (vaultInfo.minCollRatio !== undefined) {
-    const collateralLocked = vaultInfo.currentDebt
-      .dividedBy(marketParams.oraclePrice)
-      .multipliedBy(vaultInfo.minCollRatio);
-
-    if (vaultInfo.currentCollateral.minus(maxCollNeeded).gt(collateralLocked)) {
-      _skipFL = true;
-    }
+    const collateralLocked = debt.div(marketParams.oraclePrice).times(vaultInfo.minCollRatio);
+    skipFL = collateral.minus(maxCollNeeded).gt(collateralLocked);
   }
 
-  const oazoFee = _requiredAmount.multipliedBy(marketParams.OF);
-  const loanFee = _requiredAmount.times(marketParams.FF);
+  const oazoFee = minToTokenAmount.times(marketParams.OF);
+  const loanFee = minToTokenAmount.times(marketParams.FF);
 
   return {
     fromTokenAmount: maxCollNeeded,
-    toTokenAmount: _requiredAmount.dividedBy(one.minus(marketParams.slippage)),
-    minToTokenAmount: _requiredAmount,
+    toTokenAmount: minToTokenAmount.div(one.minus(marketParams.slippage)),
+    minToTokenAmount,
     borrowCollateral: new BigNumber(0),
-    requiredDebt: _skipFL
-      ? new BigNumber(0)
-      : vaultInfo.currentDebt.multipliedBy(OFFSET_MULTIPLAYER),
+    requiredDebt: skipFL ? new BigNumber(0) : debt.times(DEBT_OFFSET_MULTIPLIER),
     withdrawCollateral: new BigNumber(0),
-    skipFL: _skipFL,
-    loanFee: ensureBigNumber(loanFee),
-    oazoFee: ensureBigNumber(oazoFee),
+    skipFL: skipFL,
+    loanFee,
+    oazoFee,
   };
 }
-
-export type { CloseToParams };
-
-export {
-  getMultiplyParams,
-  getCloseToDaiParams,
-  getCloseToCollateralParams,
-  DesiredCDPState,
-  MarketParams,
-  VaultInfo,
-};
