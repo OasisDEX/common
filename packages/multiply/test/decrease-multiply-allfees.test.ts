@@ -30,9 +30,9 @@ describe.only(`decrease multiple, from ${vaultCollRatio(vaultInfo, marketParams)
     it(`should calculate amounts that leads to ${desiredCollRatio} coll ratio`, async () => {
         const desiredCdpState = new DesiredCDPState(new BigNumber(desiredCollRatio), 0, 0, 0, 0);
         const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
-        const oracleValueOfNewVaultCollateralValue = retVal.collateralDelta.plus(vaultInfo.currentCollateral).multipliedBy(marketParams.oraclePrice);
+        const oracleValueOfNewVaultCollateral = retVal.collateralDelta.plus(vaultInfo.currentCollateral).multipliedBy(marketParams.oraclePrice);
         const newVaultDebtAmount = retVal.debtDelta.plus(vaultInfo.currentDebt);
-        const newVaultCollRatio = oracleValueOfNewVaultCollateralValue.dividedBy(newVaultDebtAmount);
+        const newVaultCollRatio = oracleValueOfNewVaultCollateral.dividedBy(newVaultDebtAmount);
         expect(newVaultCollRatio.toNumber()).to.be.greaterThan(desiredCollRatio * 0.9999);
         expect(newVaultCollRatio.toNumber()).to.be.lessThan(desiredCollRatio * 1.0001);
       });
