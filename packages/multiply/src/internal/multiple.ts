@@ -1,38 +1,48 @@
 import { BigNumber } from 'bignumber.js';
-import { DesiredCDPState, MarketParams, VaultInfo } from './types';
+import { one } from './constants';
+import { logger } from './logger';
+import { MultipleChangeResult, MultipleChangeParams } from './types';
 
-function logger(method: string) {
-  return (entries: [string, BigNumber.Value, number | undefined][]) => {
-    for (const [info, val, precision] of entries) {
-      const value = new BigNumber(val);
-      console.log(`${method}: ${info} - ${precision ? value.toFixed(precision) : value.toFixed()}`);
-    }
-  };
-}
+export function calculateIncrease(params: MultipleChangeParams): MultipleChangeResult {
+  const result = calculateMultipleIncrease(params);
 
-const one = new BigNumber(1);
-
-export function calculateMultipleIncrease(
-  marketParams: MarketParams,
-  vault: VaultInfo,
-  desiredState: DesiredCDPState,
-  debug = false,
-): Array<BigNumber> {
-  const log = logger('calculateParamsIncreaseMP');
-  const { oraclePrice, marketPrice, slippage, OF, FF } = marketParams;
-  if (debug) {
-    log([
-      ['oraclePrice', oraclePrice, 2],
-      ['marketPrice', marketPrice, 2],
-      ['OF', OF, 5],
-      ['FF', FF, 5],
-      ['currentColl', vault.currentCollateral, 2],
-      ['currentDebt', vault.currentDebt, 2],
-      ['requiredCollRatio', desiredState.requiredCollRatio, 2],
-      ['slippage', slippage, 2],
-    ]);
+  const { currentCollateral, currentDebt, minCollRatio } = params.vault;
+  const newDebt = new BigNumber(currentDebt).plus(result.debtDelta);
+  const currentCollateralValue = new BigNumber(currentCollateral).times(
+    params.marketParams.oraclePrice,
+  );
+  if (!currentCollateralValue.div(newDebt).gt(minCollRatio)) {
+    return { ...result, skipFL: false };
   }
 
+  const marketParams = { ...params.marketParams, FF: new BigNumber(0) };
+  return { ...calculateMultipleDecrease({ ...params, marketParams }), skipFL: true };
+}
+
+export function calculateDecrease(params: MultipleChangeParams): MultipleChangeResult {
+  const result = calculateMultipleDecrease(params);
+
+  const { currentCollateral, currentDebt, minCollRatio } = params.vault;
+  const collateralLeft = new BigNumber(currentCollateral).minus(result.collateralDelta);
+  const collateralLeftValue = collateralLeft.times(params.marketParams.oraclePrice);
+  if (!collateralLeftValue.div(currentDebt).gt(minCollRatio)) {
+    return { ...result, skipFL: false };
+  }
+
+  const marketParams = { ...params.marketParams, FF: new BigNumber(0) };
+  return { ...calculateMultipleDecrease({ ...params, marketParams }), skipFL: true };
+}
+
+function calculateMultipleIncrease({
+  marketParams,
+  vault,
+  desiredState,
+  debug,
+}: MultipleChangeParams): Omit<MultipleChangeResult, 'skipFL'> {
+  const log = logger('calculateParamsIncreaseMP');
+  debug && log([marketParams, vault, desiredState]);
+
+  const { oraclePrice, marketPrice, slippage, OF, FF } = marketParams;
   const { requiredCollRatio, providedDai = 0, providedCollateral = 0 } = desiredState;
   const currentColl = new BigNumber(vault.currentCollateral).plus(providedCollateral);
   const currentDebt = new BigNumber(vault.currentDebt).minus(providedDai);
@@ -41,7 +51,7 @@ export function calculateMultipleIncrease(
   const oraclePriceWithFee = new BigNumber(oraclePrice).times(one.minus(OF));
 
   // ((c * op - rr * d) * mps + opf * dd) / (mps * rr * (1 + FF) - opf)
-  const debt = currentColl
+  const debtDelta = currentColl
     .times(oraclePrice)
     .minus(currentDebt.times(requiredCollRatio))
     .times(marketPriceWithSlippage)
@@ -53,38 +63,23 @@ export function calculateMultipleIncrease(
         .minus(oraclePriceWithFee),
     );
 
-  const oasisFee = new BigNumber(providedDai).plus(debt.times(one.plus(FF))).times(OF);
-  const flashLoanFee = debt.times(FF);
-  const collateral = debt.times(one.minus(OF)).div(marketPriceWithSlippage);
-  if (debug) {
-    log([
-      ['computed debt', debt, 2],
-      ['compulted collateral', collateral, 2],
-    ]);
-  }
-  return [debt, collateral, oasisFee, flashLoanFee];
+  const oazoFee = new BigNumber(providedDai).plus(debtDelta.times(one.plus(FF))).times(OF);
+  const loanFee = debtDelta.times(FF);
+  const collateralDelta = debtDelta.times(one.minus(OF)).div(marketPriceWithSlippage);
+
+  debug && log([{ debtDelta, collateralDelta }]);
+
+  return { debtDelta, collateralDelta, oazoFee, loanFee };
 }
 
-export function calculateMultipleDecrease(
-  marketParams: MarketParams,
-  vault: VaultInfo,
-  desiredState: DesiredCDPState,
-  // currentColl: BigNumber,
-  // currentDebt: BigNumber,
-  // requiredCollRatio: BigNumber,
-  // depositDai = new BigNumber(0),
-  debug = false,
-): Array<BigNumber> {
-  if (debug) {
-    // console.log('calculateParamsDecreaseMP.oraclePrice', oraclePrice.toFixed(2));
-    // console.log('calculateParamsDecreaseMP.marketPrice', marketPrice.toFixed(2));
-    // console.log('calculateParamsDecreaseMP.OF', OF.toFixed(5));
-    // console.log('calculateParamsDecreaseMP.FF', FF.toFixed(5));
-    // console.log('calculateParamsDecreaseMP.currentColl', currentColl.toFixed(2));
-    // console.log('calculateParamsDecreaseMP.currentDebt', currentDebt.toFixed(2));
-    // console.log('calculateParamsDecreaseMP.requiredCollRatio', requiredCollRatio.toFixed(2));
-    // console.log('calculateParamsDecreaseMP.slippage', slippage.toFixed(2));
-  }
+function calculateMultipleDecrease({
+  marketParams,
+  vault,
+  desiredState,
+  debug,
+}: MultipleChangeParams): Omit<MultipleChangeResult, 'skipFL'> {
+  const log = logger('calculateParamsDecreaseMP');
+  debug && log([marketParams, vault, desiredState]);
 
   const { oraclePrice, marketPrice, slippage, OF, FF } = marketParams;
   const marketPriceSlippage = new BigNumber(marketPrice).times(one.minus(slippage));
@@ -95,7 +90,7 @@ export function calculateMultipleDecrease(
 
   // mps (c * op - rr * d) / (op * (1 + FF + OF + OF * FF) - mps * rr) + dd
   const feeMultiple = one.plus(FF).times(one.plus(OF));
-  const debt = marketPriceSlippage
+  const debtDelta = marketPriceSlippage
     .times(currentColl.times(oraclePrice).minus(currentDebt.times(requiredCollRatio)))
     .div(
       new BigNumber(oraclePrice)
@@ -103,13 +98,16 @@ export function calculateMultipleDecrease(
         .minus(marketPriceSlippage.times(requiredCollRatio)),
     )
     .plus(providedDai);
+  const collateralDelta = debtDelta.times(one.plus(OF).plus(FF)).div(marketPriceSlippage);
+  const oazoFee = debtDelta.times(one.plus(FF)).times(OF);
+  const loanFee = debtDelta.times(FF);
 
-  const collateral = debt.times(one.plus(OF).plus(FF)).div(marketPriceSlippage);
-  const ourFee = debt.times(one.plus(FF)).times(OF);
-  const flashLoanFee = debt.times(FF);
-  if (debug) {
-    console.log('Computed: calculateParamsDecreaseMP.debt', debt.toFixed(4));
-    console.log('Computed: calculateParamsDecreaseMP.collateral', collateral.toFixed(4));
-  }
-  return [debt, collateral, ourFee, flashLoanFee];
+  debug && log([{ debtDelta, collateralDelta }]);
+
+  return {
+    debtDelta: debtDelta.negated(),
+    collateralDelta: collateralDelta.negated(),
+    oazoFee,
+    loanFee,
+  };
 }

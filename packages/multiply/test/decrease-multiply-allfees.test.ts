@@ -1,10 +1,7 @@
 import { expect } from 'chai';
-require('mocha');
-import * as _chai from 'chai';
 import { BigNumber } from 'bignumber.js';
 import { getMultiplyParams } from './../src/index';
 import { DesiredCDPState, MarketParams, VaultInfo } from '../src/internal/types';
-_chai.should();
 
 function vaultCollRatio(vaultInfo: VaultInfo, marketParams: MarketParams) {
   return new BigNumber(vaultInfo.currentCollateral)
@@ -26,7 +23,7 @@ const requiredCollRatio = 2.2;
 describe(`decrease multiple, from ${currentCollRatio} to ${requiredCollRatio}`, () => {
   it(`should calculate amounts that leads to ${requiredCollRatio} coll ratio`, async () => {
     const desiredCdpState: DesiredCDPState = { requiredCollRatio };
-    const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, true);
+    const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
     const oracleValueOfNewVaultCollateral = retVal.collateralDelta
       .plus(vaultInfo.currentCollateral)
       .times(marketParams.oraclePrice);

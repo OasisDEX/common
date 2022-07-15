@@ -1,11 +1,8 @@
-require('mocha');
 import { expect } from 'chai';
-import * as _chai from 'chai';
+import BigNumber from 'bignumber.js';
 import { getCloseToCollateralParams } from '../src/index';
 import { MarketParams, VaultInfoForClosing } from '../src/internal/types';
-import { DEBT_OFFSET_MULTIPLIER } from '../src/calculateMultParams';
-import BigNumber from 'bignumber.js';
-_chai.should();
+import { DEBT_OFFSET_MULTIPLIER } from '../src/calculate-multiply-params';
 
 describe('getCloseToCollateralParams skipFF = true', async () => {
   const marketParams: MarketParams = {

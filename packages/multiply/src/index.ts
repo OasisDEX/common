@@ -1,7 +1,7 @@
-export type { CloseToParams, MarketParams, DesiredCDPState, VaultInfo } from './internal/types';
+export * from './internal/types';
 
 export {
   getMultiplyParams,
   getCloseToDaiParams,
   getCloseToCollateralParams,
-} from './calculateMultParams';
+} from './calculate-multiply-params';

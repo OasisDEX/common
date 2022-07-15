@@ -40,3 +40,18 @@ export interface CloseToParams {
   oazoFee: BigNumber;
   skipFL: boolean;
 }
+
+export interface MultipleChangeParams {
+  marketParams: MarketParams;
+  vault: VaultInfo;
+  desiredState: DesiredCDPState;
+  debug?: boolean;
+}
+
+export interface MultipleChangeResult {
+  debtDelta: BigNumber;
+  collateralDelta: BigNumber;
+  oazoFee: BigNumber;
+  loanFee: BigNumber;
+  skipFL: boolean;
+}

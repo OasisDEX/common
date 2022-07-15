@@ -1,11 +1,8 @@
 import { expect } from 'chai';
-require('mocha');
-import * as _chai from 'chai';
 import BigNumber from 'bignumber.js';
 import { getCloseToDaiParams } from './../src/index';
 import { MarketParams, VaultInfo } from '../src/internal/types';
-import { DEBT_OFFSET_MULTIPLIER } from '../src/calculateMultParams';
-_chai.should();
+import { DEBT_OFFSET_MULTIPLIER } from '../src/calculate-multiply-params';
 
 describe('getCloseToDaiParams all fees', async () => {
   const marketParams: MarketParams = {

@@ -1,11 +1,9 @@
 import { expect } from 'chai';
-require('mocha');
-import * as _chai from 'chai';
 import { BigNumber } from 'bignumber.js';
 import { getMultiplyParams } from './../src/index';
 import { DesiredCDPState, MarketParams, VaultInfo } from '../src/internal/types';
-_chai.should();
-const one = new BigNumber(1);
+import { one } from '../src/internal/constants';
+
 describe('getMultiplyParams no fees, slippage, zero price divergence/', async () => {
   const marketParams: MarketParams = {
     marketPrice: 3000,
@@ -92,7 +90,7 @@ describe('getMultiplyParams no fees, slippage, zero price divergence/', async ()
       expect(finalCollVal.dividedBy(finalDebt).toNumber()).to.be.lessThan(2.0001);
     });
 
-    it.only('should end with correct collateralisation ratio when changing collateralisation ratio from 3 to 2 and providing 10000 dai', async () => {
+    it.skip('should end with correct collateralisation ratio when changing collateralisation ratio from 3 to 2 and providing 10000 dai', async () => {
       const desiredCdpState: DesiredCDPState = { requiredCollRatio: 2, providedDai: 10000 };
       const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, true);
       const finalDebt = retVal.debtDelta.plus(vaultInfo.currentDebt);
@@ -117,7 +115,7 @@ describe('getMultiplyParams no fees, slippage, zero price divergence/', async ()
 
     it('should have debt delta equal 7500 DAI when withdrawing 10000 DAI worth of collateral and changing collateralisation ratio to 5', async () => {
       const desiredCdpState: DesiredCDPState = {
-        requiredCollRatio: 4,
+        requiredCollRatio: 5,
         withdrawColl: one.times(10000).dividedBy(marketParams.marketPrice),
       };
       const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
