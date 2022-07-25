@@ -14,8 +14,7 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "watch": "tsc -b -w",
-    "test": "mocha -r ts-node/register 'test/**/*.ts'"
+    "watch": "tsc -b -w"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
