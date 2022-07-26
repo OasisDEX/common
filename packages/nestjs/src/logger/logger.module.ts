@@ -8,14 +8,7 @@ import { LoggerService } from './logger.service';
 export class LoggerModule extends createDynamicRootModule<LoggerModuleOptions>(
   LoggerProvider.MODULE_OPTIONS,
   {
-    providers: [
-      LoggerService,
-      {
-        provide: LoggerProvider.GENERAL_OPTIONS,
-        useFactory: (options: LoggerModuleOptions) => options?.general,
-        inject: [LoggerProvider.MODULE_OPTIONS],
-      },
-    ],
+    providers: [LoggerService],
     exports: [LoggerService],
   },
 ) {}
