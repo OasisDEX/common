@@ -1,10 +1,18 @@
 import { GraphQLClient, Variables } from 'graphql-request';
 import { isError, tryF } from 'ts-try';
 import retry from 'async-retry';
-import { GraphQLPaginableField, GraphQLPaginationRequest } from './graphql.types';
+import {
+  GraphQLPaginableField,
+  GraphQLPaginationRequest,
+  PaginationVariables,
+} from './graphql.types';
 
 export class GraphQLPaginationClient extends GraphQLClient {
-  public async *paginate<R extends GraphQLPaginableField, A extends string = string, V = Variables>(
+  public async *paginate<
+    R extends GraphQLPaginableField,
+    A extends string = string,
+    V extends Variables = Variables
+  >(
     { document, variables, requestHeaders }: GraphQLPaginationRequest<V>,
     accessor: A,
     limit = 1000,
@@ -15,9 +23,9 @@ export class GraphQLPaginationClient extends GraphQLClient {
       const result = await tryF(() =>
         retry(
           () =>
-            this.request<Record<A, R[]>, V>(
+            this.request<Record<A, R[]>, PaginationVariables<V>>(
               document,
-              { ...variables, cursor, limit } as V,
+              { ...variables, cursor, limit } as PaginationVariables<V>,
               requestHeaders,
             ),
           {

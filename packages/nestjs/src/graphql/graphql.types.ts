@@ -9,3 +9,8 @@ export interface GraphQLPaginationRequest<V = Variables> {
   variables?: V;
   requestHeaders?: HeadersInit;
 }
+
+export type PaginationVariables<V extends Variables> = V & {
+  cursor: string | undefined;
+  limit: number;
+};
