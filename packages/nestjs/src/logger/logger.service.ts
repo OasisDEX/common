@@ -6,17 +6,20 @@ import {
   LoggerService as NestLoggerService,
   Scope,
 } from '@nestjs/common';
-import { GeneralLoggerOptions, HintTags, LoggerProvider } from './logger.types';
+import { HintTags, LoggerModuleOptions, LoggerProvider } from './logger.types';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class LoggerService<M = string> implements NestLoggerService {
   private readonly _console: ConsoleLogger;
+  private readonly _local?: boolean;
 
   constructor(
-    @Inject(LoggerProvider.GENERAL_OPTIONS)
-    opts?: GeneralLoggerOptions,
+    @Inject(LoggerProvider.MODULE_OPTIONS)
+    opts?: LoggerModuleOptions,
   ) {
-    this._console = new ConsoleLogger(opts?.context || '', { timestamp: opts?.timestamp });
+    const { general, local } = opts || {};
+    this._console = new ConsoleLogger(general?.context || '', { timestamp: general?.timestamp });
+    this._local = local;
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -36,19 +39,8 @@ export class LoggerService<M = string> implements NestLoggerService {
       // provide backwards compatibility w/ default LoggerService
       const [context, tags] =
         typeof _tags === 'string' ? [_tags, {}] : [this._console['context'], _tags || {}];
-      if (process.env.LOCAL) {
-        this._console[level](`${message}. ${JSON.stringify({ level, message, context, tags })}`);
-        return;
-      }
-
-      // Log level does not matter because it is set in `level`
-      console.log(JSON.stringify({ level, message, context, tags }));
+      const json = JSON.stringify({ level, message, context, tags });
+      this._local ? this._console[level](`${message}. ${json}`) : console.log(json); // Log level does not matter because it is set in `level`
     };
-  }
-
-  private formatLocal(tags: Record<string, any>) {
-    return Object.entries(tags)
-      .map(([k, v]) => `${k}: ${v}.`)
-      .join(' ');
   }
 }

@@ -1,10 +1,10 @@
 export enum LoggerProvider {
   MODULE_OPTIONS = 'LOGGER_MODULE_OPTIONS',
-  GENERAL_OPTIONS = 'LOGGER_GENERAL_OPTIONS',
 }
 
 export interface LoggerModuleOptions {
   general?: GeneralLoggerOptions;
+  local?: boolean;
 }
 
 export interface GeneralLoggerOptions {
