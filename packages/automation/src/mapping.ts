@@ -36,6 +36,8 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
   },
 };
 
+
+
 export const defaultCommandTypeMapping = {
   [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
   [CommandContractType.BasicBuyCommand]: [
@@ -49,6 +51,26 @@ export const defaultCommandTypeMapping = {
     'uint32',
   ],
   [CommandContractType.BasicSellCommand]: [
+    'uint256',
+    'uint16',
+    'uint256',
+    'uint256',
+    'uint256',
+    'bool',
+    'uint64',
+    'uint32',
+  ],
+  [CommandContractType.CMBasicSellCommand]: [
+    'uint256',
+    'uint16',
+    'uint256',
+    'uint256',
+    'uint256',
+    'bool',
+    'uint64',
+    'uint32',
+  ],
+  [CommandContractType.CMBasicBuyCommand]: [
     'uint256',
     'uint16',
     'uint256',
