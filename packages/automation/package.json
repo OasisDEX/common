@@ -1,6 +1,6 @@
 {
   "name": "@oasisdex/automation",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "The set of utilities for Oasis automation",
   "homepage": "https://github.com/OasisDEX/common#readme",
   "main": "lib/src/index.js",
