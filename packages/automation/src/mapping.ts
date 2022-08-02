@@ -25,6 +25,8 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
     '0x3da3e38bbe1100de5247617b4554115c0e452416': { type: CommandContractType.BasicSellCommand },
     '0xb52b1c61c667d570ff62745b19a0c58011a4b32c': { type: CommandContractType.BasicSellCommand },
     '0x2ecc5086ce10194175607d0d082fc27c3416693d': { type: CommandContractType.BasicSellCommand },
+    '0x15c595cE24576924b2302BBcAD552E3dAdFA4469': { type: CommandContractType.CMBasicSellCommand },
+    '0xcbAAAe60EeAB8B3DF33fA84f704C0c43CEC29F73': { type: CommandContractType.CMBasicBuyCommand },
   },
   [EthereumNetwork.MAINNET]: {
     '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
