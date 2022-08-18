@@ -1,7 +1,7 @@
 # `automation`
 
 The package provides a set of utility functions to handle
-interactions with Automation smart conrtacts.
+interactions with Automation smart contracts.
 
 ## Usage
 

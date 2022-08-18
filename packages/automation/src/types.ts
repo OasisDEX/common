@@ -18,6 +18,10 @@ export enum TriggerType {
   BasicSell = 4,
 }
 
+export enum TriggerGroupType {
+  ConstantMultiple = 1,
+}
+
 export type ParamDefinition = ReadonlyArray<string | ethers.utils.ParamType>;
 
 export type CommandTypeMapping = Record<CommandContractType, ParamDefinition>;
