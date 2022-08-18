@@ -6,4 +6,4 @@ export {
 } from './abi-coding';
 export { getCommandAddresses } from './mapping';
 
-export { CommandContractType, TriggerType } from './types';
+export { CommandContractType, TriggerType, TriggerGroupType } from './types';
