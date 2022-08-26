@@ -7,6 +7,7 @@ export enum EthereumNetwork {
 
 export enum CommandContractType {
   CloseCommand = 'CloseCommand',
+  AutoTakeProfitCommand = 'AutoTakeProfitCommand',
   BasicBuyCommand = 'BasicBuyCommand',
   BasicSellCommand = 'BasicSellCommand',
 }
