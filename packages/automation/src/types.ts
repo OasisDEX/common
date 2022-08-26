@@ -7,6 +7,7 @@ export enum EthereumNetwork {
 
 export enum CommandContractType {
   CloseCommand = 'CloseCommand',
+  AutoTakeProfitCommand = 'AutoTakeProfitCommand',
   BasicBuyCommand = 'BasicBuyCommand',
   BasicSellCommand = 'BasicSellCommand',
 }
@@ -16,6 +17,8 @@ export enum TriggerType {
   StopLossToDai = 2,
   BasicBuy = 3,
   BasicSell = 4,
+  AutoTakeProfitToCollateral = 7,
+  AutoTakeProfitToDai = 8,
 }
 
 export enum TriggerGroupType {
