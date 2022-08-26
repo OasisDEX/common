@@ -17,6 +17,8 @@ export enum TriggerType {
   StopLossToDai = 2,
   BasicBuy = 3,
   BasicSell = 4,
+  AutoTakeProfitToCollateral = 7,
+  AutoTakeProfitToDai = 8,
 }
 
 export enum TriggerGroupType {
