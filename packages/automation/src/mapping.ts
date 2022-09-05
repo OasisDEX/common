@@ -5,7 +5,7 @@ import {
   ParamDefinition,
 } from './types';
 
-// The addresses must be in lowercase!
+// The addresses must be in lowercase
 export const commandAddressMapping: Record<number, Record<string, CommandContractInfo>> = {
   [EthereumNetwork.GOERLI]: {
     '0xd0ca9883e4918894dd517847eb3673d656ec9f2d': { type: CommandContractType.CloseCommand },
