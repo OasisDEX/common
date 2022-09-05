@@ -17,6 +17,7 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
     '0xe3ae7218d8e4a482e212ef1cbf2fcd0fb9882cc7': { type: CommandContractType.BasicBuyCommand },
     '0x98b2b67795171380a4bfb5b8cd2f59aea768b3ed': { type: CommandContractType.BasicBuyCommand },
     '0x2003dc19056ba986b7d10ab4704897d685dd62d9': { type: CommandContractType.BasicBuyCommand },
+    '0xf19ae4c34e0e0dB13D074876A12339e86DC12f06': { type: CommandContractType.BasicBuyCommand },
     '0xd4f94e013c7f47b989ea79c6527e065c027794c7': {
       type: CommandContractType.BasicSellCommand,
       overwrite: ['uint256', 'uint16', 'uint256', 'uint256', 'uint256', 'bool', 'uint64'],
@@ -25,6 +26,7 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
     '0x3da3e38bbe1100de5247617b4554115c0e452416': { type: CommandContractType.BasicSellCommand },
     '0xb52b1c61c667d570ff62745b19a0c58011a4b32c': { type: CommandContractType.BasicSellCommand },
     '0x2ecc5086ce10194175607d0d082fc27c3416693d': { type: CommandContractType.BasicSellCommand },
+    '0x940a17668197f71DcAefD77Bf8c43c001c77f5AC': { type: CommandContractType.BasicSellCommand },
     '0x02b7391cdd0c8a75ecfc278d387e3dcc3d796340': {
       type: CommandContractType.AutoTakeProfitCommand,
     },
@@ -33,9 +35,11 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
     '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
     '0x05fb55553e54afb33a5acc1f23b1f4fffd0d1af9': { type: CommandContractType.BasicBuyCommand },
     '0xd36729c7cac24e47dc32ffd7d433f965caaeb912': { type: CommandContractType.BasicBuyCommand },
+    '0x31285A87fB70a62b5AaA43199e53221c197E1e3f': { type: CommandContractType.BasicBuyCommand },
     '0xa6bd41b821972e83d30598c5683efbbe6ad70fb8': { type: CommandContractType.BasicSellCommand },
     '0xf9469da48f9d2ea87e195e3dd522226e876a1185': { type: CommandContractType.BasicSellCommand },
     '0x5588d89a3c68e5a87cafe6b79ef8caa667a702f1': { type: CommandContractType.BasicSellCommand },
+    '0x7c0d6d8d6eae8bcb106afdb3a21df5c254c6c0b2': { type: CommandContractType.BasicSellCommand },
   },
 };
 
