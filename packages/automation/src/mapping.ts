@@ -5,7 +5,6 @@ import {
   ParamDefinition,
 } from './types';
 
-// The addresses must be in lowercase
 export const commandAddressMapping: Record<
   number,
   Record<string, CommandContractInfo>
