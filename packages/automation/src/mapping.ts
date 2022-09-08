@@ -35,7 +35,7 @@ export const commandAddressMapping: Record<number, Record<string, CommandContrac
     '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
     '0x05fb55553e54afb33a5acc1f23b1f4fffd0d1af9': { type: CommandContractType.BasicBuyCommand },
     '0xd36729c7cac24e47dc32ffd7d433f965caaeb912': { type: CommandContractType.BasicBuyCommand },
-    '0x31285A87fB70a62b5AaA43199e53221c197E1e3f': { type: CommandContractType.BasicBuyCommand },
+    '0x31285a87fb70a62b5aaa43199e53221c197e1e3f': { type: CommandContractType.BasicBuyCommand },
     '0xa6bd41b821972e83d30598c5683efbbe6ad70fb8': { type: CommandContractType.BasicSellCommand },
     '0xf9469da48f9d2ea87e195e3dd522226e876a1185': { type: CommandContractType.BasicSellCommand },
     '0x5588d89a3c68e5a87cafe6b79ef8caa667a702f1': { type: CommandContractType.BasicSellCommand },
