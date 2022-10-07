@@ -30,9 +30,6 @@ export const commandAddressMapping: Record<
       '0xb52b1c61c667d570ff62745b19a0c58011a4b32c': { type: CommandContractType.BasicSellCommand },
       '0x2ecc5086ce10194175607d0d082fc27c3416693d': { type: CommandContractType.BasicSellCommand },
       '0x940a17668197f71dcaefd77bf8c43c001c77f5ac': { type: CommandContractType.BasicSellCommand },
-      '0x02b7391cdd0c8a75ecfc278d387e3dcc3d796340': {
-        type: CommandContractType.AutoTakeProfitCommand,
-      },
       '0xc3c42b67e4cbd6226b743352144d4b285c851f6e': {
         type: CommandContractType.AutoTakeProfitCommand,
       },
