@@ -35,7 +35,6 @@ export const commandAddressMapping: Record<
       },
       '0xc3c42b67e4cbd6226b743352144d4b285c851f6e': {
         type: CommandContractType.AutoTakeProfitCommand,
-        overwrite: ['uint256', 'uint16', 'uint256', 'uint32'],
       },
     },
     [EthereumNetwork.MAINNET]: {
