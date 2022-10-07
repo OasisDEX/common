@@ -33,6 +33,9 @@ export const commandAddressMapping: Record<
       '0x02b7391cdd0c8a75ecfc278d387e3dcc3d796340': {
         type: CommandContractType.AutoTakeProfitCommand,
       },
+      '0xc3c42b67e4cbd6226b743352144d4b285c851f6e': {
+        type: CommandContractType.AutoTakeProfitCommand,
+      }
     },
     [EthereumNetwork.MAINNET]: {
       '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
