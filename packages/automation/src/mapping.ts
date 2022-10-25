@@ -46,6 +46,9 @@ export const commandAddressMapping: Record<
       '0xcb1e2f1df93bb5640562dad05c15f7677bf17297': {
         type: CommandContractType.AutoTakeProfitCommand,
       },
+      '0xc6ccab5d277d4780998362a418a86032548132b8': {
+        type: CommandContractType.AutoTakeProfitCommand,
+      },
     },
   }).map(([network, mapping]) => [
     network,
