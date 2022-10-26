@@ -129,7 +129,7 @@ export function getCommandContractInfo(address: string, network: number): Comman
   const lowercaseAddress = address.toLowerCase();
   if (!(lowercaseAddress in mappingForNetwork)) {
     throw new Error(
-      `Command address ${lowercaseAddress} for network ${network} not found. Supported Addresses: ${JSON.stringify(
+      `Command address ${lowercaseAddress} for network ${network} not found. Supported Addresses:${JSON.stringify(
         mappingForNetwork,
       )}`,
     );
