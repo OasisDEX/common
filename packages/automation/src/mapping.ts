@@ -33,7 +33,7 @@ export const commandAddressMapping: Record<
       '0x02b7391cdd0c8a75ecfc278d387e3dcc3d796340': {
         type: CommandContractType.AutoTakeProfitCommand,
       },
-      '0x4c5d2f1db367c9972cd3022b953512ed7677da58': {
+      '0x7b548daF6c7057449a57c08b9d34e352dB220E3B': {
         type: CommandContractType.SimpleAAVESellCommand,
       },
     },
