@@ -33,6 +33,9 @@ export const commandAddressMapping: Record<
       '0x02b7391cdd0c8a75ecfc278d387e3dcc3d796340': {
         type: CommandContractType.AutoTakeProfitCommand,
       },
+      '0x4c5d2f1db367c9972cd3022b953512ed7677da58': {
+        type: CommandContractType.SimpleAAVESellCommand,
+      },
     },
     [EthereumNetwork.MAINNET]: {
       '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
@@ -60,7 +63,7 @@ export const commandAddressMapping: Record<
 
 export const defaultCommandTypeMapping = {
   [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
-  [CommandContractType.SimpleAAVESell]: ['address', 'uint16', 'uint256', 'uint256', 'address'],
+  [CommandContractType.SimpleAAVESellCommand]: ['address', 'uint16', 'uint256', 'uint256', 'address'],
   [CommandContractType.AutoTakeProfitCommand]: ['uint256', 'uint16', 'uint256', 'uint32'],
   [CommandContractType.BasicBuyCommand]: [
     'uint256',

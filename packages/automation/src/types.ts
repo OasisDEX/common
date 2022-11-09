@@ -10,7 +10,7 @@ export enum CommandContractType {
   AutoTakeProfitCommand = 'AutoTakeProfitCommand',
   BasicBuyCommand = 'BasicBuyCommand',
   BasicSellCommand = 'BasicSellCommand',
-  SimpleAAVESell = 'SimpleAAVESell',
+  SimpleAAVESellCommand = 'SimpleAAVESell',
 }
 
 export enum TriggerType {
