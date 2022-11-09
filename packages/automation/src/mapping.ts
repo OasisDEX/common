@@ -60,13 +60,7 @@ export const commandAddressMapping: Record<
 
 export const defaultCommandTypeMapping = {
   [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
-  [CommandContractType.SimpleAAVESell]: [
-    'address', 
-    'uint16', 
-    'uint256', 
-    'uint256', 
-    'address'
-  ],
+  [CommandContractType.SimpleAAVESell]: ['address', 'uint16', 'uint256', 'uint256', 'address'],
   [CommandContractType.AutoTakeProfitCommand]: ['uint256', 'uint16', 'uint256', 'uint32'],
   [CommandContractType.BasicBuyCommand]: [
     'uint256',
