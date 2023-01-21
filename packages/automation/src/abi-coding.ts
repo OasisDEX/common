@@ -1,5 +1,10 @@
 import { utils } from 'ethers';
-import { getDefinitionForCommandAddress, getDefinitionForCommandType } from './mapping';
+import {
+  commandAddressMapping,
+  commandTypeJsonMapping,
+  getDefinitionForCommandAddress,
+  getDefinitionForCommandType,
+} from './mapping';
 import { CommandContractType } from './types';
 
 export function decodeTriggerData(
@@ -11,9 +16,34 @@ export function decodeTriggerData(
   return utils.defaultAbiCoder.decode(paramTypes, data);
 }
 
+export function decodeTriggerDataAsJson(
+  commandAddress: string,
+  network: number,
+  data: string,
+): utils.Result {
+  const arr: any[] = decodeTriggerData(commandAddress, network, data) as any[];
+  const type = commandAddressMapping[network][commandAddress].type;
+
+  return arr.reduce((prev, curr, idx, {}) => {
+    prev[commandTypeJsonMapping[type][idx]] = curr;
+    return prev;
+  });
+}
+
 export function decodeTriggerDataByType(type: CommandContractType, data: string): utils.Result {
   const paramTypes = getDefinitionForCommandType(type);
   return utils.defaultAbiCoder.decode(paramTypes, data);
+}
+
+export function decodeTriggerDataByTypeAsJson(
+  type: CommandContractType,
+  data: string,
+): utils.Result {
+  const arr: any[] = decodeTriggerDataByType(type, data) as any[];
+  return arr.reduce((prev, curr, idx, {}) => {
+    prev[commandTypeJsonMapping[type][idx]] = curr;
+    return prev;
+  });
 }
 
 export function encodeTriggerData(

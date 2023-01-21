@@ -5,6 +5,49 @@ import {
   ParamDefinition,
 } from './types';
 
+export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
+  [CommandContractType.CloseCommand]: ['cdpId', 'triggerType', 'collRatio'],
+  [CommandContractType.BasicBuyCommand]: [
+    'cdpId',
+    'triggerType',
+    'execCollRatio',
+    'targetCollRatio',
+    'maxBuyPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.BasicSellCommand]: [
+    'cdpId',
+    'triggerType',
+    'execCollRatio',
+    'targetCollRatio',
+    'minSellPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.AutoTakeProfitCommand]: [
+    'cdpId',
+    'triggerType',
+    'executionPrice',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.SimpleAAVESellCommand]: [
+    'positionAddress',
+    'triggerType',
+    'amount',
+    'interval',
+    'recipient',
+  ],
+  [CommandContractType.AaveStopLossCommand]: [
+    'positionAddress',
+    'triggerType',
+    'collateralToken',
+    'debtToken',
+    'slLevel',
+    'maxBaseFeeInGwei',
+  ],
+};
+
 export const commandAddressMapping: Record<
   number,
   Record<string, CommandContractInfo>
@@ -38,7 +81,7 @@ export const commandAddressMapping: Record<
       },
       '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676': {
         type: CommandContractType.AaveStopLossCommand,
-      }
+      },
     },
     [EthereumNetwork.MAINNET]: {
       '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
@@ -57,8 +100,7 @@ export const commandAddressMapping: Record<
       },
       '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676': {
         type: CommandContractType.AaveStopLossCommand,
-      }
-
+      },
     },
   }).map(([network, mapping]) => [
     network,
