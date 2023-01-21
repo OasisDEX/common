@@ -11,6 +11,7 @@ export enum CommandContractType {
   BasicBuyCommand = 'BasicBuyCommand',
   BasicSellCommand = 'BasicSellCommand',
   SimpleAAVESellCommand = 'SimpleAAVESell',
+  AaveStopLossCommand = 'AaveStopLossCommand',
 }
 
 export enum TriggerType {
@@ -21,6 +22,8 @@ export enum TriggerType {
   AutoTakeProfitToCollateral = 7,
   AutoTakeProfitToDai = 8,
   SimpleAAVESell = 9,
+  AaveStopLossToCollateral = 10,
+  AaveStopLossToDebt = 11,
 }
 
 export enum TriggerGroupType {

@@ -36,6 +36,9 @@ export const commandAddressMapping: Record<
       '0x7b548daF6c7057449a57c08b9d34e352dB220E3B': {
         type: CommandContractType.SimpleAAVESellCommand,
       },
+      '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676': {
+        type: CommandContractType.AaveStopLossCommand,
+      }
     },
     [EthereumNetwork.MAINNET]: {
       '0xa553c3f4e65a1fc951b236142c1f69c1bca5bf2b': { type: CommandContractType.CloseCommand },
@@ -52,6 +55,10 @@ export const commandAddressMapping: Record<
       '0xcb1e2f1df93bb5640562dad05c15f7677bf17297': {
         type: CommandContractType.AutoTakeProfitCommand,
       },
+      '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676': {
+        type: CommandContractType.AaveStopLossCommand,
+      }
+
     },
   }).map(([network, mapping]) => [
     network,
@@ -89,6 +96,14 @@ export const defaultCommandTypeMapping = {
     'uint256',
     'bool',
     'uint64',
+    'uint32',
+  ],
+  [CommandContractType.AaveStopLossCommand]: [
+    'address',
+    'uint16',
+    'address',
+    'address',
+    'uint256',
     'uint32',
   ],
 } as const;
