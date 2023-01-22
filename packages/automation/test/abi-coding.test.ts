@@ -2,11 +2,13 @@ import { expect } from 'chai';
 import { BigNumber as EthersBN, constants, utils } from 'ethers';
 import {
   decodeTriggerData,
+  decodeTriggerDataAsJson,
   decodeTriggerDataByType,
+  decodeTriggerDataByTypeAsJson,
   encodeTriggerData,
   encodeTriggerDataByType,
 } from '../src/abi-coding';
-import { commandAddressMapping, getDefinitionForCommandType } from '../src/mapping';
+import { commandAddressMapping, getCommandAddresses, getDefinitionForCommandType } from '../src/mapping';
 import { CommandContractType, EthereumNetwork } from '../src/types';
 
 describe('abi-coding', () => {
@@ -114,5 +116,85 @@ describe('abi-coding', () => {
         expect(EthersBN.from(value).toNumber()).to.eq(targetValues[idx]);
       });
     });
+  });
+
+  describe('toJSON', () => {
+    const closeData = [12, 1, 101];
+    const buyData = [12, 1, 101, 100, 2000, true, 10, 100];
+    const aaveSLData = ["0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676", 1, "0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676", "0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676", 2000, 100];
+    describe('CloseCommand',()=>{
+      const data = encodeTriggerDataByType(CommandContractType.CloseCommand, closeData);
+      it('decodeTriggerDataAsJson converts to correct json', ()=>{
+        const actual = decodeTriggerDataAsJson(getCommandAddresses(network)[CommandContractType.CloseCommand][0] ,network, data);
+        expect(actual).to.deep.eq({
+          cdpId:"12",
+          triggerType:"1",
+          collRatio:"101"
+        });
+      })      
+      it('decodeTriggerDataByTypeAsJson converts to correct json', ()=>{
+        const actual = decodeTriggerDataByTypeAsJson(CommandContractType.CloseCommand, data);
+        expect(actual).to.deep.eq({
+          cdpId:"12",
+          triggerType:"1",
+          collRatio:"101"
+        });
+      })
+    })
+    describe('BasicBuyCommand',()=>{
+      const data = encodeTriggerDataByType(CommandContractType.BasicBuyCommand, buyData);
+      it('decodeTriggerDataAsJson converts to correct json', ()=>{
+        const actual = decodeTriggerDataAsJson(getCommandAddresses(network)[CommandContractType.BasicBuyCommand][2] ,network, data);
+        expect(actual).to.deep.eq({
+          cdpId:"12",
+          triggerType:"1",
+          execCollRatio:"101",
+          maxBaseFeeInGwei:"100",
+          maxBuyPrice:"2000",
+          continous:"true",
+          deviation:"10",
+          targetCollRatio:"100",
+        });
+      })      
+      it('decodeTriggerDataByTypeAsJson converts to correct json', ()=>{
+        const actual = decodeTriggerDataByTypeAsJson(CommandContractType.BasicBuyCommand, data);
+        expect(actual).to.deep.eq({
+          cdpId:"12",
+          triggerType:"1",
+          execCollRatio:"101",
+          maxBaseFeeInGwei:"100",
+          maxBuyPrice:"2000",
+          continous:"true",
+          deviation:"10",
+          targetCollRatio:"100",
+        });
+      })
+    })
+    describe('AaveStopLossCommand',()=>{
+      const data = encodeTriggerDataByType(CommandContractType.AaveStopLossCommand, aaveSLData);
+      it('decodeTriggerDataAsJson converts to correct json', ()=>{
+        const actual = decodeTriggerDataAsJson(getCommandAddresses(network)[CommandContractType.AaveStopLossCommand][0] ,network, data);
+        expect(actual).to.deep.eq({
+          positionAddress:"0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676",
+          triggerType:"1",
+          collateralToken:"0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676",
+          debtToken:"0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676",
+          maxBaseFeeInGwei:"100",
+          slLevel:"2000",
+        });
+      })      
+      it('decodeTriggerDataByTypeAsJson converts to correct json', ()=>{
+        const actual = decodeTriggerDataByTypeAsJson(CommandContractType.AaveStopLossCommand, data);
+        expect(actual).to.deep.eq({
+          positionAddress:"0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676",
+          triggerType:"1",
+          collateralToken:"0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676",
+          debtToken:"0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676",
+          maxBaseFeeInGwei:"100",
+          slLevel:"2000",
+        });
+      })
+    })
+
   });
 });

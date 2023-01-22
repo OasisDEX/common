@@ -24,10 +24,10 @@ export function decodeTriggerDataAsJson(
   const arr: any[] = decodeTriggerData(commandAddress, network, data) as any[];
   const type = commandAddressMapping[network][commandAddress].type;
 
-  return arr.reduce((prev, curr, idx, {}) => {
-    prev[commandTypeJsonMapping[type][idx]] = curr;
-    return prev;
-  });
+  return arr.reduce((acc, curr, idx) => {
+    acc[commandTypeJsonMapping[type][idx]] = curr.toString();
+    return acc;
+  },{});
 }
 
 export function decodeTriggerDataByType(type: CommandContractType, data: string): utils.Result {
@@ -40,10 +40,11 @@ export function decodeTriggerDataByTypeAsJson(
   data: string,
 ): utils.Result {
   const arr: any[] = decodeTriggerDataByType(type, data) as any[];
-  return arr.reduce((prev, curr, idx, {}) => {
-    prev[commandTypeJsonMapping[type][idx]] = curr;
-    return prev;
-  });
+  
+  return arr.reduce((acc, curr, idx) => {
+    acc[commandTypeJsonMapping[type][idx]] = curr.toString();
+    return acc;
+  },{});
 }
 
 export function encodeTriggerData(
