@@ -203,7 +203,7 @@ describe('abi-coding', () => {
           collateralToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
           debtToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
           maxBaseFeeInGwei: '100',
-          slLevel: '2000',
+          ltv: '2000',
         });
       });
       it('decodeTriggerDataByTypeAsJson converts to correct json', () => {
@@ -214,7 +214,7 @@ describe('abi-coding', () => {
           collateralToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
           debtToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
           maxBaseFeeInGwei: '100',
-          slLevel: '2000',
+          ltv: '2000',
         });
       });
     });
