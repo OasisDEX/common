@@ -3,6 +3,8 @@ export {
   decodeTriggerDataByType,
   encodeTriggerData,
   encodeTriggerDataByType,
+  decodeTriggerDataAsJson,
+  decodeTriggerDataByTypeAsJson,
 } from './abi-coding';
 export { getCommandAddresses } from './mapping';
 
