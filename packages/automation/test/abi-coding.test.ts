@@ -183,7 +183,7 @@ describe('abi-coding', () => {
           execCollRatio: '101',
           maxBaseFeeInGwei: '100',
           maxBuyPrice: '2000',
-          continous: 'true',
+          continuous: 'true',
           deviation: '10',
           targetCollRatio: '100',
         });
