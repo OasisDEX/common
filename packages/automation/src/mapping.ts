@@ -46,7 +46,6 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'collateralToken',
     'debtToken',
     'ltv',
-    'maxBaseFeeInGwei',
   ],
 };
 
@@ -151,7 +150,6 @@ export const defaultCommandTypeMapping = {
     'address',
     'address',
     'uint256',
-    'uint32',
   ],
 } as const;
 
