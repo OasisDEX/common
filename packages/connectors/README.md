@@ -7,5 +7,5 @@
 ```
 const connectors = require('connectors');
 
-// TODO: DEMONSTRATE API !
+// TODO: DEMONSTRATE API !!
 ```
