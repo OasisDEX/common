@@ -144,13 +144,7 @@ export const defaultCommandTypeMapping = {
     'uint64',
     'uint32',
   ],
-  [CommandContractType.AaveStopLossCommand]: [
-    'address',
-    'uint16',
-    'address',
-    'address',
-    'uint256',
-  ],
+  [CommandContractType.AaveStopLossCommand]: ['address', 'uint16', 'address', 'address', 'uint256'],
 } as const;
 
 export function getCommandAddresses(network: number): Record<CommandContractType, string[]> {
