@@ -34,6 +34,7 @@
     "ethereumjs-util": "^7.0.7",
     "ethjs-util": "^0.1.6",
     "hdkey": "^2.0.1",
+    "lerna": "^6.5.1",
     "lodash": "^4.17.10",
     "magic-sdk": "^3.0.1",
     "semaphore-async-await": "^1.5.1",
