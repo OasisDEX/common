@@ -41,23 +41,6 @@ function calculateIncrease(
     desiredCdp.providedDai,
     debug,
   );
-  const newDebt = vaultInfo.currentDebt.plus(debtDelta);
-  const currentCollateralValue = vaultInfo.currentCollateral.times(marketParams.oraclePrice);
-  if (currentCollateralValue.dividedBy(newDebt).gt(vaultInfo.minCollRatio)) {
-    skipFL = true;
-    [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsIncreaseMP(
-      marketParams.oraclePrice,
-      marketParams.marketPrice,
-      marketParams.OF,
-      new BigNumber(0), //no FL Fee
-      vaultInfo.currentCollateral.plus(desiredCdp.providedCollateral),
-      vaultInfo.currentDebt.minus(desiredCdp.providedDai),
-      desiredCdp.requiredCollRatio,
-      marketParams.slippage,
-      desiredCdp.providedDai,
-      debug,
-    );
-  }
   return {
     params: [debtDelta, collateralDelta, oazoFee, loanFee],
     skipFL,
@@ -93,23 +76,6 @@ function calculateDecrease(
     debug,
   );
 
-  const collateralLeft = vaultInfo.currentCollateral.minus(collateralDelta);
-  const collateralLeftValue = collateralLeft.times(marketParams.oraclePrice);
-  if (collateralLeftValue.dividedBy(vaultInfo.currentDebt).gt(vaultInfo.minCollRatio)) {
-    skipFL = true;
-    [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsDecreaseMP(
-      marketParams.oraclePrice,
-      marketParams.marketPrice,
-      marketParams.OF,
-      new BigNumber(0), //no FL Fee
-      vaultInfo.currentCollateral.minus(desiredCdp.withdrawColl),
-      vaultInfo.currentDebt.plus(desiredCdp.withdrawDai),
-      desiredCdp.requiredCollRatio,
-      marketParams.slippage,
-      desiredCdp.providedDai,
-      debug,
-    );
-  }
   return {
     params: [debtDelta, collateralDelta, oazoFee, loanFee],
     skipFL,
