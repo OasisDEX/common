@@ -37,7 +37,7 @@ function calculateIncrease(
   );
   return {
     params: [debtDelta, collateralDelta, oazoFee, loanFee],
-    skipFL:false,
+    skipFL: false,
   };
 }
 
@@ -66,7 +66,7 @@ function calculateDecrease(
 
   return {
     params: [debtDelta, collateralDelta, oazoFee, loanFee],
-    skipFL:false,
+    skipFL: false,
   };
 }
 
