@@ -130,7 +130,7 @@ describe('abi-coding', () => {
       1,
       '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
       '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
-      2000
+      2000,
     ];
     describe('CloseCommand', () => {
       const data = encodeTriggerDataByType(CommandContractType.CloseCommand, closeData);
