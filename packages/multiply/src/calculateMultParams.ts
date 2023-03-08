@@ -23,13 +23,7 @@ function calculateIncrease(
   params: Array<BigNumber>;
   skipFL: boolean;
 } {
-  let debtDelta: BigNumber;
-  let collateralDelta: BigNumber;
-  let loanFee: BigNumber;
-  let oazoFee: BigNumber;
-  let skipFL: boolean;
-  skipFL = false;
-  [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsIncreaseMP(
+  const [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsIncreaseMP(
     marketParams.oraclePrice,
     marketParams.marketPrice,
     marketParams.OF,
@@ -41,26 +35,9 @@ function calculateIncrease(
     desiredCdp.providedDai,
     debug,
   );
-  const newDebt = vaultInfo.currentDebt.plus(debtDelta);
-  const currentCollateralValue = vaultInfo.currentCollateral.times(marketParams.oraclePrice);
-  if (currentCollateralValue.dividedBy(newDebt).gt(vaultInfo.minCollRatio)) {
-    skipFL = true;
-    [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsIncreaseMP(
-      marketParams.oraclePrice,
-      marketParams.marketPrice,
-      marketParams.OF,
-      new BigNumber(0), //no FL Fee
-      vaultInfo.currentCollateral.plus(desiredCdp.providedCollateral),
-      vaultInfo.currentDebt.minus(desiredCdp.providedDai),
-      desiredCdp.requiredCollRatio,
-      marketParams.slippage,
-      desiredCdp.providedDai,
-      debug,
-    );
-  }
   return {
     params: [debtDelta, collateralDelta, oazoFee, loanFee],
-    skipFL,
+    skipFL: false,
   };
 }
 
@@ -73,14 +50,8 @@ function calculateDecrease(
   params: Array<BigNumber>;
   skipFL: boolean;
 } {
-  let debtDelta: BigNumber;
-  let collateralDelta: BigNumber;
-  let loanFee: BigNumber;
-  let oazoFee: BigNumber;
-  let skipFL: boolean;
-  skipFL = false;
   //decrease multiply
-  [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsDecreaseMP(
+  const [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsDecreaseMP(
     marketParams.oraclePrice,
     marketParams.marketPrice,
     marketParams.OF,
@@ -93,26 +64,9 @@ function calculateDecrease(
     debug,
   );
 
-  const collateralLeft = vaultInfo.currentCollateral.minus(collateralDelta);
-  const collateralLeftValue = collateralLeft.times(marketParams.oraclePrice);
-  if (collateralLeftValue.dividedBy(vaultInfo.currentDebt).gt(vaultInfo.minCollRatio)) {
-    skipFL = true;
-    [debtDelta, collateralDelta, oazoFee, loanFee] = calculateParamsDecreaseMP(
-      marketParams.oraclePrice,
-      marketParams.marketPrice,
-      marketParams.OF,
-      new BigNumber(0), //no FL Fee
-      vaultInfo.currentCollateral.minus(desiredCdp.withdrawColl),
-      vaultInfo.currentDebt.plus(desiredCdp.withdrawDai),
-      desiredCdp.requiredCollRatio,
-      marketParams.slippage,
-      desiredCdp.providedDai,
-      debug,
-    );
-  }
   return {
     params: [debtDelta, collateralDelta, oazoFee, loanFee],
-    skipFL,
+    skipFL: false,
   };
 }
 
@@ -132,13 +86,11 @@ function getMultiplyParams(
   let collateralDelta = new BigNumber(0);
   let loanFee = new BigNumber(0);
   let oazoFee = new BigNumber(0);
-  let skipFL = false;
 
   if (desiredCdp.withdrawColl.gt(0) || desiredCdp.withdrawDai.gt(0)) {
     const params = calculateDecrease(marketParams, vaultInfo, desiredCdp, debug);
 
     [debtDelta, collateralDelta, oazoFee, loanFee] = params.params;
-    skipFL = params.skipFL;
     debtDelta = debtDelta.times(-1);
     collateralDelta = collateralDelta.times(-1);
   } else {
@@ -148,7 +100,6 @@ function getMultiplyParams(
       const params = calculateIncrease(marketParams, vaultInfo, desiredCdp, debug);
 
       [debtDelta, collateralDelta, oazoFee, loanFee] = params.params;
-      skipFL = params.skipFL;
     } else {
       const currentCollRat = vaultInfo.currentCollateral
         .times(marketParams.oraclePrice)
@@ -157,7 +108,6 @@ function getMultiplyParams(
         const params = calculateDecrease(marketParams, vaultInfo, desiredCdp, debug);
 
         [debtDelta, collateralDelta, oazoFee, loanFee] = params.params;
-        skipFL = params.skipFL;
 
         debtDelta = debtDelta.times(-1);
         collateralDelta = collateralDelta.times(-1);
@@ -165,7 +115,6 @@ function getMultiplyParams(
         const params = calculateIncrease(marketParams, vaultInfo, desiredCdp, debug);
 
         [debtDelta, collateralDelta, oazoFee, loanFee] = params.params;
-        skipFL = params.skipFL;
       }
     }
   }
@@ -174,7 +123,7 @@ function getMultiplyParams(
     collateralDelta: ensureBigNumber(collateralDelta),
     loanFee: ensureBigNumber(loanFee),
     oazoFee: ensureBigNumber(oazoFee),
-    skipFL: skipFL,
+    skipFL: false,
   };
 }
 

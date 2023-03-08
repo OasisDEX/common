@@ -35,7 +35,7 @@ describe('getMultiplyParams no oazo fee, slippage, zero price divergence, FF app
       expect(retVal.loanFee.toNumber()).to.be.equal(6000);
     });
 
-    it('should pay FF of 0 when changing collRatio from 3 to 2.5', async () => {
+    it('should pay FF even when changing collRatio from 3 to 2.5', async () => {
       const desiredCdpState = new DesiredCDPState(new BigNumber(2.5), 0, 0, 0, 0);
       const retVal = getMultiplyParams(marketParams, vaultInfo, desiredCdpState, false);
       const finalDebt = retVal.debtDelta
@@ -46,7 +46,7 @@ describe('getMultiplyParams no oazo fee, slippage, zero price divergence, FF app
         .plus(vaultInfo.currentCollateral)
         .times(marketParams.oraclePrice);
       expect(retVal.oazoFee.toNumber()).to.be.equal(0);
-      expect(retVal.loanFee.toNumber()).to.be.equal(0);
+      expect(retVal.loanFee.toNumber()).to.be.equal(909.0909090909091);
     });
   });
 
