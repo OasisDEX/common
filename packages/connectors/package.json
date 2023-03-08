@@ -1,6 +1,6 @@
 {
   "name": "@oasisdex/connectors",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha.37",
   "description": "Web3-react connectors for Ledger, trezor and magic link",
   "homepage": "https://github.com/OasisDEX/common#readme",
   "main": "lib/src/index.js",
@@ -34,6 +34,7 @@
     "ethereumjs-util": "^7.0.7",
     "ethjs-util": "^0.1.6",
     "hdkey": "^2.0.1",
+    "lerna": "^6.5.1",
     "lodash": "^4.17.10",
     "magic-sdk": "^3.0.1",
     "semaphore-async-await": "^1.5.1",
@@ -42,5 +43,5 @@
     "web3": "^1.5.3",
     "web3-provider-engine": "^14.0.1"
   },
-  "gitHead": "910b099fe901227e389252eec6f8ef7fc83748c0"
+  "gitHead": "16abc0b44289e5796f4346d37f1d72b9688914f3"
 }
