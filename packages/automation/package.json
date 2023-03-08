@@ -1,6 +1,6 @@
 {
   "name": "@oasisdex/automation",
-  "version": "1.4.4",
+  "version": "1.4.0",
   "description": "The set of utilities for Oasis automation",
   "homepage": "https://github.com/OasisDEX/common#readme",
   "main": "lib/src/index.js",
@@ -24,5 +24,5 @@
     "chai": "^4.3.6",
     "mocha": "^9.2.2"
   },
-  "gitHead": "294be2be9d9c3b27150f2851d4e4c1ca860594b0"
+  "gitHead": "4c0fe3919c127018d3785ce6cc323621cd565d4f"
 }
