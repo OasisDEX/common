@@ -131,7 +131,6 @@ describe('abi-coding', () => {
       '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
       '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
       2000,
-      100,
     ];
     describe('CloseCommand', () => {
       const data = encodeTriggerDataByType(CommandContractType.CloseCommand, closeData);
@@ -202,7 +201,6 @@ describe('abi-coding', () => {
           triggerType: '1',
           collateralToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
           debtToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
-          maxBaseFeeInGwei: '100',
           ltv: '2000',
         });
       });
@@ -213,7 +211,6 @@ describe('abi-coding', () => {
           triggerType: '1',
           collateralToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
           debtToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
-          maxBaseFeeInGwei: '100',
           ltv: '2000',
         });
       });

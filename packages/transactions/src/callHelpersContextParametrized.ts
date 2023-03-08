@@ -47,13 +47,13 @@ export function call<D, R, CC extends ContextConnected>(
   };
 }
 
-// we accommodate for the fact that blockchain state,
-// can be different when tx execute and it can take more gas
-const GAS_ESTIMATION_MULTIPLIER = 1.5;
+// Gas multiplier now lives in the front-end
+// and the default is one (no multiplier)
 export function estimateGas<A extends TxMeta, CC extends ContextConnected>(
   context: CC,
   { call, prepareArgs, options }: TransactionDef<A, CC>,
   args: A,
+  gasMultiplier?: number,
 ): Observable<number> {
   const result = from<number[]>(
     (call
@@ -69,7 +69,7 @@ export function estimateGas<A extends TxMeta, CC extends ContextConnected>(
     }),
   ).pipe(
     map((e: number) => {
-      return Math.floor(e * GAS_ESTIMATION_MULTIPLIER);
+      return gasMultiplier ? Math.floor(e * gasMultiplier) : Math.floor(e);
     }),
   );
 
