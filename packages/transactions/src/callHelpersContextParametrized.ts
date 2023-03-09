@@ -112,13 +112,16 @@ export function createSendTransaction<A extends TxMeta, CC extends ContextConnec
   };
 }
 
+// Gas multiplier now lives in the front-end
+// and the default is one (no multiplier)
 export function createSendWithGasConstraints<A extends TxMeta, CC extends ContextConnected>(
   send: SendFunction<A>,
   context: CC,
   gasPrice$: GasPrice$,
+  gasMultiplier?: number,
 ) {
   return <B extends A>(callData: TransactionDef<B, CC>, args: B): Observable<TxState<B>> => {
-    return combineLatest(estimateGas(context, callData, args), gasPrice$).pipe(
+    return combineLatest(estimateGas(context, callData, args, gasMultiplier), gasPrice$).pipe(
       first(),
       switchMap(([gas, gasPrice]) => {
         return createSendTransaction(send, context)(
