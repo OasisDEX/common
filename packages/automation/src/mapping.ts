@@ -6,11 +6,10 @@ import {
 } from './types';
 
 export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
-  [CommandContractType.CloseCommand]: ['cdpId', 'triggerType', 'maxCoverage', 'collRatio'],
+  [CommandContractType.CloseCommand]: ['cdpId', 'triggerType', 'collRatio'],
   [CommandContractType.BasicBuyCommand]: [
     'cdpId',
     'triggerType',
-    'maxCoverage',
     'execCollRatio',
     'targetCollRatio',
     'maxBuyPrice',
@@ -21,7 +20,6 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
   [CommandContractType.BasicSellCommand]: [
     'cdpId',
     'triggerType',
-    'maxCoverage',
     'execCollRatio',
     'targetCollRatio',
     'minSellPrice',
@@ -32,14 +30,12 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
   [CommandContractType.AutoTakeProfitCommand]: [
     'cdpId',
     'triggerType',
-    'maxCoverage',
     'executionPrice',
     'maxBaseFeeInGwei',
   ],
   [CommandContractType.SimpleAAVESellCommand]: [
     'positionAddress',
     'triggerType',
-    'maxCoverage',
     'amount',
     'interval',
     'recipient',
@@ -47,10 +43,47 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
   [CommandContractType.AaveStopLossCommand]: [
     'positionAddress',
     'triggerType',
+    'collateralToken',
+    'debtToken',
+    'ltv',
+  ],
+  [CommandContractType.AaveStopLossCommandV2]: [
+    'positionAddress',
+    'triggerType',
     'maxCoverage',
     'collateralToken',
     'debtToken',
     'ltv',
+  ],
+  [CommandContractType.MakerCloseCommandV2]: ['cdpId', 'triggerType', 'maxCoverage', 'collRatio'],
+  [CommandContractType.MakerBasicBuyCommandV2]: [
+    'cdpId',
+    'triggerType',
+    'maxCoverage',
+    'execCollRatio',
+    'targetCollRatio',
+    'maxBuyPrice',
+    'continuous',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.MakerBasicSellCommandV2]: [
+    'cdpId',
+    'triggerType',
+    'maxCoverage',
+    'execCollRatio',
+    'targetCollRatio',
+    'minSellPrice',
+    'continuous',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.MakerAutoTakeProfitCommandV2]: [
+    'cdpId',
+    'triggerType',
+    'maxCoverage',
+    'executionPrice',
+    'maxBaseFeeInGwei',
   ],
 };
 
@@ -120,20 +153,18 @@ export const commandAddressMapping: Record<
 );
 
 export const defaultCommandTypeMapping = {
-  [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256', 'uint256'],
+  [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
   [CommandContractType.SimpleAAVESellCommand]: [
     'address',
     'uint16',
     'uint256',
     'uint256',
-    'uint256',
     'address',
   ],
-  [CommandContractType.AutoTakeProfitCommand]: ['uint256', 'uint16', 'uint256', 'uint32'],
+  [CommandContractType.AutoTakeProfitCommand]: ['uint256', 'uint16', 'uint32'],
   [CommandContractType.BasicBuyCommand]: [
     'uint256',
     'uint16',
-    'uint256',
     'uint256',
     'uint256',
     'uint256',
@@ -147,18 +178,42 @@ export const defaultCommandTypeMapping = {
     'uint256',
     'uint256',
     'uint256',
-    'uint256',
     'bool',
     'uint64',
     'uint32',
   ],
-  [CommandContractType.AaveStopLossCommand]: [
+  [CommandContractType.AaveStopLossCommand]: ['address', 'uint16', 'address', 'address', 'uint256'],
+  [CommandContractType.AaveStopLossCommandV2]: [
     'address',
     'uint16',
     'uint256',
     'address',
     'address',
     'uint256',
+  ],
+  [CommandContractType.MakerCloseCommandV2]: ['uint256', 'uint16', 'uint256', 'uint256'],
+  [CommandContractType.MakerAutoTakeProfitCommandV2]: ['uint256', 'uint16', 'uint256', 'uint32'],
+  [CommandContractType.MakerBasicBuyCommandV2]: [
+    'uint256',
+    'uint16',
+    'uint256',
+    'uint256',
+    'uint256',
+    'uint256',
+    'bool',
+    'uint64',
+    'uint32',
+  ],
+  [CommandContractType.MakerBasicSellCommandV2]: [
+    'uint256',
+    'uint16',
+    'uint256',
+    'uint256',
+    'uint256',
+    'uint256',
+    'bool',
+    'uint64',
+    'uint32',
   ],
 } as const;
 

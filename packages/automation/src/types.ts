@@ -12,6 +12,11 @@ export enum CommandContractType {
   BasicSellCommand = 'BasicSellCommand',
   SimpleAAVESellCommand = 'SimpleAAVESell',
   AaveStopLossCommand = 'AaveStopLossCommand',
+  AaveStopLossCommandV2 = 'AaveStopLossCommandV2',
+  MakerCloseCommandV2 = 'MakerCloseCommandV2',
+  MakerAutoTakeProfitCommandV2 = 'MakerAutoTakeProfitCommandV2',
+  MakerBasicBuyCommandV2 = 'MakerBasicBuyCommandV2',
+  MakerBasicSellCommandV2 = 'MakerBasicSellCommandV2',
 }
 
 export enum TriggerType {
@@ -24,6 +29,14 @@ export enum TriggerType {
   SimpleAAVESell = 9,
   AaveStopLossToCollateral = 10,
   AaveStopLossToDebt = 11,
+  MakerStopLossToCollateralV2 = 101,
+  MakerStopLossToDaiV2 = 102,
+  MakerBasicBuyV2 = 103,
+  MakerBasicSellV2 = 104,
+  MakerAutoTakeProfitToCollateralV2 = 105,
+  MakerAutoTakeProfitToDaiV2 = 106,
+  AaveStopLossToCollateralV2 = 107,
+  AaveStopLossToDebtV2 = 108,
 }
 
 export enum TriggerGroupType {
