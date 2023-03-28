@@ -3,6 +3,8 @@
 The package provides a set of utility functions to handle
 interactions with Automation smart contracts.
 
+Automation V2 triggers start with id = 101.
+
 ## Usage
 
 ### Encoding
