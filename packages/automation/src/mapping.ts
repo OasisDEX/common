@@ -6,10 +6,11 @@ import {
 } from './types';
 
 export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
-  [CommandContractType.CloseCommand]: ['cdpId', 'triggerType', 'collRatio'],
+  [CommandContractType.CloseCommand]: ['cdpId', 'triggerType', 'maxCoverage', 'collRatio'],
   [CommandContractType.BasicBuyCommand]: [
     'cdpId',
     'triggerType',
+    'maxCoverage',
     'execCollRatio',
     'targetCollRatio',
     'maxBuyPrice',
@@ -20,6 +21,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
   [CommandContractType.BasicSellCommand]: [
     'cdpId',
     'triggerType',
+    'maxCoverage',
     'execCollRatio',
     'targetCollRatio',
     'minSellPrice',
@@ -30,12 +32,14 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
   [CommandContractType.AutoTakeProfitCommand]: [
     'cdpId',
     'triggerType',
+    'maxCoverage',
     'executionPrice',
     'maxBaseFeeInGwei',
   ],
   [CommandContractType.SimpleAAVESellCommand]: [
     'positionAddress',
     'triggerType',
+    'maxCoverage',
     'amount',
     'interval',
     'recipient',
@@ -43,6 +47,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
   [CommandContractType.AaveStopLossCommand]: [
     'positionAddress',
     'triggerType',
+    'maxCoverage',
     'collateralToken',
     'debtToken',
     'ltv',
@@ -115,10 +120,11 @@ export const commandAddressMapping: Record<
 );
 
 export const defaultCommandTypeMapping = {
-  [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
+  [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256', 'uint256'],
   [CommandContractType.SimpleAAVESellCommand]: [
     'address',
     'uint16',
+    'uint256',
     'uint256',
     'uint256',
     'address',
@@ -127,6 +133,7 @@ export const defaultCommandTypeMapping = {
   [CommandContractType.BasicBuyCommand]: [
     'uint256',
     'uint16',
+    'uint256',
     'uint256',
     'uint256',
     'uint256',
@@ -140,11 +147,19 @@ export const defaultCommandTypeMapping = {
     'uint256',
     'uint256',
     'uint256',
+    'uint256',
     'bool',
     'uint64',
     'uint32',
   ],
-  [CommandContractType.AaveStopLossCommand]: ['address', 'uint16', 'address', 'address', 'uint256'],
+  [CommandContractType.AaveStopLossCommand]: [
+    'address',
+    'uint16',
+    'uint256',
+    'address',
+    'address',
+    'uint256',
+  ],
 } as const;
 
 export function getCommandAddresses(network: number): Record<CommandContractType, string[]> {
