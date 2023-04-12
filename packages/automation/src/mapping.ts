@@ -55,7 +55,12 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'debtToken',
     'ltv',
   ],
-  [CommandContractType.MakerStopLossCommandV2]: ['cdpId', 'triggerType', 'maxCoverage', 'collRatio'],
+  [CommandContractType.MakerStopLossCommandV2]: [
+    'cdpId',
+    'triggerType',
+    'maxCoverage',
+    'collRatio',
+  ],
   [CommandContractType.MakerBasicBuyCommandV2]: [
     'cdpId',
     'triggerType',
