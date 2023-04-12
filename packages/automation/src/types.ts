@@ -14,7 +14,7 @@ export enum CommandContractType {
   SimpleAAVESellCommand = 'SimpleAAVESell',
   AaveStopLossCommand = 'AaveStopLossCommand',
   AaveStopLossCommandV2 = 'AaveStopLossCommandV2',
-  MakerCloseCommandV2 = 'MakerCloseCommandV2',
+  MakerStopLossCommandV2 = 'MakerStopLossCommandV2',
   MakerAutoTakeProfitCommandV2 = 'MakerAutoTakeProfitCommandV2',
   MakerBasicBuyCommandV2 = 'MakerBasicBuyCommandV2',
   MakerBasicSellCommandV2 = 'MakerBasicSellCommandV2',
