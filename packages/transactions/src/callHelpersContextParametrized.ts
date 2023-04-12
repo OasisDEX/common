@@ -17,7 +17,7 @@ export type Context = { status: string; web3: Web3; id: string };
 export type ContextConnected = { account: string } & Context;
 
 export type TxOptions = { to?: string; value?: string; from?: string; gas?: number };
-export type ArgsType = Array<string | number | boolean>;
+export type ArgsType = Array<string | string[] | number | number[] | boolean>;
 
 export interface CallDef<A, R, C extends Context> {
   call: (args: A, context: C, account?: string) => any;
@@ -112,13 +112,16 @@ export function createSendTransaction<A extends TxMeta, CC extends ContextConnec
   };
 }
 
+// Gas multiplier now lives in the front-end
+// and the default is one (no multiplier)
 export function createSendWithGasConstraints<A extends TxMeta, CC extends ContextConnected>(
   send: SendFunction<A>,
   context: CC,
   gasPrice$: GasPrice$,
+  gasMultiplier?: number,
 ) {
   return <B extends A>(callData: TransactionDef<B, CC>, args: B): Observable<TxState<B>> => {
-    return combineLatest(estimateGas(context, callData, args), gasPrice$).pipe(
+    return combineLatest(estimateGas(context, callData, args, gasMultiplier), gasPrice$).pipe(
       first(),
       switchMap(([gas, gasPrice]) => {
         return createSendTransaction(send, context)(
@@ -140,9 +143,10 @@ export function createSendWithGasConstraints1559<A extends TxMeta, CC extends Co
   send: SendFunction<A>,
   context: CC,
   gasPrice$: GasPrice1559$,
+  gasMultiplier?: number,
 ) {
   return <B extends A>(callData: TransactionDef<B, CC>, args: B): Observable<TxState<B>> => {
-    return combineLatest(estimateGas(context, callData, args), gasPrice$).pipe(
+    return combineLatest(estimateGas(context, callData, args, gasMultiplier), gasPrice$).pipe(
       first(),
       switchMap(([gas, gasPrice]) => {
         return createSendTransaction(send, context)(
