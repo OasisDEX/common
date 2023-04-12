@@ -14,7 +14,15 @@ export interface CommonContext {
 
 export type TxMeta = {
   kind: any;
-  [key: string]: string | number | boolean | BigNumber | undefined;
+  [key: string]:
+    | string
+    | string[]
+    | number
+    | number[]
+    | BigNumber
+    | BigNumber[]
+    | boolean
+    | undefined;
 };
 
 export enum TxStatus {

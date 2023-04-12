@@ -17,7 +17,7 @@ export type Context = { status: string; web3: Web3; id: string };
 export type ContextConnected = { account: string } & Context;
 
 export type TxOptions = { to?: string; value?: string; from?: string; gas?: number };
-export type ArgsType = Array<string | number | boolean>;
+export type ArgsType = Array<string | string[] | number | number[] | boolean>;
 
 export interface CallDef<A, R, C extends Context> {
   call: (args: A, context: C, account?: string) => any;
