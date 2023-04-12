@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 export enum EthereumNetwork {
   MAINNET = 1,
   GOERLI = 5,
+  OPTIMISM = 10,
 }
 
 export enum CommandContractType {
