@@ -55,7 +55,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'debtToken',
     'ltv',
   ],
-  [CommandContractType.MakerCloseCommandV2]: ['cdpId', 'triggerType', 'maxCoverage', 'collRatio'],
+  [CommandContractType.MakerStopLossCommandV2]: ['cdpId', 'triggerType', 'maxCoverage', 'collRatio'],
   [CommandContractType.MakerBasicBuyCommandV2]: [
     'cdpId',
     'triggerType',
@@ -189,7 +189,7 @@ export const defaultCommandTypeMapping = {
     'address',
     'uint256',
   ],
-  [CommandContractType.MakerCloseCommandV2]: ['uint256', 'uint16', 'uint256', 'uint256'],
+  [CommandContractType.MakerStopLossCommandV2]: ['uint256', 'uint16', 'uint256', 'uint256'],
   [CommandContractType.MakerAutoTakeProfitCommandV2]: ['uint256', 'uint16', 'uint256', 'uint32'],
   [CommandContractType.MakerBasicBuyCommandV2]: [
     'uint256',
