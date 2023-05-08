@@ -51,8 +51,8 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'positionAddress',
     'triggerType',
     'maxCoverage',
-    'collateralToken',
     'debtToken',
+    'collateralToken',
     'ltv',
   ],
   [CommandContractType.MakerStopLossCommandV2]: [
