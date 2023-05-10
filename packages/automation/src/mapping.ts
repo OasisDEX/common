@@ -164,7 +164,7 @@ export const defaultCommandTypeMapping = {
     'uint256',
     'address',
   ],
-  [CommandContractType.AutoTakeProfitCommand]: ['uint256', 'uint16', 'uint32'],
+  [CommandContractType.AutoTakeProfitCommand]: ['uint256', 'uint16', 'uint256', 'uint32'],
   [CommandContractType.BasicBuyCommand]: [
     'uint256',
     'uint16',
