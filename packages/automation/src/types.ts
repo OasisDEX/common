@@ -38,8 +38,10 @@ export enum TriggerType {
   MakerAutoTakeProfitToDaiV2 = 106,
   // AaveStopLossToCollateralV2 = 107,
   // AaveStopLossToDebtV2 = 108,
-  AaveStopLossToCollateralV2 = 109,
-  AaveStopLossToDebtV2 = 110,
+  // AaveStopLossToCollateralV2 = 109,
+  // AaveStopLossToDebtV2 = 110,
+  AaveStopLossToCollateralV2 = 111,
+  AaveStopLossToDebtV2 = 112,
 }
 
 export enum TriggerGroupType {
