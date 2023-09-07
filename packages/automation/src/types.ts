@@ -18,6 +18,7 @@ export enum CommandContractType {
   MakerAutoTakeProfitCommandV2 = 'MakerAutoTakeProfitCommandV2',
   MakerBasicBuyCommandV2 = 'MakerBasicBuyCommandV2',
   MakerBasicSellCommandV2 = 'MakerBasicSellCommandV2',
+  SparkStopLossCommandV2 = 'SparkStopLossCommandV2',
 }
 
 export enum TriggerType {
@@ -42,6 +43,8 @@ export enum TriggerType {
   // AaveStopLossToDebtV2 = 110,
   AaveStopLossToCollateralV2 = 111,
   AaveStopLossToDebtV2 = 112,
+  SparkStopLossToCollateralV2 = 113,
+  SparkStopLossToDebtV2 = 114,
 }
 
 export enum TriggerGroupType {
