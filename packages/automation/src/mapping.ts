@@ -55,6 +55,14 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'collateralToken',
     'ltv',
   ],
+  [CommandContractType.SparkStopLossCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'ltv',
+  ],
   [CommandContractType.MakerStopLossCommandV2]: [
     'cdpId',
     'triggerType',
@@ -193,6 +201,14 @@ export const defaultCommandTypeMapping = {
   ],
   [CommandContractType.AaveStopLossCommand]: ['address', 'uint16', 'address', 'address', 'uint256'],
   [CommandContractType.AaveStopLossCommandV2]: [
+    'address',
+    'uint16',
+    'uint256',
+    'address',
+    'address',
+    'uint256',
+  ],
+  [CommandContractType.SparkStopLossCommandV2]: [
     'address',
     'uint16',
     'uint256',
