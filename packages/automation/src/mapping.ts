@@ -160,7 +160,7 @@ export const commandAddressMapping: Record<
       '0xDC1c84Aac43F21f103e9bD0B091a1B5cc6433554': {
         type: CommandContractType.AaveStopLossCommandV2,
       },
-      '0xDC1c84Aac43F21f103e9bD0B091a1B5cc6433554': {
+      '0x9F47b484E921619028eF1c6F7fE73F9921B5AC6D': {
         type: CommandContractType.SparkStopLossCommandV2,
       },
     },
