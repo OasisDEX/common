@@ -43,8 +43,10 @@ export enum TriggerType {
   // AaveStopLossToDebtV2 = 110,
   AaveStopLossToCollateralV2 = 111,
   AaveStopLossToDebtV2 = 112,
-  SparkStopLossToCollateralV2 = 113,
-  SparkStopLossToDebtV2 = 114,
+  // SparkStopLossToCollateralV2 = 113,
+  // SparkStopLossToDebtV2 = 114,
+  SparkStopLossToCollateralV2 = 115,
+  SparkStopLossToDebtV2 = 116,
 }
 
 export enum TriggerGroupType {
