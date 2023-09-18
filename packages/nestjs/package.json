@@ -1,6 +1,6 @@
 {
   "name": "@oasisdex/nestjs",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "The set of utilities for Nest.js",
   "homepage": "https://github.com/OasisDEX/common#readme",
   "main": "lib/src/index.js",
