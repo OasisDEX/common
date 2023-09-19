@@ -166,6 +166,9 @@ export const commandAddressMapping: Record<
       '0x9F47b484E921619028eF1c6F7fE73F9921B5AC6D': {
         type: CommandContractType.SparkStopLossCommandV2,
       },
+      '0x2af43189E85CEA21aa8FA5d61139b771328d8D30': {
+        type: CommandContractType.SparkStopLossCommandV2,
+      },
     },
   }).map(([network, mapping]) => [
     network,
