@@ -96,6 +96,30 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'executionPrice',
     'maxBaseFeeInGwei',
   ],
+  [CommandContractType.AaveBasicSellCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'execCollRatio',
+    'targetCollRatio',
+    'minSellPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.AaveBasicBuyCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'execCollRatio',
+    'targetCollRatio',
+    'maxBuyPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
 };
 
 export const commandAddressMapping: Record<
@@ -228,26 +252,48 @@ export const defaultCommandTypeMapping = {
   [CommandContractType.MakerStopLossCommandV2]: ['uint256', 'uint16', 'uint256', 'uint256'],
   [CommandContractType.MakerAutoTakeProfitCommandV2]: ['uint256', 'uint16', 'uint256', 'uint32'],
   [CommandContractType.MakerBasicBuyCommandV2]: [
-    'uint256',
-    'uint16',
-    'uint256',
-    'uint256',
-    'uint256',
-    'uint256',
-    'bool',
-    'uint64',
-    'uint32',
+    'uint256', //cdpId
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // maxBuyPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
   ],
   [CommandContractType.MakerBasicSellCommandV2]: [
-    'uint256',
-    'uint16',
-    'uint256',
-    'uint256',
-    'uint256',
-    'uint256',
-    'bool',
-    'uint64',
-    'uint32',
+    'uint256', //cdpId
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // minSellPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.AaveBasicBuyCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // maxBuyPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.AaveBasicSellCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // minSellPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
   ],
 } as const;
 
