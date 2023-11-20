@@ -3,6 +3,8 @@ import {
   CommandContractType,
   EthereumNetwork,
   ParamDefinition,
+  triggerTypeToCommandContractTypeMap,
+  TriggerType,
 } from './types';
 
 export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
@@ -102,8 +104,9 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'maxCoverage',
     'debtToken',
     'collateralToken',
-    'execCollRatio',
-    'targetCollRatio',
+    'opHash',
+    'execLtv',
+    'targetLtv',
     'minSellPrice',
     'deviation',
     'maxBaseFeeInGwei',
@@ -114,8 +117,9 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'maxCoverage',
     'debtToken',
     'collateralToken',
-    'execCollRatio',
-    'targetCollRatio',
+    'opHash',
+    'execLtv',
+    'targetLtv',
     'maxBuyPrice',
     'deviation',
     'maxBaseFeeInGwei',
@@ -277,6 +281,7 @@ export const defaultCommandTypeMapping = {
     'uint256', // maxCoverage
     'address', // debtToken
     'address', // collateralToken
+    'bytes32', // opHash
     'uint256', // execCollRatio
     'uint256', // targetCollRatio
     'uint256', // maxBuyPrice
@@ -289,6 +294,7 @@ export const defaultCommandTypeMapping = {
     'uint256', // maxCoverage
     'address', // debtToken
     'address', // collateralToken
+    'bytes32', // opHash
     'uint256', // execCollRatio
     'uint256', // targetCollRatio
     'uint256', // minSellPrice
@@ -313,7 +319,32 @@ export function getCommandAddresses(network: number): Record<CommandContractType
   );
 }
 
+/**
+ * Retrieves the parameter definition for a given command type.
+ * @param type - The command type.
+ * @returns The parameter definition for the specified command type.
+ * @throws Error if the command type is unknown.
+ */
 export function getDefinitionForCommandType(type: CommandContractType): ParamDefinition {
+  if (!(type in defaultCommandTypeMapping)) {
+    throw new Error(
+      `Unknown command type ${type}. Supported types: ${Object.keys(defaultCommandTypeMapping).join(
+        ', ',
+      )}.`,
+    );
+  }
+
+  return defaultCommandTypeMapping[type];
+}
+
+/**
+ * Retrieves the parameter definition for a given trigger type.
+ * @param triggerType The type of trigger.
+ * @returns The parameter definition for the specified trigger type.
+ * @throws Error if the command type is unknown.
+ */
+export function getDefinitionForTriggerType(triggerType: TriggerType): ParamDefinition {
+  const type = triggerTypeToCommandContractTypeMap[triggerType];
   if (!(type in defaultCommandTypeMapping)) {
     throw new Error(
       `Unknown command type ${type}. Supported types: ${Object.keys(defaultCommandTypeMapping).join(

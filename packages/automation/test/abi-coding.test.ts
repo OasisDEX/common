@@ -3,9 +3,11 @@ import { BigNumber as EthersBN, constants, utils } from 'ethers';
 import {
   decodeTriggerData,
   decodeTriggerDataAsJson,
+  decodeTriggerDataByTriggerTypeAsJson,
   decodeTriggerDataByType,
   decodeTriggerDataByTypeAsJson,
   encodeTriggerData,
+  encodeTriggerDataByTriggerType,
   encodeTriggerDataByType,
 } from '../src/abi-coding';
 import {
@@ -13,7 +15,7 @@ import {
   getCommandAddresses,
   getDefinitionForCommandType,
 } from '../src/mapping';
-import { CommandContractType, EthereumNetwork } from '../src/types';
+import { CommandContractType, EthereumNetwork, TriggerType } from '../src/types';
 
 describe('abi-coding', () => {
   const type = CommandContractType.CloseCommand;
@@ -29,12 +31,14 @@ describe('abi-coding', () => {
       const result = encodeTriggerData(commandAddress, network, validValues);
       expect(result).to.eq(data);
     });
-
     it('can encode trigger data by command type', () => {
       const result = encodeTriggerDataByType(type, validValues);
       expect(result).to.eq(data);
     });
-
+    it('can encode trigger data by trigger type', () => {
+      const result = encodeTriggerDataByTriggerType(TriggerType.StopLossToCollateral, validValues);
+      expect(result).to.eq(data);
+    });
     it('can encode if supplied command address is not lowercase', () => {
       const result = encodeTriggerData(commandAddress, network, validValues);
       expect(result).to.eq(data);
@@ -146,6 +150,14 @@ describe('abi-coding', () => {
           collRatio: '101',
         });
       });
+      it('decodeTriggerDataByTriggerTypeAsJson converts to correct json', () => {
+        const actual = decodeTriggerDataByTriggerTypeAsJson(TriggerType.StopLossToCollateral, data);
+        expect(actual).to.deep.eq({
+          cdpId: '12',
+          triggerType: '1',
+          collRatio: '101',
+        });
+      });
       it('decodeTriggerDataByTypeAsJson converts to correct json', () => {
         const actual = decodeTriggerDataByTypeAsJson(CommandContractType.CloseCommand, data);
         expect(actual).to.deep.eq({
@@ -163,6 +175,19 @@ describe('abi-coding', () => {
           network,
           data,
         );
+        expect(actual).to.deep.eq({
+          cdpId: '12',
+          triggerType: '1',
+          execCollRatio: '101',
+          maxBaseFeeInGwei: '100',
+          maxBuyPrice: '2000',
+          continuous: 'true',
+          deviation: '10',
+          targetCollRatio: '100',
+        });
+      });
+      it('decodeTriggerDataByTriggerTypeAsJson converts to correct json', () => {
+        const actual = decodeTriggerDataByTriggerTypeAsJson(TriggerType.BasicBuy, data);
         expect(actual).to.deep.eq({
           cdpId: '12',
           triggerType: '1',
@@ -194,6 +219,19 @@ describe('abi-coding', () => {
         const actual = decodeTriggerDataAsJson(
           getCommandAddresses(network)[CommandContractType.AaveStopLossCommand][0],
           network,
+          data,
+        );
+        expect(actual).to.deep.eq({
+          positionAddress: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
+          triggerType: '1',
+          collateralToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
+          debtToken: '0xE78ACEa26B79564C4D29D8c1f5bAd3D4E0414676',
+          ltv: '2000',
+        });
+      });
+      it('decodeTriggerDataByTriggerTypeAsJson converts to correct json', () => {
+        const actual = decodeTriggerDataByTriggerTypeAsJson(
+          TriggerType.AaveStopLossToCollateral,
           data,
         );
         expect(actual).to.deep.eq({
