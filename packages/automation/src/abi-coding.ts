@@ -16,6 +16,20 @@ export function decodeTriggerData(
   return utils.defaultAbiCoder.decode(paramTypes, data);
 }
 
+export function decodeTriggerDataByType(type: CommandContractType, data: string): utils.Result {
+  const paramTypes = getDefinitionForCommandType(type);
+  return utils.defaultAbiCoder.decode(paramTypes, data);
+}
+
+export function decodeTriggerDataByTriggerType(
+  triggerType: TriggerType,
+  data: string,
+): utils.Result {
+  const type = triggerTypeToCommandContractTypeMap[triggerType];
+  const paramTypes = getDefinitionForCommandType(type);
+  return utils.defaultAbiCoder.decode(paramTypes, data);
+}
+
 export function decodeTriggerDataAsJson(
   commandAddress: string,
   network: number,
@@ -28,11 +42,6 @@ export function decodeTriggerDataAsJson(
     acc[commandTypeJsonMapping[type][idx]] = curr.toString();
     return acc;
   }, {});
-}
-
-export function decodeTriggerDataByType(type: CommandContractType, data: string): utils.Result {
-  const paramTypes = getDefinitionForCommandType(type);
-  return utils.defaultAbiCoder.decode(paramTypes, data);
 }
 
 export function decodeTriggerDataByTypeAsJson(

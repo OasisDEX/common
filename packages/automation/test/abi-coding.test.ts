@@ -3,6 +3,7 @@ import { BigNumber as EthersBN, constants, utils } from 'ethers';
 import {
   decodeTriggerData,
   decodeTriggerDataAsJson,
+  decodeTriggerDataByTriggerType,
   decodeTriggerDataByTriggerTypeAsJson,
   decodeTriggerDataByType,
   decodeTriggerDataByTypeAsJson,
@@ -79,8 +80,13 @@ describe('abi-coding', () => {
         expect(EthersBN.from(value).toNumber()).to.eq(validValues[idx]);
       });
     });
-
-    it('can decode trigger data by command address', () => {
+    it('can decode trigger data by trigger type', () => {
+      const result = decodeTriggerDataByTriggerType(TriggerType.StopLossToCollateral, data);
+      result.forEach((value, idx) => {
+        expect(EthersBN.from(value).toNumber()).to.eq(validValues[idx]);
+      });
+    });
+    it('can decode trigger data by command type', () => {
       const result = decodeTriggerDataByType(type, data);
       result.forEach((value, idx) => {
         expect(EthersBN.from(value).toNumber()).to.eq(validValues[idx]);
