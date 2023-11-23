@@ -5,7 +5,7 @@ import {
   getDefinitionForCommandAddress,
   getDefinitionForCommandType,
 } from './mapping';
-import { CommandContractType } from './types';
+import { CommandContractType, TriggerType, triggerTypeToCommandContractTypeMap } from './types';
 
 export function decodeTriggerData(
   commandAddress: string,
@@ -13,6 +13,20 @@ export function decodeTriggerData(
   data: string,
 ): utils.Result {
   const paramTypes = getDefinitionForCommandAddress(commandAddress, network);
+  return utils.defaultAbiCoder.decode(paramTypes, data);
+}
+
+export function decodeTriggerDataByType(type: CommandContractType, data: string): utils.Result {
+  const paramTypes = getDefinitionForCommandType(type);
+  return utils.defaultAbiCoder.decode(paramTypes, data);
+}
+
+export function decodeTriggerDataByTriggerType(
+  triggerType: TriggerType,
+  data: string,
+): utils.Result {
+  const type = triggerTypeToCommandContractTypeMap[triggerType];
+  const paramTypes = getDefinitionForCommandType(type);
   return utils.defaultAbiCoder.decode(paramTypes, data);
 }
 
@@ -30,11 +44,6 @@ export function decodeTriggerDataAsJson(
   }, {});
 }
 
-export function decodeTriggerDataByType(type: CommandContractType, data: string): utils.Result {
-  const paramTypes = getDefinitionForCommandType(type);
-  return utils.defaultAbiCoder.decode(paramTypes, data);
-}
-
 export function decodeTriggerDataByTypeAsJson(
   type: CommandContractType,
   data: string,
@@ -46,7 +55,18 @@ export function decodeTriggerDataByTypeAsJson(
     return acc;
   }, {});
 }
+export function decodeTriggerDataByTriggerTypeAsJson(
+  triggerType: TriggerType,
+  data: string,
+): utils.Result {
+  const type = triggerTypeToCommandContractTypeMap[triggerType];
+  const arr: any[] = decodeTriggerDataByType(type, data) as any[];
 
+  return arr.reduce((acc, curr, idx) => {
+    acc[commandTypeJsonMapping[type][idx]] = curr.toString();
+    return acc;
+  }, {});
+}
 export function encodeTriggerData(
   commandAddress: string,
   network: number,
@@ -58,5 +78,14 @@ export function encodeTriggerData(
 
 export function encodeTriggerDataByType(type: CommandContractType, values: readonly any[]): string {
   const paramTypes = getDefinitionForCommandType(type);
+  return utils.defaultAbiCoder.encode(paramTypes, values);
+}
+
+export function encodeTriggerDataByTriggerType(
+  triggerType: TriggerType,
+  values: readonly any[],
+): string {
+  const commandType = triggerTypeToCommandContractTypeMap[triggerType];
+  const paramTypes = getDefinitionForCommandType(commandType);
   return utils.defaultAbiCoder.encode(paramTypes, values);
 }
