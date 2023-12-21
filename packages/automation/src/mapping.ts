@@ -197,6 +197,12 @@ export const commandAddressMapping: Record<
       '0x2af43189E85CEA21aa8FA5d61139b771328d8D30': {
         type: CommandContractType.SparkStopLossCommandV2,
       },
+      '0x72241841022bc824B0b66e3D27D8937D36dA4FDF': {
+        type: CommandContractType.AaveBasicBuyCommandV2,
+      },
+      '0x31d767f6556CE3fC55d6245C9aEF3575aa64BABf': {
+        type: CommandContractType.AaveBasicSellCommandV2,
+      },
     },
   }).map(([network, mapping]) => [
     network,
