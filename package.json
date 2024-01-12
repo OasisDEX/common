@@ -1,6 +1,7 @@
 {
   "name": "root",
   "version": "1.0.0",
+  "packageManager": "yarn@1.22.21",
   "private": true,
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.6.1",

@@ -3,6 +3,8 @@ import {
   CommandContractType,
   EthereumNetwork,
   ParamDefinition,
+  triggerTypeToCommandContractTypeMap,
+  TriggerType,
 } from './types';
 
 export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
@@ -96,6 +98,32 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'executionPrice',
     'maxBaseFeeInGwei',
   ],
+  [CommandContractType.AaveBasicSellCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'opHash',
+    'execLtv',
+    'targetLtv',
+    'minSellPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.AaveBasicBuyCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'opHash',
+    'execLtv',
+    'targetLtv',
+    'maxBuyPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
 };
 
 export const commandAddressMapping: Record<
@@ -169,6 +197,12 @@ export const commandAddressMapping: Record<
       '0x2af43189E85CEA21aa8FA5d61139b771328d8D30': {
         type: CommandContractType.SparkStopLossCommandV2,
       },
+      '0x72241841022bc824B0b66e3D27D8937D36dA4FDF': {
+        type: CommandContractType.AaveBasicBuyCommandV2,
+      },
+      '0x31d767f6556CE3fC55d6245C9aEF3575aa64BABf': {
+        type: CommandContractType.AaveBasicSellCommandV2,
+      },
     },
   }).map(([network, mapping]) => [
     network,
@@ -228,26 +262,50 @@ export const defaultCommandTypeMapping = {
   [CommandContractType.MakerStopLossCommandV2]: ['uint256', 'uint16', 'uint256', 'uint256'],
   [CommandContractType.MakerAutoTakeProfitCommandV2]: ['uint256', 'uint16', 'uint256', 'uint32'],
   [CommandContractType.MakerBasicBuyCommandV2]: [
-    'uint256',
-    'uint16',
-    'uint256',
-    'uint256',
-    'uint256',
-    'uint256',
-    'bool',
-    'uint64',
-    'uint32',
+    'uint256', //cdpId
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // maxBuyPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
   ],
   [CommandContractType.MakerBasicSellCommandV2]: [
-    'uint256',
-    'uint16',
-    'uint256',
-    'uint256',
-    'uint256',
-    'uint256',
-    'bool',
-    'uint64',
-    'uint32',
+    'uint256', //cdpId
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // minSellPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.AaveBasicBuyCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // opHash
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // maxBuyPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.AaveBasicSellCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // opHash
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // minSellPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
   ],
 } as const;
 
@@ -267,7 +325,32 @@ export function getCommandAddresses(network: number): Record<CommandContractType
   );
 }
 
+/**
+ * Retrieves the parameter definition for a given command type.
+ * @param type - The command type.
+ * @returns The parameter definition for the specified command type.
+ * @throws Error if the command type is unknown.
+ */
 export function getDefinitionForCommandType(type: CommandContractType): ParamDefinition {
+  if (!(type in defaultCommandTypeMapping)) {
+    throw new Error(
+      `Unknown command type ${type}. Supported types: ${Object.keys(defaultCommandTypeMapping).join(
+        ', ',
+      )}.`,
+    );
+  }
+
+  return defaultCommandTypeMapping[type];
+}
+
+/**
+ * Retrieves the parameter definition for a given trigger type.
+ * @param triggerType The type of trigger.
+ * @returns The parameter definition for the specified trigger type.
+ * @throws Error if the command type is unknown.
+ */
+export function getDefinitionForTriggerType(triggerType: TriggerType): ParamDefinition {
+  const type = triggerTypeToCommandContractTypeMap[triggerType];
   if (!(type in defaultCommandTypeMapping)) {
     throw new Error(
       `Unknown command type ${type}. Supported types: ${Object.keys(defaultCommandTypeMapping).join(
