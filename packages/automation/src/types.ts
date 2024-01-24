@@ -4,6 +4,8 @@ export enum EthereumNetwork {
   MAINNET = 1,
   GOERLI = 5,
   OPTIMISM = 10,
+  BASE = 8453,
+  ARBITRUM = 42161,
 }
 
 export enum CommandContractType {

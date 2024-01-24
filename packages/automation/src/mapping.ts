@@ -204,6 +204,15 @@ export const commandAddressMapping: Record<
         type: CommandContractType.AaveBasicSellCommandV2,
       },
     },
+    [EthereumNetwork.BASE]: {
+
+      '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
+        type: CommandContractType.AaveBasicBuyCommandV2,
+      },
+      '0xbf566C1b260F0464f75470C146288283f11219a9': {
+        type: CommandContractType.AaveBasicSellCommandV2,
+      },
+    },
   }).map(([network, mapping]) => [
     network,
     Object.fromEntries(
