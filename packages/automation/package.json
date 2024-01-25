@@ -1,7 +1,7 @@
 {
   "name": "@oasisdex/automation",
   "packageManager": "yarn@1.22.21",
-  "version": "1.5.9-alpha5",
+  "version": "1.6.0",
   "description": "The set of utilities for Oasis automation",
   "homepage": "https://github.com/OasisDEX/common#readme",
   "main": "lib/src/index.js",
