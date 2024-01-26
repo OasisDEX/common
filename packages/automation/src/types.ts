@@ -21,10 +21,10 @@ export enum CommandContractType {
   MakerBasicBuyCommandV2 = 'MakerBasicBuyCommandV2',
   MakerBasicSellCommandV2 = 'MakerBasicSellCommandV2',
   SparkStopLossCommandV2 = 'SparkStopLossCommandV2',
-  AaveBasicBuyCommandV2 = 'AaveBasicBuyCommandV2',
-  AaveBasicSellCommandV2 = 'AaveBasicSellCommandV2',
-  SparkStopLossCommandV2_2 = 'SparkStopLossCommandV2_2',
-  AaveStopLossCommandV2_2 = 'AaveStopLossCommandV2_2',
+  AaveBasicBuyCommandV2 = 'AaveV3BasicBuyCommandV2',
+  AaveBasicSellCommandV2 = 'AaveV3BasicSellCommandV2',
+  SparkStopLossCommandV2_2 = 'DmaSparkStopLossCommandV2',
+  AaveStopLossCommandV2_2 = 'DmaAaveV3StopLossCommandV2',
 }
 
 export enum TriggerType {
