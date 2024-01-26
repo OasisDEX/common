@@ -104,7 +104,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'maxCoverage',
     'debtToken',
     'collateralToken',
-    'opHash',
+    'opName',
     'execLtv',
     'targetLtv',
     'minSellPrice',
@@ -117,12 +117,30 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'maxCoverage',
     'debtToken',
     'collateralToken',
-    'opHash',
+    'opName',
     'execLtv',
     'targetLtv',
     'maxBuyPrice',
     'deviation',
     'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.AaveStopLossCommandV2_2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'opName',
+    'ltv',
+  ],
+  [CommandContractType.SparkStopLossCommandV2_2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'opName',
+    'ltv',
   ],
 };
 
@@ -205,7 +223,6 @@ export const commandAddressMapping: Record<
       },
     },
     [EthereumNetwork.BASE]: {
-
       '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
         type: CommandContractType.AaveBasicBuyCommandV2,
       },
@@ -296,7 +313,7 @@ export const defaultCommandTypeMapping = {
     'uint256', // maxCoverage
     'address', // debtToken
     'address', // collateralToken
-    'bytes32', // opHash
+    'bytes32', // opName
     'uint256', // execCollRatio
     'uint256', // targetCollRatio
     'uint256', // maxBuyPrice
@@ -309,12 +326,30 @@ export const defaultCommandTypeMapping = {
     'uint256', // maxCoverage
     'address', // debtToken
     'address', // collateralToken
-    'bytes32', // opHash
+    'bytes32', // opName
     'uint256', // execCollRatio
     'uint256', // targetCollRatio
     'uint256', // minSellPrice
     'uint64', // deviation
     'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.AaveStopLossCommandV2_2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // opName
+    'uint256', // executionLTV
+  ],
+  [CommandContractType.SparkStopLossCommandV2_2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // opName
+    'uint256', // executionLTV
   ],
 } as const;
 
