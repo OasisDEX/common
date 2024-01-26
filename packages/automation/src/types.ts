@@ -21,8 +21,10 @@ export enum CommandContractType {
   MakerBasicBuyCommandV2 = 'MakerBasicBuyCommandV2',
   MakerBasicSellCommandV2 = 'MakerBasicSellCommandV2',
   SparkStopLossCommandV2 = 'SparkStopLossCommandV2',
-  AaveBasicBuyCommandV2 = 'AaveBasicBuyCommandV2',
-  AaveBasicSellCommandV2 = 'AaveBasicSellCommandV2',
+  AaveBasicBuyCommandV2 = 'AaveV3BasicBuyCommandV2',
+  AaveBasicSellCommandV2 = 'AaveV3BasicSellCommandV2',
+  SparkStopLossCommandV2_2 = 'DmaSparkStopLossCommandV2',
+  AaveStopLossCommandV2_2 = 'DmaAaveV3StopLossCommandV2',
 }
 
 export enum TriggerType {
@@ -47,6 +49,10 @@ export enum TriggerType {
   SparkStopLossToDebtV2 = 118,
   AaveBasicBuyV2 = 119,
   AaveBasicSellV2 = 120,
+  AaveStopLossToCollateralV2_2 = 121,
+  AaveStopLossToDebtV2_2 = 122,
+  SparkStopLossToCollateralV2_2 = 123,
+  SparkStopLossToDebtV2_2 = 124,
 }
 
 export const triggerTypeToCommandContractTypeMap: Record<TriggerType, CommandContractType> = {
@@ -71,6 +77,10 @@ export const triggerTypeToCommandContractTypeMap: Record<TriggerType, CommandCon
   [TriggerType.SparkStopLossToDebtV2]: CommandContractType.SparkStopLossCommandV2,
   [TriggerType.AaveBasicBuyV2]: CommandContractType.AaveBasicBuyCommandV2,
   [TriggerType.AaveBasicSellV2]: CommandContractType.AaveBasicSellCommandV2,
+  [TriggerType.AaveStopLossToCollateralV2_2]: CommandContractType.AaveStopLossCommandV2_2,
+  [TriggerType.AaveStopLossToDebtV2_2]: CommandContractType.AaveStopLossCommandV2_2,
+  [TriggerType.SparkStopLossToCollateralV2_2]: CommandContractType.SparkStopLossCommandV2_2,
+  [TriggerType.SparkStopLossToDebtV2_2]: CommandContractType.SparkStopLossCommandV2_2,
 };
 
 export enum TriggerGroupType {
