@@ -98,7 +98,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'executionPrice',
     'maxBaseFeeInGwei',
   ],
-  [CommandContractType.AaveBasicSellCommandV2]: [
+  [CommandContractType.DmaAaveBasicSellCommandV2]: [
     'positionAddress',
     'triggerType',
     'maxCoverage',
@@ -111,7 +111,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'deviation',
     'maxBaseFeeInGwei',
   ],
-  [CommandContractType.AaveBasicBuyCommandV2]: [
+  [CommandContractType.DmaAaveBasicBuyCommandV2]: [
     'positionAddress',
     'triggerType',
     'maxCoverage',
@@ -124,7 +124,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'deviation',
     'maxBaseFeeInGwei',
   ],
-  [CommandContractType.AaveStopLossCommandV2_2]: [
+  [CommandContractType.DmaAaveStopLossCommandV2]: [
     'positionAddress',
     'triggerType',
     'maxCoverage',
@@ -133,7 +133,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'opName',
     'ltv',
   ],
-  [CommandContractType.SparkStopLossCommandV2_2]: [
+  [CommandContractType.DmaSparkStopLossCommandV2]: [
     'positionAddress',
     'triggerType',
     'maxCoverage',
@@ -216,18 +216,18 @@ export const commandAddressMapping: Record<
         type: CommandContractType.SparkStopLossCommandV2,
       },
       '0x72241841022bc824B0b66e3D27D8937D36dA4FDF': {
-        type: CommandContractType.AaveBasicBuyCommandV2,
+        type: CommandContractType.DmaAaveBasicBuyCommandV2,
       },
       '0x31d767f6556CE3fC55d6245C9aEF3575aa64BABf': {
-        type: CommandContractType.AaveBasicSellCommandV2,
+        type: CommandContractType.DmaAaveBasicSellCommandV2,
       },
     },
     [EthereumNetwork.BASE]: {
       '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
-        type: CommandContractType.AaveBasicBuyCommandV2,
+        type: CommandContractType.DmaAaveBasicBuyCommandV2,
       },
       '0xbf566C1b260F0464f75470C146288283f11219a9': {
-        type: CommandContractType.AaveBasicSellCommandV2,
+        type: CommandContractType.DmaAaveBasicSellCommandV2,
       },
     },
   }).map(([network, mapping]) => [
@@ -307,7 +307,7 @@ export const defaultCommandTypeMapping = {
     'uint64', // deviation
     'uint32', // maxBaseFeeInGwei
   ],
-  [CommandContractType.AaveBasicBuyCommandV2]: [
+  [CommandContractType.DmaAaveBasicBuyCommandV2]: [
     'address', //positionAddress
     'uint16', // triggerType
     'uint256', // maxCoverage
@@ -320,7 +320,7 @@ export const defaultCommandTypeMapping = {
     'uint64', // deviation
     'uint32', // maxBaseFeeInGwei
   ],
-  [CommandContractType.AaveBasicSellCommandV2]: [
+  [CommandContractType.DmaAaveBasicSellCommandV2]: [
     'address', //positionAddress
     'uint16', // triggerType
     'uint256', // maxCoverage
@@ -333,7 +333,7 @@ export const defaultCommandTypeMapping = {
     'uint64', // deviation
     'uint32', // maxBaseFeeInGwei
   ],
-  [CommandContractType.AaveStopLossCommandV2_2]: [
+  [CommandContractType.DmaAaveStopLossCommandV2]: [
     'address', //positionAddress
     'uint16', // triggerType
     'uint256', // maxCoverage
@@ -342,7 +342,7 @@ export const defaultCommandTypeMapping = {
     'bytes32', // opName
     'uint256', // executionLTV
   ],
-  [CommandContractType.SparkStopLossCommandV2_2]: [
+  [CommandContractType.DmaSparkStopLossCommandV2]: [
     'address', //positionAddress
     'uint16', // triggerType
     'uint256', // maxCoverage
