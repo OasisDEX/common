@@ -104,7 +104,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'maxCoverage',
     'debtToken',
     'collateralToken',
-    'opName',
+    'operationName',
     'execLtv',
     'targetLtv',
     'minSellPrice',
@@ -117,7 +117,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'maxCoverage',
     'debtToken',
     'collateralToken',
-    'opName',
+    'operationName',
     'execLtv',
     'targetLtv',
     'maxBuyPrice',
@@ -130,7 +130,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'maxCoverage',
     'debtToken',
     'collateralToken',
-    'opName',
+    'operationName',
     'ltv',
   ],
   [CommandContractType.DmaSparkStopLossCommandV2]: [
@@ -139,8 +139,8 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'maxCoverage',
     'debtToken',
     'collateralToken',
-    'opName',
-    'ltv',
+    'operationName',
+    'executionLtv',
   ],
 };
 
@@ -313,7 +313,7 @@ export const defaultCommandTypeMapping = {
     'uint256', // maxCoverage
     'address', // debtToken
     'address', // collateralToken
-    'bytes32', // opName
+    'bytes32', // operationName
     'uint256', // execCollRatio
     'uint256', // targetCollRatio
     'uint256', // maxBuyPrice
@@ -326,7 +326,7 @@ export const defaultCommandTypeMapping = {
     'uint256', // maxCoverage
     'address', // debtToken
     'address', // collateralToken
-    'bytes32', // opName
+    'bytes32', // operationName
     'uint256', // execCollRatio
     'uint256', // targetCollRatio
     'uint256', // minSellPrice
@@ -339,7 +339,7 @@ export const defaultCommandTypeMapping = {
     'uint256', // maxCoverage
     'address', // debtToken
     'address', // collateralToken
-    'bytes32', // opName
+    'bytes32', // operationName
     'uint256', // executionLTV
   ],
   [CommandContractType.DmaSparkStopLossCommandV2]: [
@@ -348,7 +348,7 @@ export const defaultCommandTypeMapping = {
     'uint256', // maxCoverage
     'address', // debtToken
     'address', // collateralToken
-    'bytes32', // opName
+    'bytes32', // operationName
     'uint256', // executionLTV
   ],
 } as const;
