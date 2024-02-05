@@ -221,12 +221,40 @@ export const commandAddressMapping: Record<
       '0x31d767f6556CE3fC55d6245C9aEF3575aa64BABf': {
         type: CommandContractType.DmaAaveBasicSellCommandV2,
       },
+      '0xf7c7168b965215420E15cDE6F7e54570Ec171D67': {
+        type: CommandContractType.DmaAaveBasicBuyCommandV2,
+      },
+      '0x4A13b02ef24B2906a33e48e8F0AaF343C5316327': {
+        type: CommandContractType.DmaAaveBasicSellCommandV2,
+      },
     },
     [EthereumNetwork.BASE]: {
       '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
         type: CommandContractType.DmaAaveBasicBuyCommandV2,
       },
+      '0xEd7ac8827A0DCAAc039F122c67664ad9EC0B55Fd': {
+        type: CommandContractType.DmaAaveBasicBuyCommandV2,
+      },
       '0xbf566C1b260F0464f75470C146288283f11219a9': {
+        type: CommandContractType.DmaAaveBasicSellCommandV2,
+      },
+      '0xB3105b9b5B80107Fa6Dae970fd59d5a67A8ef984': {
+        type: CommandContractType.DmaAaveBasicSellCommandV2,
+      },
+    },
+    [EthereumNetwork.OPTIMISM]: {
+      '0xbA06eb5D30Ec7D6B47e5FC30457D7b2Be5AB784a': {
+        type: CommandContractType.DmaAaveBasicBuyCommandV2,
+      },
+      '0x61C45e7bF23eF18d546449186DEFd9A591937D62': {
+        type: CommandContractType.DmaAaveBasicSellCommandV2,
+      },
+    },
+    [EthereumNetwork.ARBITRUM]: {
+      '0xda06cc7e416c97324bbce79896f807aaff6cf5d3': {
+        type: CommandContractType.DmaAaveBasicBuyCommandV2,
+      },
+      '0x00d01ae61e554fc17530fbafcd282e9695e34693': {
         type: CommandContractType.DmaAaveBasicSellCommandV2,
       },
     },
