@@ -9,7 +9,7 @@ export {
   decodeTriggerDataByTypeAsJson,
   decodeTriggerDataByTriggerTypeAsJson,
 } from './abi-coding';
-export { getCommandAddresses } from './mapping';
+export { getCommandAddresses, commandTypeJsonMapping } from './mapping';
 
 export {
   CommandContractType,
