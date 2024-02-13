@@ -154,7 +154,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'debtOracle',
     'debtAddedRoundId',
     'trailingDistance',
-    'closeToCollateral'
+    'closeToCollateral',
   ],
 };
 export const commandOffchainDataTypeJsonMapping: Partial<Record<CommandContractType, string[]>> = {
@@ -415,7 +415,10 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
   ],
 } as const;
 
-export const defaultCommandOffchainDataTypeMapping: Partial<Record<CommandContractType, ParamDefinition>> = {
+export const defaultCommandOffchainDataTypeMapping: Partial<Record<
+  CommandContractType,
+  ParamDefinition
+>> = {
   [CommandContractType.DmaAaveTrailingStopLossCommandV2]: [
     'uint80', // collateralMaxPriceRoundId
     'uint80', // debtClosestPriceRoundId
@@ -463,13 +466,15 @@ export function getDefinitionForCommandType(type: CommandContractType): ParamDef
  * @returns The offchain data definition for the command type.
  * @throws Error if the command type is unknown.
  */
-export function getOffchainDataDefinitionForCommandType(type: Partial<CommandContractType>): ParamDefinition {
-  const offchainDataType = defaultCommandOffchainDataTypeMapping[type]
+export function getOffchainDataDefinitionForCommandType(
+  type: Partial<CommandContractType>,
+): ParamDefinition {
+  const offchainDataType = defaultCommandOffchainDataTypeMapping[type];
   if (!offchainDataType) {
     throw new Error(
-      `Unknown command type ${type}. Supported types: ${Object.keys(defaultCommandOffchainDataTypeMapping).join(
-        ', ',
-      )}.`,
+      `Unknown command type ${type}. Supported types: ${Object.keys(
+        defaultCommandOffchainDataTypeMapping,
+      ).join(', ')}.`,
     );
   }
 
@@ -482,14 +487,16 @@ export function getOffchainDataDefinitionForCommandType(type: Partial<CommandCon
  * @returns The offchain data definition for the specified trigger type.
  * @throws An error if the command type is unknown or not supported.
  */
-export function getOffchainDataDefinitionForTriggerType(triggerType: Partial<TriggerType>): ParamDefinition {
+export function getOffchainDataDefinitionForTriggerType(
+  triggerType: Partial<TriggerType>,
+): ParamDefinition {
   const type = triggerTypeToCommandContractTypeMap[triggerType];
-  const offchainDataType = defaultCommandOffchainDataTypeMapping[type]
+  const offchainDataType = defaultCommandOffchainDataTypeMapping[type];
   if (!offchainDataType) {
     throw new Error(
-      `Unknown command type ${type}. Supported types: ${Object.keys(defaultCommandOffchainDataTypeMapping).join(
-        ', ',
-      )}.`,
+      `Unknown command type ${type}. Supported types: ${Object.keys(
+        defaultCommandOffchainDataTypeMapping,
+      ).join(', ')}.`,
     );
   }
 

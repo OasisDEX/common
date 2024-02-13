@@ -23,7 +23,10 @@ export function decodeTriggerDataByType(type: CommandContractType, data: string)
   return utils.defaultAbiCoder.decode(paramTypes, data);
 }
 
-export function decodeOffchainTriggerDataByType(type: CommandContractType, data: string): utils.Result {
+export function decodeOffchainTriggerDataByType(
+  type: CommandContractType,
+  data: string,
+): utils.Result {
   const paramTypes = getOffchainDataDefinitionForCommandType(type);
   return utils.defaultAbiCoder.decode(paramTypes, data);
 }
@@ -90,7 +93,7 @@ export function decodeOffchainTriggerDataByTriggerTypeAsJson(
 ): utils.Result {
   const type = triggerTypeToCommandContractTypeMap[triggerType];
   const arr: any[] = decodeOffchainTriggerDataByType(type, data) as any[];
-  const offchainDataType = commandOffchainDataTypeJsonMapping[type]
+  const offchainDataType = commandOffchainDataTypeJsonMapping[type];
   if (!offchainDataType) {
     throw new Error(`No offchain data mapping for type ${type}`);
   }
@@ -123,7 +126,10 @@ export function encodeTriggerDataByTriggerType(
   return utils.defaultAbiCoder.encode(paramTypes, values);
 }
 
-export function encodeOffchainTriggerDataByType(type: CommandContractType, values: readonly any[]): string {
+export function encodeOffchainTriggerDataByType(
+  type: CommandContractType,
+  values: readonly any[],
+): string {
   const paramTypes = getOffchainDataDefinitionForCommandType(type);
   return utils.defaultAbiCoder.encode(paramTypes, values);
 }
