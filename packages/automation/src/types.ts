@@ -54,7 +54,7 @@ export enum TriggerType {
   DmaAaveStopLossToDebtV2 = 124,
   DmaSparkStopLossToCollateralV2 = 125,
   DmaSparkStopLossToDebtV2 = 126,
-  DmaAaveTrailingStopLossV2 = 10001,
+  DmaAaveTrailingStopLossV2 = 10005,
 }
 
 export const triggerTypeToCommandContractTypeMap: Record<TriggerType, CommandContractType> = {
