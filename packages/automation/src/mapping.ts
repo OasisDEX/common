@@ -276,6 +276,13 @@ export const commandAddressMapping: Record<
       '0xea0c35bd1c2fae4d540ce30d9738bc55147f2a9c': {
         type: CommandContractType.DmaAaveStopLossCommandV2,
       },
+      // TODO: replace after deploy
+      '0x0000000000000000000000000000000000000001': {
+        type: CommandContractType.DmaSparkBasicBuyCommandV2,
+      },
+      '0x0000000000000000000000000000000000000002': {
+        type: CommandContractType.DmaSparkBasicSellCommandV2,
+      },
     },
     [EthereumNetwork.BASE]: {
       '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
@@ -418,6 +425,32 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // collateralToken
     'bytes32', // operationName
     'uint256', // executionLTV
+  ],
+  [CommandContractType.DmaSparkBasicBuyCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // maxBuyPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.DmaSparkBasicSellCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // minSellPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
   ],
   [CommandContractType.DmaSparkStopLossCommandV2]: [
     'address', //positionAddress
