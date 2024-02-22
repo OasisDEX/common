@@ -142,8 +142,28 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'operationName',
     'executionLtv',
   ],
+  [CommandContractType.DmaAaveTrailingStopLossCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'collateralOracle',
+    'collateralAddedRoundId',
+    'debtOracle',
+    'debtAddedRoundId',
+    'trailingDistance',
+    'closeToCollateral',
+  ],
 };
-
+export const commandOffchainDataTypeJsonMapping: Partial<Record<CommandContractType, string[]>> = {
+  [CommandContractType.DmaAaveTrailingStopLossCommandV2]: [
+    'collateralMaxPriceRoundId',
+    'debtClosestPriceRoundId',
+    'debtNextPriceRoundId',
+  ],
+};
 export const commandAddressMapping: Record<
   number,
   Record<string, CommandContractInfo>
@@ -227,6 +247,9 @@ export const commandAddressMapping: Record<
       '0x4A13b02ef24B2906a33e48e8F0AaF343C5316327': {
         type: CommandContractType.DmaAaveBasicSellCommandV2,
       },
+      '0xea0c35bd1c2fae4d540ce30d9738bc55147f2a9c': {
+        type: CommandContractType.DmaAaveStopLossCommandV2,
+      },
     },
     [EthereumNetwork.BASE]: {
       '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
@@ -266,7 +289,7 @@ export const commandAddressMapping: Record<
   ]),
 );
 
-export const defaultCommandTypeMapping = {
+export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinition> = {
   [CommandContractType.CloseCommand]: ['uint256', 'uint16', 'uint256'],
   [CommandContractType.SimpleAAVESellCommand]: [
     'address',
@@ -379,6 +402,31 @@ export const defaultCommandTypeMapping = {
     'bytes32', // operationName
     'uint256', // executionLTV
   ],
+  [CommandContractType.DmaAaveTrailingStopLossCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'address', // collateralOracle
+    'uint80', // collateralAddedRoundId
+    'address', // debtOracle
+    'uint80', // debtAddedRoundId
+    'uint256', // trailingDistance
+    'bool', // closeToCollateral
+  ],
+} as const;
+
+export const defaultCommandOffchainDataTypeMapping: Partial<Record<
+  CommandContractType,
+  ParamDefinition
+>> = {
+  [CommandContractType.DmaAaveTrailingStopLossCommandV2]: [
+    'uint80', // collateralMaxPriceRoundId
+    'uint80', // debtClosestPriceRoundId
+    'uint80', // debtNextPriceRoundId
+  ],
 } as const;
 
 export function getCommandAddresses(network: number): Record<CommandContractType, string[]> {
@@ -413,6 +461,49 @@ export function getDefinitionForCommandType(type: CommandContractType): ParamDef
   }
 
   return defaultCommandTypeMapping[type];
+}
+
+/**
+ * Retrieves the offchain data definition for a given command type.
+ * @param type - The command type.
+ * @returns The offchain data definition for the command type.
+ * @throws Error if the command type is unknown.
+ */
+export function getOffchainDataDefinitionForCommandType(
+  type: Partial<CommandContractType>,
+): ParamDefinition {
+  const offchainDataType = defaultCommandOffchainDataTypeMapping[type];
+  if (!offchainDataType) {
+    throw new Error(
+      `Unknown command type ${type}. Supported types: ${Object.keys(
+        defaultCommandOffchainDataTypeMapping,
+      ).join(', ')}.`,
+    );
+  }
+
+  return offchainDataType;
+}
+
+/**
+ * Retrieves the offchain data definition for a given trigger type.
+ * @param triggerType - The trigger type for which to retrieve the offchain data definition.
+ * @returns The offchain data definition for the specified trigger type.
+ * @throws An error if the command type is unknown or not supported.
+ */
+export function getOffchainDataDefinitionForTriggerType(
+  triggerType: Partial<TriggerType>,
+): ParamDefinition {
+  const type = triggerTypeToCommandContractTypeMap[triggerType];
+  const offchainDataType = defaultCommandOffchainDataTypeMapping[type];
+  if (!offchainDataType) {
+    throw new Error(
+      `Unknown command type ${type}. Supported types: ${Object.keys(
+        defaultCommandOffchainDataTypeMapping,
+      ).join(', ')}.`,
+    );
+  }
+
+  return offchainDataType;
 }
 
 /**
