@@ -247,6 +247,9 @@ export const commandAddressMapping: Record<
       '0x4A13b02ef24B2906a33e48e8F0AaF343C5316327': {
         type: CommandContractType.DmaAaveBasicSellCommandV2,
       },
+      '0xea0c35bd1c2fae4d540ce30d9738bc55147f2a9c': {
+        type: CommandContractType.DmaAaveStopLossCommandV2,
+      },
     },
     [EthereumNetwork.BASE]: {
       '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
