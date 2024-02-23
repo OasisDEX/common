@@ -156,9 +156,54 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'trailingDistance',
     'closeToCollateral',
   ],
+  [CommandContractType.DmaSparkTrailingStopLossCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'collateralOracle',
+    'collateralAddedRoundId',
+    'debtOracle',
+    'debtAddedRoundId',
+    'trailingDistance',
+    'closeToCollateral',
+  ],
+  [CommandContractType.DmaSparkBasicSellCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'executionLtv',
+    'targetLtv',
+    'minSellPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.DmaSparkBasicBuyCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'executionLtv',
+    'targetLtv',
+    'maxBuyPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
 };
 export const commandOffchainDataTypeJsonMapping: Partial<Record<CommandContractType, string[]>> = {
   [CommandContractType.DmaAaveTrailingStopLossCommandV2]: [
+    'collateralMaxPriceRoundId',
+    'debtClosestPriceRoundId',
+    'debtNextPriceRoundId',
+  ],
+  [CommandContractType.DmaSparkTrailingStopLossCommandV2]: [
     'collateralMaxPriceRoundId',
     'debtClosestPriceRoundId',
     'debtNextPriceRoundId',
@@ -416,6 +461,46 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'uint256', // trailingDistance
     'bool', // closeToCollateral
   ],
+  [CommandContractType.DmaSparkTrailingStopLossCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'address', // collateralOracle
+    'uint80', // collateralAddedRoundId
+    'address', // debtOracle
+    'uint80', // debtAddedRoundId
+    'uint256', // trailingDistance
+    'bool', // closeToCollateral
+  ],
+  [CommandContractType.DmaSparkBasicBuyCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // maxBuyPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.DmaSparkBasicSellCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'uint256', // execCollRatio
+    'uint256', // targetCollRatio
+    'uint256', // minSellPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
+  ],
 } as const;
 
 export const defaultCommandOffchainDataTypeMapping: Partial<Record<
@@ -423,6 +508,11 @@ export const defaultCommandOffchainDataTypeMapping: Partial<Record<
   ParamDefinition
 >> = {
   [CommandContractType.DmaAaveTrailingStopLossCommandV2]: [
+    'uint80', // collateralMaxPriceRoundId
+    'uint80', // debtClosestPriceRoundId
+    'uint80', // debtNextPriceRoundId
+  ],
+  [CommandContractType.DmaSparkTrailingStopLossCommandV2]: [
     'uint80', // collateralMaxPriceRoundId
     'uint80', // debtClosestPriceRoundId
     'uint80', // debtNextPriceRoundId
