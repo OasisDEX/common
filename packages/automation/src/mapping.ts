@@ -295,6 +295,15 @@ export const commandAddressMapping: Record<
       '0xea0c35bd1c2fae4d540ce30d9738bc55147f2a9c': {
         type: CommandContractType.DmaAaveStopLossCommandV2,
       },
+      '0x3b7701897fd930fEa5A67E60019742b0cdAdfecD': {
+        type: CommandContractType.DmaAaveTrailingStopLossCommandV2
+      },
+      '0x2d43E84567019D721F095CfD632291c3eE868D8F': {
+        type: CommandContractType.DmaSparkTrailingStopLossCommandV2
+      },
+      '0xAc728f8248F8CaD0E0f10A2a4e648981EdA095A4': {
+        type: CommandContractType.DmaSparkStopLossCommandV2
+      }
     },
     [EthereumNetwork.BASE]: {
       '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
