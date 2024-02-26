@@ -306,6 +306,12 @@ export const commandAddressMapping: Record<
       },
       '0xAc728f8248F8CaD0E0f10A2a4e648981EdA095A4': {
         type: CommandContractType.DmaSparkStopLossCommandV2
+      },
+      '0x73022668d1E176f8aB56F0A988F358Dc9C8FFD15': {
+        type: CommandContractType.DmaSparkBasicBuyCommandV2
+      },
+      '0xA870Edf71E88847Cf8f292555C9Da6dE26Ba3470': {
+        type: CommandContractType.DmaSparkBasicSellCommandV2
       }
     },
     [EthereumNetwork.BASE]: {
