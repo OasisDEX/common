@@ -26,6 +26,9 @@ export enum CommandContractType {
   DmaSparkStopLossCommandV2 = 'DmaSparkStopLossCommandV2',
   DmaAaveStopLossCommandV2 = 'DmaAaveV3StopLossCommandV2',
   DmaAaveTrailingStopLossCommandV2 = 'DmaAaveV3TrailingStopLossCommandV2',
+  DmaSparkTrailingStopLossCommandV2 = 'DmaSparkTrailingStopLossCommandV2',
+  DmaSparkBasicBuyCommandV2 = 'DmaSparkBasicBuyCommandV2',
+  DmaSparkBasicSellCommandV2 = 'DmaSparkBasicSellCommandV2',
 }
 
 export enum TriggerType {
@@ -54,7 +57,10 @@ export enum TriggerType {
   DmaAaveStopLossToDebtV2 = 128,
   DmaSparkStopLossToCollateralV2 = 129,
   DmaSparkStopLossToDebtV2 = 130,
+  DmaSparkBasicBuyV2 = 131,
+  DmaSparkBasicSellV2 = 132,
   DmaAaveTrailingStopLossV2 = 10006,
+  DmaSparkTrailingStopLossV2 = 10007,
 }
 
 export const triggerTypeToCommandContractTypeMap: Record<TriggerType, CommandContractType> = {
@@ -84,6 +90,9 @@ export const triggerTypeToCommandContractTypeMap: Record<TriggerType, CommandCon
   [TriggerType.DmaSparkStopLossToCollateralV2]: CommandContractType.DmaSparkStopLossCommandV2,
   [TriggerType.DmaSparkStopLossToDebtV2]: CommandContractType.DmaSparkStopLossCommandV2,
   [TriggerType.DmaAaveTrailingStopLossV2]: CommandContractType.DmaAaveTrailingStopLossCommandV2,
+  [TriggerType.DmaSparkTrailingStopLossV2]: CommandContractType.DmaSparkTrailingStopLossCommandV2,
+  [TriggerType.DmaSparkBasicBuyV2]: CommandContractType.DmaSparkBasicBuyCommandV2,
+  [TriggerType.DmaSparkBasicSellV2]: CommandContractType.DmaSparkBasicSellCommandV2,
 };
 
 export enum TriggerGroupType {
