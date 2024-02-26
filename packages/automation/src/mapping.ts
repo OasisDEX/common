@@ -295,6 +295,9 @@ export const commandAddressMapping: Record<
       '0xea0c35bd1c2fae4d540ce30d9738bc55147f2a9c': {
         type: CommandContractType.DmaAaveStopLossCommandV2,
       },
+      '0x34B4632482Dc19f5b7E7ddd69F2b90a08E3754f0': {
+        type: CommandContractType.DmaAaveStopLossCommandV2,
+      },
       '0x3b7701897fd930fEa5A67E60019742b0cdAdfecD': {
         type: CommandContractType.DmaAaveTrailingStopLossCommandV2
       },
