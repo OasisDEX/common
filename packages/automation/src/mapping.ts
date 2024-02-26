@@ -299,20 +299,20 @@ export const commandAddressMapping: Record<
         type: CommandContractType.DmaAaveStopLossCommandV2,
       },
       '0x3b7701897fd930fEa5A67E60019742b0cdAdfecD': {
-        type: CommandContractType.DmaAaveTrailingStopLossCommandV2
+        type: CommandContractType.DmaAaveTrailingStopLossCommandV2,
       },
       '0x2d43E84567019D721F095CfD632291c3eE868D8F': {
-        type: CommandContractType.DmaSparkTrailingStopLossCommandV2
+        type: CommandContractType.DmaSparkTrailingStopLossCommandV2,
       },
       '0xAc728f8248F8CaD0E0f10A2a4e648981EdA095A4': {
-        type: CommandContractType.DmaSparkStopLossCommandV2
+        type: CommandContractType.DmaSparkStopLossCommandV2,
       },
       '0x73022668d1E176f8aB56F0A988F358Dc9C8FFD15': {
-        type: CommandContractType.DmaSparkBasicBuyCommandV2
+        type: CommandContractType.DmaSparkBasicBuyCommandV2,
       },
       '0xA870Edf71E88847Cf8f292555C9Da6dE26Ba3470': {
-        type: CommandContractType.DmaSparkBasicSellCommandV2
-      }
+        type: CommandContractType.DmaSparkBasicSellCommandV2,
+      },
     },
     [EthereumNetwork.BASE]: {
       '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
