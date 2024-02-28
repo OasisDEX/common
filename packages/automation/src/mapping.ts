@@ -207,7 +207,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'targetLtv',
     'excutionPrice',
     'deviation',
-    'closeToCollateral',
+    'withdrawToDebt',
   ],
   [CommandContractType.DmaAavePartialTakeProfitCommandV2]: [
     'positionAddress',
@@ -220,7 +220,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'targetLtv',
     'excutionPrice',
     'deviation',
-    'closeToCollateral',
+    'withdrawToDebt',
   ],
 };
 export const commandOffchainDataTypeJsonMapping: Partial<Record<CommandContractType, string[]>> = {
