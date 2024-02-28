@@ -205,6 +205,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'operationName',
     'executionLtv',
     'targetLtv',
+    'excutionPrice',
     'deviation',
     'closeToCollateral',
   ],
@@ -217,6 +218,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'operationName',
     'executionLtv',
     'targetLtv',
+    'excutionPrice',
     'deviation',
     'closeToCollateral',
   ],
@@ -552,6 +554,7 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'bytes32', // operationName
     'uint256', // execLtv
     'uint256', // targetLtv
+    'uint256', // excutionPrice
     'uint64', // deviation
     'bool', // closeToCollateral
   ],
@@ -564,6 +567,7 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'bytes32', // operationName
     'uint256', // execLtv
     'uint256', // targetLtv
+    'uint256', // excutionPrice
     'uint64', // deviation
     'bool', // closeToCollateral
   ],
