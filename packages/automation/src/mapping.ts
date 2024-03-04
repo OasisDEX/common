@@ -196,6 +196,32 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'deviation',
     'maxBaseFeeInGwei',
   ],
+  [CommandContractType.DmaSparkPartialTakeProfitCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'executionLtv',
+    'targetLtv',
+    'excutionPrice',
+    'deviation',
+    'withdrawToDebt',
+  ],
+  [CommandContractType.DmaAavePartialTakeProfitCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'executionLtv',
+    'targetLtv',
+    'excutionPrice',
+    'deviation',
+    'withdrawToDebt',
+  ],
 };
 export const commandOffchainDataTypeJsonMapping: Partial<Record<CommandContractType, string[]>> = {
   [CommandContractType.DmaAaveTrailingStopLossCommandV2]: [
@@ -428,8 +454,8 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // debtToken
     'address', // collateralToken
     'bytes32', // operationName
-    'uint256', // execCollRatio
-    'uint256', // targetCollRatio
+    'uint256', // execLtv
+    'uint256', // targetLtv
     'uint256', // maxBuyPrice
     'uint64', // deviation
     'uint32', // maxBaseFeeInGwei
@@ -441,8 +467,8 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // debtToken
     'address', // collateralToken
     'bytes32', // operationName
-    'uint256', // execCollRatio
-    'uint256', // targetCollRatio
+    'uint256', // execLtv
+    'uint256', // targetLtv
     'uint256', // minSellPrice
     'uint64', // deviation
     'uint32', // maxBaseFeeInGwei
@@ -500,8 +526,8 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // debtToken
     'address', // collateralToken
     'bytes32', // operationName
-    'uint256', // execCollRatio
-    'uint256', // targetCollRatio
+    'uint256', // execLtv
+    'uint256', // targetLtv
     'uint256', // maxBuyPrice
     'uint64', // deviation
     'uint32', // maxBaseFeeInGwei
@@ -513,11 +539,37 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // debtToken
     'address', // collateralToken
     'bytes32', // operationName
-    'uint256', // execCollRatio
-    'uint256', // targetCollRatio
+    'uint256', // execLtv
+    'uint256', // targetLtv
     'uint256', // minSellPrice
     'uint64', // deviation
     'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.DmaAavePartialTakeProfitCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'uint256', // execLtv
+    'uint256', // targetLtv
+    'uint256', // excutionPrice
+    'uint64', // deviation
+    'bool', // closeToCollateral
+  ],
+  [CommandContractType.DmaSparkPartialTakeProfitCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'uint256', // execLtv
+    'uint256', // targetLtv
+    'uint256', // excutionPrice
+    'uint64', // deviation
+    'bool', // closeToCollateral
   ],
 } as const;
 

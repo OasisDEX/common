@@ -14,6 +14,7 @@ export { getCommandAddresses, commandTypeJsonMapping } from './mapping';
 export {
   CommandContractType,
   TriggerType,
+  TrailingStopLossTriggers,
   TriggerGroupType,
   triggerTypeToCommandContractTypeMap,
 } from './types';
