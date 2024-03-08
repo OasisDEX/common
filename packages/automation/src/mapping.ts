@@ -339,6 +339,12 @@ export const commandAddressMapping: Record<
       '0xA870Edf71E88847Cf8f292555C9Da6dE26Ba3470': {
         type: CommandContractType.DmaSparkBasicSellCommandV2,
       },
+      '0xf8a2d2307b586a7720D5Ba9271668C7Ed15250Ff': {
+        type: CommandContractType.DmaSparkPartialTakeProfitCommandV2,
+      },
+      '0x739838d896B50703968e43876f2D43885C9ff8aD': {
+        type: CommandContractType.DmaAavePartialTakeProfitCommandV2,
+      },
     },
     [EthereumNetwork.BASE]: {
       '0xb7CB13e4cD2D64e739b5746563978Ab7ee36B064': {
@@ -353,6 +359,12 @@ export const commandAddressMapping: Record<
       '0xB3105b9b5B80107Fa6Dae970fd59d5a67A8ef984': {
         type: CommandContractType.DmaAaveBasicSellCommandV2,
       },
+      '0x393f138C0342fb41D5F993d5863a31Cae0E9991C': {
+        type: CommandContractType.DmaAaveTrailingStopLossCommandV2,
+      },
+      '0x913C2d29239c206a8FBC447398b4A27E14FF178B': {
+        type: CommandContractType.DmaAaveStopLossCommandV2,
+      },
     },
     [EthereumNetwork.OPTIMISM]: {
       '0xbA06eb5D30Ec7D6B47e5FC30457D7b2Be5AB784a': {
@@ -361,6 +373,15 @@ export const commandAddressMapping: Record<
       '0x61C45e7bF23eF18d546449186DEFd9A591937D62': {
         type: CommandContractType.DmaAaveBasicSellCommandV2,
       },
+      '0x595e9375bF40f2B9112c21b3Ded4e06cF3641982': {
+        type: CommandContractType.DmaAavePartialTakeProfitCommandV2,
+      },
+      '0x508E30f983d8a2F75154f7515f1163a7dE94C5A5': {
+        type: CommandContractType.DmaAaveTrailingStopLossCommandV2,
+      },
+      '0x66eb4243684d7530481e5557A893240773452715': {
+        type: CommandContractType.DmaAaveStopLossCommandV2,
+      },
     },
     [EthereumNetwork.ARBITRUM]: {
       '0xda06cc7e416c97324bbce79896f807aaff6cf5d3': {
@@ -368,6 +389,15 @@ export const commandAddressMapping: Record<
       },
       '0x00d01ae61e554fc17530fbafcd282e9695e34693': {
         type: CommandContractType.DmaAaveBasicSellCommandV2,
+      },
+      '0xadA42D0f5fC52285880d1914319E5eCE0DcBd464': {
+        type: CommandContractType.DmaAavePartialTakeProfitCommandV2,
+      },
+      '0xCD903aFA4378e8fC96a6F50bf2A46130e4f33065': {
+        type: CommandContractType.DmaAaveTrailingStopLossCommandV2,
+      },
+      '0xEF5d52581E541C4802e144d642fd38e09b5aa8d0': {
+        type: CommandContractType.DmaAaveStopLossCommandV2,
       },
     },
   }).map(([network, mapping]) => [
