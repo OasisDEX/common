@@ -232,6 +232,8 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'collateralToken',
     'operationName',
     'poolId',
+    'quoteDecimals',
+    'collateralDecimals',
     'executionLtv',
     'targetLtv',
     'maxBuyPrice',
@@ -661,6 +663,8 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // collateralToken
     'bytes32', // operationName
     'bytes32', // marketId
+    'uint8', // quote decimals
+    'uint8', // collateral decimals
     'uint256', // execLtv
     'uint256', // targetLtv
     'uint256', // maxBuyPrice
