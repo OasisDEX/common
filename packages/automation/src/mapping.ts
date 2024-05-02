@@ -767,21 +767,21 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'bool', // withdrawToDebt
   ],
   [CommandContractType.DmaMorphoBlueTrailingStopLossCommandV2]: [
-    'positionAddress',
-    'triggerType',
-    'maxCoverage',
-    'debtToken',
-    'collateralToken',
-    'operationName',
-    'poolId',
-    'quoteDecimals',
-    'collateralDecimals',
-    'collateralOracle',
-    'collateralAddedRoundId',
-    'debtOracle',
-    'debtAddedRoundId',
-    'trailingDistance',
-    'closeToCollateral',
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'bytes32', // marketId
+    'uint8', // quote decimals
+    'uint8', // collateral decimals
+    'address', // collateralOracle
+    'uint80', // collateralAddedRoundId
+    'address', // debtOracle
+    'uint80', // debtAddedRoundId
+    'uint256', // trailingDistance
+    'bool', // closeToCollateral
   ],
 } as const;
 
