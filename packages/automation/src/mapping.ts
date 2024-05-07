@@ -432,16 +432,16 @@ export const commandAddressMapping: Record<
       },
 
       // TODO: Add addresses once deployed
-      '0xUpdateMe': {
+      '0x5800e875cf803aFb5f963faC40623548C27e342a': {
         type: CommandContractType.DmaMorphoBlueBasicBuyCommandV2,
       },
-      '0xUpdateMe2': {
+      '0x1F6D1f30ccc00B5Df9b2f3ACeF26D555b8Efe69E': {
         type: CommandContractType.DmaMorphoBlueBasicSellCommandV2,
       },
       '0xUpdateMe3': {
         type: CommandContractType.DmaMorphoBluePartialTakeProfitCommandV2,
       },
-      '0xUpdateMe4': {
+      '0xdEBd95B6fea8F2c39e0232358608Acfd7E557A5A': {
         type: CommandContractType.DmaMorphoBlueStopLossCommandV2,
       },
       '0xUpdateMe5': {
