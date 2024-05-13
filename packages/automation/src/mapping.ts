@@ -267,7 +267,7 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'quoteDecimals',
     'collateralDecimals',
     'executionLtv',
-    'closeToCollateral'
+    'closeToCollateral',
   ],
   [CommandContractType.DmaMorphoBluePartialTakeProfitCommandV2]: [
     'positionAddress',
