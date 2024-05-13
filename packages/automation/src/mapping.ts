@@ -438,13 +438,13 @@ export const commandAddressMapping: Record<
       '0x1F6D1f30ccc00B5Df9b2f3ACeF26D555b8Efe69E': {
         type: CommandContractType.DmaMorphoBlueBasicSellCommandV2,
       },
-      '0xUpdateMe3': {
+      '0x0DF4F9B2cAb35075677253eA15e424B97ABc7dEb': {
         type: CommandContractType.DmaMorphoBluePartialTakeProfitCommandV2,
       },
       '0xdEBd95B6fea8F2c39e0232358608Acfd7E557A5A': {
         type: CommandContractType.DmaMorphoBlueStopLossCommandV2,
       },
-      '0xUpdateMe5': {
+      '0xCe72966Ea1a8777e0E2Fb60c476C6cA8D59bEfdd': {
         type: CommandContractType.DmaMorphoBlueTrailingStopLossCommandV2,
       },
     },
