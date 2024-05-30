@@ -248,8 +248,6 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'collateralToken',
     'operationName',
     'poolId',
-    'quoteDecimals',
-    'collateralDecimals',
     'executionLtv',
     'targetLtv',
     'minSellPrice',
@@ -264,8 +262,6 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'collateralToken',
     'operationName',
     'poolId',
-    'quoteDecimals',
-    'collateralDecimals',
     'executionLtv',
     'closeToCollateral',
   ],
@@ -277,8 +273,6 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'collateralToken',
     'operationName',
     'poolId',
-    'quoteDecimals',
-    'collateralDecimals',
     'executionLtv',
     'targetLtv',
     'executionPrice',
@@ -293,8 +287,6 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'collateralToken',
     'operationName',
     'poolId',
-    'quoteDecimals',
-    'collateralDecimals',
     'collateralOracle',
     'collateralAddedRoundId',
     'debtOracle',
@@ -729,8 +721,6 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // collateralToken
     'bytes32', // operationName
     'bytes32', // marketId
-    'uint8', // quote decimals
-    'uint8', // collateral decimals
     'uint256', // execLtv
     'uint256', // targetLtv
     'uint256', // minSellPrice
@@ -745,8 +735,6 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // collateralToken
     'bytes32', // operationName
     'bytes32', // marketId
-    'uint8', // quote decimals
-    'uint8', // collateral decimals
     'uint256', // executionLTV
     'bool', // closeToCollateral
   ],
@@ -758,8 +746,6 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // collateralToken
     'bytes32', // operationName
     'bytes32', // marketId
-    'uint8', // quote decimals
-    'uint8', // collateral decimals
     'uint256', // execLtv
     'uint256', // targetLtv
     'uint256', // executionPrice
@@ -774,8 +760,6 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'address', // collateralToken
     'bytes32', // operationName
     'bytes32', // marketId
-    'uint8', // quote decimals
-    'uint8', // collateral decimals
     'address', // collateralOracle
     'uint80', // collateralAddedRoundId
     'address', // debtOracle

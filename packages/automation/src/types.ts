@@ -71,11 +71,16 @@ export enum TriggerType {
   DmaSparkPartialTakeProfitV2 = 134,
   DmaAaveTrailingStopLossV2 = 10006,
   DmaSparkTrailingStopLossV2 = 10007,
-  DmaMorphoBlueBasicBuyV2 = 135,
-  DmaMorphoBlueBasicSellV2 = 136,
-  DmaMorphoBluePartialTakeProfitV2 = 137,
-  DmaMorphoBlueStopLossV2 = 138,
-  DmaMorphoBlueTrailingStopLossV2 = 10008,
+  // DmaMorphoBlueBasicBuyV2 = 135,
+  // DmaMorphoBlueBasicSellV2 = 136,
+  // DmaMorphoBluePartialTakeProfitV2 = 137,
+  // DmaMorphoBlueStopLossV2 = 138,
+  // DmaMorphoBlueTrailingStopLossV2 = 10008,
+  DmaMorphoBlueBasicBuyV2 = 139,
+  DmaMorphoBlueBasicSellV2 = 140,
+  DmaMorphoBluePartialTakeProfitV2 = 141,
+  DmaMorphoBlueStopLossV2 = 142,
+  DmaMorphoBlueTrailingStopLossV2 = 10009,
 }
 
 export const TrailingStopLossTriggers = [
