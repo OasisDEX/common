@@ -222,6 +222,78 @@ export const commandTypeJsonMapping: Record<CommandContractType, string[]> = {
     'deviation',
     'withdrawToDebt',
   ],
+
+  // Morpho
+  [CommandContractType.DmaMorphoBlueBasicBuyCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'poolId',
+    'quoteDecimals',
+    'collateralDecimals',
+    'executionLtv',
+    'targetLtv',
+    'maxBuyPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.DmaMorphoBlueBasicSellCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'poolId',
+    'executionLtv',
+    'targetLtv',
+    'minSellPrice',
+    'deviation',
+    'maxBaseFeeInGwei',
+  ],
+  [CommandContractType.DmaMorphoBlueStopLossCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'poolId',
+    'executionLtv',
+    'closeToCollateral',
+  ],
+  [CommandContractType.DmaMorphoBluePartialTakeProfitCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'poolId',
+    'executionLtv',
+    'targetLtv',
+    'executionPrice',
+    'deviation',
+    'withdrawToDebt',
+  ],
+  [CommandContractType.DmaMorphoBlueTrailingStopLossCommandV2]: [
+    'positionAddress',
+    'triggerType',
+    'maxCoverage',
+    'debtToken',
+    'collateralToken',
+    'operationName',
+    'poolId',
+    'collateralOracle',
+    'collateralAddedRoundId',
+    'debtOracle',
+    'debtAddedRoundId',
+    'trailingDistance',
+    'closeToCollateral',
+  ],
 };
 export const commandOffchainDataTypeJsonMapping: Partial<Record<CommandContractType, string[]>> = {
   [CommandContractType.DmaAaveTrailingStopLossCommandV2]: [
@@ -230,6 +302,11 @@ export const commandOffchainDataTypeJsonMapping: Partial<Record<CommandContractT
     'debtNextPriceRoundId',
   ],
   [CommandContractType.DmaSparkTrailingStopLossCommandV2]: [
+    'collateralMaxPriceRoundId',
+    'debtClosestPriceRoundId',
+    'debtNextPriceRoundId',
+  ],
+  [CommandContractType.DmaMorphoBlueTrailingStopLossCommandV2]: [
     'collateralMaxPriceRoundId',
     'debtClosestPriceRoundId',
     'debtNextPriceRoundId',
@@ -344,6 +421,23 @@ export const commandAddressMapping: Record<
       },
       '0x739838d896B50703968e43876f2D43885C9ff8aD': {
         type: CommandContractType.DmaAavePartialTakeProfitCommandV2,
+      },
+
+      // TODO: Add addresses once deployed
+      '0x5800e875cf803aFb5f963faC40623548C27e342a': {
+        type: CommandContractType.DmaMorphoBlueBasicBuyCommandV2,
+      },
+      '0x1F6D1f30ccc00B5Df9b2f3ACeF26D555b8Efe69E': {
+        type: CommandContractType.DmaMorphoBlueBasicSellCommandV2,
+      },
+      '0x0DF4F9B2cAb35075677253eA15e424B97ABc7dEb': {
+        type: CommandContractType.DmaMorphoBluePartialTakeProfitCommandV2,
+      },
+      '0xdEBd95B6fea8F2c39e0232358608Acfd7E557A5A': {
+        type: CommandContractType.DmaMorphoBlueStopLossCommandV2,
+      },
+      '0xCe72966Ea1a8777e0E2Fb60c476C6cA8D59bEfdd': {
+        type: CommandContractType.DmaMorphoBlueTrailingStopLossCommandV2,
       },
     },
     [EthereumNetwork.BASE]: {
@@ -599,6 +693,78 @@ export const defaultCommandTypeMapping: Record<CommandContractType, ParamDefinit
     'uint256', // targetLtv
     'uint256', // excutionPrice
     'uint64', // deviation
+    'bool', // withdrawToDebt
+  ],
+
+  // Morpho
+  [CommandContractType.DmaMorphoBlueBasicBuyCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'bytes32', // marketId
+    'uint8', // quote decimals
+    'uint8', // collateral decimals
+    'uint256', // execLtv
+    'uint256', // targetLtv
+    'uint256', // maxBuyPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.DmaMorphoBlueBasicSellCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'bytes32', // marketId
+    'uint256', // execLtv
+    'uint256', // targetLtv
+    'uint256', // minSellPrice
+    'uint64', // deviation
+    'uint32', // maxBaseFeeInGwei
+  ],
+  [CommandContractType.DmaMorphoBlueStopLossCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'bytes32', // marketId
+    'uint256', // executionLTV
+    'bool', // closeToCollateral
+  ],
+  [CommandContractType.DmaMorphoBluePartialTakeProfitCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'bytes32', // marketId
+    'uint256', // execLtv
+    'uint256', // targetLtv
+    'uint256', // executionPrice
+    'uint64', // deviation
+    'bool', // withdrawToDebt
+  ],
+  [CommandContractType.DmaMorphoBlueTrailingStopLossCommandV2]: [
+    'address', //positionAddress
+    'uint16', // triggerType
+    'uint256', // maxCoverage
+    'address', // debtToken
+    'address', // collateralToken
+    'bytes32', // operationName
+    'bytes32', // marketId
+    'address', // collateralOracle
+    'uint80', // collateralAddedRoundId
+    'address', // debtOracle
+    'uint80', // debtAddedRoundId
+    'uint256', // trailingDistance
     'bool', // closeToCollateral
   ],
 } as const;
@@ -613,6 +779,11 @@ export const defaultCommandOffchainDataTypeMapping: Partial<Record<
     'uint80', // debtNextPriceRoundId
   ],
   [CommandContractType.DmaSparkTrailingStopLossCommandV2]: [
+    'uint80', // collateralMaxPriceRoundId
+    'uint80', // debtClosestPriceRoundId
+    'uint80', // debtNextPriceRoundId
+  ],
+  [CommandContractType.DmaMorphoBlueTrailingStopLossCommandV2]: [
     'uint80', // collateralMaxPriceRoundId
     'uint80', // debtClosestPriceRoundId
     'uint80', // debtNextPriceRoundId
